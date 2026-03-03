@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>김현우 — Back-end Engineer</title>
-  <meta name="description" content="백엔드 엔지니어 김현우 이력서">
+  <meta name="description" content="백엔드 엔지니어 김현우 이력서 | Hyunwoo Kim Resume">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="style.css">
@@ -12,22 +12,39 @@
 <body>
   <main class="page">
 
+    <div class="lang-toggle">
+      <button class="lang-toggle__btn lang-toggle__btn--active" data-lang="ko">KO</button>
+      <button class="lang-toggle__btn" data-lang="en">EN</button>
+    </div>
+
     <header class="header">
-      <h1 class="header__name">김현우</h1>
+      <h1 class="header__name">
+        <span lang="ko">김현우</span>
+        <span lang="en" hidden>Hyunwoo Kim</span>
+      </h1>
       <p class="header__title">Back-end Engineer</p>
       <div class="header__contact">
-        <span>서울특별시 중랑구</span>
+        <span>
+          <span lang="ko">서울특별시 중랑구</span>
+          <span lang="en" hidden>Jungnang-gu, Seoul, South Korea</span>
+        </span>
         <span>+82 9625 2784</span>
         <a href="mailto:kkepm012@naver.com">kkepm012@naver.com</a>
+        <a href="mailto:1996.devjiinu@gmail.com">1996.devjiinu@gmail.com</a>
       </div>
     </header>
 
     <section class="section">
       <h2 class="section__title">Profile</h2>
-      <p class="profile__text">
+      <p class="profile__text" lang="ko">
         백엔드 엔지니어로 6년간 도시가스, 전기차 충전, 금융 서비스 등 다양한 도메인에서 시스템을 설계하고 운영해 왔습니다.
         현재 SK일렉링크에서 포인트 및 결제 시스템을 담당하며, 레거시 아키텍처를 이벤트 드리븐 구조로 전환하는 작업을 진행하고 있습니다.
         주어진 도구를 쓰는 데 그치지 않고, 팀에 필요한 도구를 직접 만들어 동료들이 더 편하게 일할 수 있는 환경을 만드는 데 관심이 많습니다.
+      </p>
+      <p class="profile__text" lang="en" hidden>
+        Back-end engineer with 6 years of experience building and operating systems across city gas, EV charging, and financial service domains.
+        Currently responsible for the point and payment systems at SK Eleclink, leading a migration from legacy architecture to an event-driven design.
+        I care about building internal tools that make my teammates' work easier — not just using what's given, but creating what's needed.
       </p>
     </section>
 
@@ -58,13 +75,25 @@
 
       <article class="experience">
         <div class="experience__header">
-          <span class="experience__company">SK일렉링크</span>
-          <span class="experience__period">2023.01 — 현재</span>
+          <span class="experience__company">
+            <span lang="ko">SK일렉링크</span>
+            <span lang="en" hidden>SK Eleclink</span>
+          </span>
+          <span class="experience__period">
+            <span lang="ko">2023.01 — 현재</span>
+            <span lang="en" hidden>Jan 2023 — Present</span>
+          </span>
         </div>
-        <p class="experience__role">Back-end Engineer · 서울 송파구</p>
+        <p class="experience__role">
+          <span lang="ko">Back-end Engineer · 서울 송파구</span>
+          <span lang="en" hidden>Back-end Engineer · Songpa-gu, Seoul</span>
+        </p>
 
-        <p class="experience__team">테크팀 — 플랫폼 셀 (2026.02 — 현재)</p>
-        <ul class="experience__list">
+        <p class="experience__team">
+          <span lang="ko">테크팀 — 플랫폼 셀 (2026.02 — 현재)</span>
+          <span lang="en" hidden>Tech Team — Platform Cell (Feb 2026 — Present)</span>
+        </p>
+        <ul class="experience__list" lang="ko">
           <li>
             결제 시스템 차세대 전환을 담당. 과도한 Join 쿼리와 Data 레이어에 밀집된 비즈니스 로직을
             <span class="highlight">이벤트 드리븐 아키텍처</span>로 재설계하고,
@@ -72,9 +101,19 @@
             절차지향적이던 로직을 객체지향 스타일로 바꾸면서 단순 polling 구조를 API 호출이 가능한 형태로 개선.
           </li>
         </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>
+            Leading the next-generation payment system migration. Redesigned tightly-coupled business logic (heavy JOIN queries, data-layer-bound logic) into an
+            <span class="highlight">event-driven architecture</span>.
+            Migrated the tech stack from Java to Kotlin and MyBatis to JPA/QueryDSL, transforming procedural code into an object-oriented style and replacing polling with direct API calls.
+          </li>
+        </ul>
 
-        <p class="experience__team">플랫폼 개발팀 (2023.01 — 2026.02)</p>
-        <ul class="experience__list">
+        <p class="experience__team">
+          <span lang="ko">플랫폼 개발팀 (2023.01 — 2026.02)</span>
+          <span lang="en" hidden>Platform Dev Team (Jan 2023 — Feb 2026)</span>
+        </p>
+        <ul class="experience__list" lang="ko">
           <li>
             사내 금융 서비스의 <span class="highlight">전자금융업 자격 취득</span>을 주도.
             핵심 금융 도메인을 폐쇄망 환경으로 이전 완료.
@@ -96,15 +135,44 @@
             수동 주문 업무를 자동화.
           </li>
         </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>
+            Led the company's <span class="highlight">electronic financial business license acquisition</span>.
+            Successfully migrated core financial domains to an air-gapped network environment.
+          </li>
+          <li>
+            Re-implemented the bulk credit top-up process as an async Spring Batch job,
+            <span class="highlight">reducing processing time from 1 hour to 20 minutes (66% improvement)</span>.
+          </li>
+          <li>
+            Eliminated string-concatenated queries vulnerable to SQL Injection and removed Double Writing logic that caused data inconsistency, improving system stability and performance.
+          </li>
+          <li>
+            Built JIRA ticket handling into the Admin system,
+            <span class="highlight">automating 60 daily manual tasks per agent down to 0–3 (95% reduction)</span>.
+          </li>
+          <li>
+            Developed Jira board automation and a PR notification bot, increasing development process transparency and eliminating manual order tasks.
+          </li>
+        </ul>
       </article>
 
       <article class="experience">
         <div class="experience__header">
-          <span class="experience__company">에스트래픽</span>
-          <span class="experience__period">2022.05 — 2022.12</span>
+          <span class="experience__company">
+            <span lang="ko">에스트래픽</span>
+            <span lang="en" hidden>S-Traffic</span>
+          </span>
+          <span class="experience__period">
+            <span lang="ko">2022.05 — 2022.12</span>
+            <span lang="en" hidden>May 2022 — Dec 2022</span>
+          </span>
         </div>
-        <p class="experience__role">Back-end Engineer · 경기 성남시</p>
-        <ul class="experience__list">
+        <p class="experience__role">
+          <span lang="ko">Back-end Engineer · 경기 성남시</span>
+          <span lang="en" hidden>Back-end Engineer · Seongnam, Gyeonggi</span>
+        </p>
+        <ul class="experience__list" lang="ko">
           <li>
             충전기 관리자 시스템(Admin)의 기능 개발 및 유지보수 담당.
           </li>
@@ -115,15 +183,35 @@
             2023년 SK일렉링크로 인수합병되어 현재까지 근무 중.
           </li>
         </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>
+            Developed features and maintained the EV charger admin management system.
+          </li>
+          <li>
+            Consolidated the credit domain — previously scattered as raw queries across multiple domains — into a standalone API application.
+          </li>
+          <li>
+            Acquired by SK Eleclink in 2023; continued as a back-end engineer through the transition.
+          </li>
+        </ul>
       </article>
 
       <article class="experience">
         <div class="experience__header">
-          <span class="experience__company">모바일엔트로피</span>
-          <span class="experience__period">2019.04 — 2022.04</span>
+          <span class="experience__company">
+            <span lang="ko">모바일엔트로피</span>
+            <span lang="en" hidden>Mobile Entropy</span>
+          </span>
+          <span class="experience__period">
+            <span lang="ko">2019.04 — 2022.04</span>
+            <span lang="en" hidden>Apr 2019 — Apr 2022</span>
+          </span>
         </div>
-        <p class="experience__role">Back-end Engineer · 서울 마포구</p>
-        <ul class="experience__list">
+        <p class="experience__role">
+          <span lang="ko">Back-end Engineer · 서울 마포구</span>
+          <span lang="en" hidden>Back-end Engineer · Mapo-gu, Seoul</span>
+        </p>
+        <ul class="experience__list" lang="ko">
           <li>
             미래엔서해에너지의 배관/자재/공사 관리 ERP 시스템 유지보수.
           </li>
@@ -135,6 +223,17 @@
             사용자와 도시가스 측의 업무 프로세스를 단축.
           </li>
         </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>
+            Maintained the pipeline, materials, and construction management ERP system for Miraen Seohae Energy.
+          </li>
+          <li>
+            Developed and maintained a PDA web app for meter reading and inspections at Samchully City Gas.
+          </li>
+          <li>
+            Built an interactive platform on KakaoTalk notifications for CNCITY, streamlining workflows between end-users and city gas operators.
+          </li>
+        </ul>
       </article>
     </section>
 
@@ -143,21 +242,64 @@
 
       <div class="education">
         <div class="education__header">
-          <span class="education__school">한국방송통신대학교</span>
-          <span class="education__period">2020.03 — 재학 중</span>
+          <span class="education__school">
+            <span lang="ko">한국방송통신대학교</span>
+            <span lang="en" hidden>Korea National Open University</span>
+          </span>
+          <span class="education__period">
+            <span lang="ko">2020.03 — 재학 중</span>
+            <span lang="en" hidden>Mar 2020 — Present</span>
+          </span>
         </div>
-        <p class="education__major">컴퓨터과학과</p>
+        <p class="education__major">
+          <span lang="ko">컴퓨터과학과</span>
+          <span lang="en" hidden>Computer Science</span>
+        </p>
       </div>
 
       <div class="education">
         <div class="education__header">
-          <span class="education__school">인덕대학교</span>
+          <span class="education__school">
+            <span lang="ko">인덕대학교</span>
+            <span lang="en" hidden>Induk University</span>
+          </span>
           <span class="education__period">2015.03 — 2017.02</span>
         </div>
-        <p class="education__major">비즈니스일본어과 졸업</p>
+        <p class="education__major">
+          <span lang="ko">비즈니스일본어과 졸업</span>
+          <span lang="en" hidden>Business Japanese (Associate Degree)</span>
+        </p>
       </div>
     </section>
 
   </main>
+
+  <script>
+    (function () {
+      var buttons = document.querySelectorAll('.lang-toggle__btn');
+      var currentLang = 'ko';
+
+      function switchLang(lang) {
+        if (lang === currentLang) return;
+        currentLang = lang;
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[lang="ko"], [lang="en"]').forEach(function (el) {
+          if (el.classList.contains('lang-toggle__btn')) return;
+          el.hidden = el.getAttribute('lang') !== lang;
+        });
+
+        buttons.forEach(function (btn) {
+          btn.classList.toggle('lang-toggle__btn--active', btn.dataset.lang === lang);
+        });
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          switchLang(btn.dataset.lang);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
