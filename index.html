@@ -14,10 +14,10 @@
   <main class="page">
 
     <div class="toolbar">
-      <button class="lang-toggle__btn lang-toggle__btn--active" data-lang="ko">KO</button>
-      <button class="lang-toggle__btn" data-lang="en">EN</button>
-      <button class="lang-toggle__btn" data-lang="ja">JA</button>
-      <button class="pdf-btn" onclick="window.print()">PDF</button>
+      <button class="toolbar__btn toolbar__btn--active" data-lang="ko">KO</button>
+      <button class="toolbar__btn" data-lang="en">EN</button>
+      <button class="toolbar__btn" data-lang="ja">JA</button>
+      <button class="toolbar__btn toolbar__btn--accent" onclick="window.print()">PDF</button>
     </div>
 
     <header class="header">
@@ -27,17 +27,25 @@
         <span lang="ja" hidden>キム・ヒョヌ</span>
       </h1>
       <p class="header__title">Back-end Engineer</p>
-      <div class="header__contact">
+
+      <div class="header__contact-info">
         <span>
           <span lang="ko">서울특별시 중랑구</span>
-          <span lang="en" hidden>Jungnang-gu, Seoul, South Korea</span>
+          <span lang="en" hidden>Jungnang-gu, Seoul</span>
           <span lang="ja" hidden>ソウル特別市 中浪区</span>
         </span>
+        <span class="sep" aria-hidden="true">/</span>
         <span>+82 9625 2784</span>
+        <span class="sep" aria-hidden="true">/</span>
         <a href="mailto:kkepm012@naver.com">kkepm012@naver.com</a>
+        <span class="sep" aria-hidden="true">/</span>
         <a href="mailto:1996.devjiinu@gmail.com">1996.devjiinu@gmail.com</a>
+      </div>
+
+      <div class="header__links">
         <a href="https://github.com/UjiinEatingTangerines" target="_blank" rel="noopener">GitHub</a>
         <a href="https://www.linkedin.com/in/hyunwoo-kim-9a295420b/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://your-friendly-neighborhood.com/" target="_blank" rel="noopener">Blog</a>
       </div>
     </header>
 
@@ -328,7 +336,7 @@
 
   <script>
     (function () {
-      var buttons = document.querySelectorAll('.lang-toggle__btn');
+      var buttons = document.querySelectorAll('.toolbar__btn[data-lang]');
       var langs = ['ko', 'en', 'ja'];
       var currentLang = 'ko';
       var selector = langs.map(function (l) { return '[lang="' + l + '"]'; }).join(', ');
@@ -339,12 +347,12 @@
         document.documentElement.lang = lang;
 
         document.querySelectorAll(selector).forEach(function (el) {
-          if (el.classList.contains('lang-toggle__btn')) return;
+          if (el.classList.contains('toolbar__btn')) return;
           el.hidden = el.getAttribute('lang') !== lang;
         });
 
         buttons.forEach(function (btn) {
-          btn.classList.toggle('lang-toggle__btn--active', btn.dataset.lang === lang);
+          btn.classList.toggle('toolbar__btn--active', btn.dataset.lang === lang);
         });
       }
 
