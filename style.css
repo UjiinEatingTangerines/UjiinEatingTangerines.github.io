@@ -29,6 +29,7 @@ body {
 }
 
 .page {
+  position: relative;
   max-width: 800px;
   margin: 40px auto;
   background: var(--color-bg);
@@ -39,18 +40,12 @@ body {
 
 /* Toolbar */
 .toolbar {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 100;
+  position: absolute;
+  top: 20px;
+  right: 20px;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 10px;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* Language Toggle */
@@ -305,6 +300,14 @@ body {
     padding: 32px 24px;
     box-shadow: none;
     border-radius: 0;
+  }
+
+  .toolbar {
+    position: relative;
+    top: auto;
+    right: auto;
+    justify-content: flex-end;
+    margin-bottom: 16px;
   }
 
   .header__name {
