@@ -45,7 +45,9 @@ body {
   right: 20px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* Language Toggle */
@@ -80,6 +82,8 @@ body {
 
 /* PDF Button */
 .pdf-btn {
+  flex-shrink: 0;
+  margin-left: 4px;
   padding: 4px 12px;
   font-size: 0.8rem;
   font-weight: 600;
