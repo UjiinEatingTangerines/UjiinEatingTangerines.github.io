@@ -37,12 +37,19 @@ body {
   border-radius: 2px;
 }
 
+/* Toolbar */
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
 /* Language Toggle */
 .lang-toggle {
   display: flex;
-  justify-content: flex-end;
   gap: 4px;
-  margin-bottom: 24px;
 }
 
 .lang-toggle__btn {
@@ -67,6 +74,27 @@ body {
   background: var(--color-text);
   color: var(--color-bg);
   border-color: var(--color-text);
+}
+
+/* PDF Button */
+.pdf-btn {
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pdf-btn:hover {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
 }
 
 /* Header */
@@ -304,7 +332,7 @@ body {
     max-width: none;
   }
 
-  .lang-toggle {
+  .toolbar {
     display: none;
   }
 
