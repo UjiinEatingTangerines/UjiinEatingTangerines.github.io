@@ -385,7 +385,7 @@ body {
 
   .page {
     margin: 0 auto;
-    padding: 56px 60px;
+    padding: 42px 48px;
     box-shadow: none;
     max-width: 780px;
     border-radius: 6px;
@@ -427,15 +427,15 @@ body {
 
   .experience__role {
     margin-bottom: 10px;
-    break-after: avoid-page;
-    page-break-after: avoid;
+    break-after: auto;
+    page-break-after: auto;
   }
 
   .experience__team {
     margin-top: 12px;
     margin-bottom: 6px;
-    break-after: avoid-page;
-    page-break-after: avoid;
+    break-after: auto;
+    page-break-after: auto;
   }
 
   .experience__list li {
