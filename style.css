@@ -396,8 +396,51 @@ body {
   }
 
   .section {
+    margin-bottom: 24px;
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  .header {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+  }
+
+  .section__title {
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+  }
+
+  .profile__text {
+    line-height: 1.72;
+  }
+
+  .skills__list {
+    gap: 4px;
+  }
+
+  .experience {
+    margin-bottom: 22px;
     break-inside: avoid-page;
     page-break-inside: avoid;
+  }
+
+  .experience__role {
+    margin-bottom: 10px;
+  }
+
+  .experience__team {
+    margin-top: 12px;
+    margin-bottom: 6px;
+  }
+
+  .experience__list li {
+    margin-bottom: 4px;
+    line-height: 1.65;
+  }
+
+  .education {
+    margin-bottom: 10px;
   }
 
   .header__links a::after {
