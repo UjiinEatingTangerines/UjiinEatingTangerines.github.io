@@ -372,40 +372,39 @@ body {
 
 /* Print */
 @media print {
+  @page {
+    margin: 12mm;
+  }
+
+  html,
   body {
-    background: white;
+    background: var(--color-bg-subtle);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .page {
-    margin: 0;
-    padding: 0;
+    margin: 0 auto;
+    padding: 56px 60px;
     box-shadow: none;
-    max-width: none;
+    max-width: 780px;
+    border-radius: 6px;
   }
 
   .toolbar {
-    display: none;
+    display: none !important;
   }
 
   .section {
-    break-inside: avoid;
-  }
-
-  .header__links a {
-    background: none;
-    border: none;
-    padding: 0;
-    color: var(--color-text-muted);
+    break-inside: avoid-page;
+    page-break-inside: avoid;
   }
 
   .header__links a::after {
-    content: ' (' attr(href) ')';
-    font-size: 0.7rem;
-    opacity: 1;
-    transform: none;
+    content: none;
   }
 
   a {
-    color: var(--color-text-muted);
+    color: inherit;
   }
 }
