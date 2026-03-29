@@ -118,31 +118,65 @@
 
         <!-- Platform Cell -->
         <p class="experience__team">
-          <span lang="ko">테크팀 — 플랫폼 셀 (2026.02 — 현재)</span>
-          <span lang="en" hidden>Tech Team — Platform Cell (Feb 2026 — Present)</span>
-          <span lang="ja" hidden>テックチーム — プラットフォームセル（2026年2月 — 現在）</span>
+          <span lang="ko">테크팀 — 플랫폼 셀 (2026.03 — 현재)</span>
+          <span lang="en" hidden>Tech Team — Platform Cell (Mar 2026 — Present)</span>
+          <span lang="ja" hidden>テックチーム — プラットフォームセル（2026年3月 — 現在）</span>
         </p>
         <ul class="experience__list" lang="ko">
           <li>
-            결제 시스템 차세대 전환을 담당. 과도한 Join 쿼리와 Data 레이어에 밀집된 비즈니스 로직을
-            <span class="highlight">이벤트 드리븐 아키텍처</span>로 재설계하고,
-            기술 스택을 Java에서 Kotlin, MyBatis에서 JPA/QueryDSL로 전환.
-            절차지향적이던 로직을 객체지향 스타일로 바꾸면서 단순 polling 구조를 API 호출이 가능한 형태로 개선.
+            결제/정산 프로그램에서 운수사 회원의 자사 충전소 고정 단가 적용 및 외부 충전기 고정 할인 로직을 개발하고,
+            내부 직원 전용 크루 멤버십과 자사 구독 멤버십 할인 정책을 추가.
+          </li>
+          <li>
+            현대 타입 회원 및 H 럭키패스 아파트 충전소 할인 정책 메서드를 분리해 할인 정책 오염을 정리하고,
+            고속도로 자사 충전소에서도 자사 구독 멤버십을 적용할 수 있도록 할인 로직을 개선.
+          </li>
+          <li>
+            파편화된 메시징 기능을 통합하는 메시징 플랫폼을 설계하고,
+            Node.js·Python·JVM 환경에서 공통 사용할 수 있는 SDK를 GitHub Packages로 제공.
+          </li>
+          <li>
+            자사 충전소 및 로밍 아웃 충전소의 충전 이력에 대한 미정산·미결제 재처리와 충전 완료 데이터 생성을 담당하는 스케줄러를
+            Java+MyBatis 구조에서 Kotlin+JPA/QueryDSL 구조로 전환하고,
+            과도한 Join 쿼리와 Data 레이어에 밀집된 비즈니스 로직을 <span class="highlight">이벤트 드리븐 아키텍처</span>로 재설계.
           </li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li>
-            Leading the next-generation payment system migration. Redesigned tightly-coupled business logic (heavy JOIN queries, data-layer-bound logic) into an
-            <span class="highlight">event-driven architecture</span>.
-            Migrated the tech stack from Java to Kotlin and MyBatis to JPA/QueryDSL, transforming procedural code into an object-oriented style and replacing polling with direct API calls.
+            Developed payment and settlement logic for transport-operator members, including fixed pricing at company-operated charging stations, fixed discounts at external chargers,
+            and discount policies for the internal Crew membership and in-house subscription membership.
+          </li>
+          <li>
+            Separated discount-policy methods for Hyundai-type members and H Lucky Pass apartment charging stations to prevent policy contamination,
+            and updated the discount logic so the in-house subscription membership could also be applied at company-operated highway charging stations.
+          </li>
+          <li>
+            Designed an integrated messaging platform to unify fragmented messaging features,
+            and distributed a shared SDK through GitHub Packages for Node.js, Python, and JVM environments.
+          </li>
+          <li>
+            Migrated the scheduler responsible for retrying unsettled and unpaid charging histories and generating charge-completion data for company-operated and roaming-out chargers
+            from a Java+MyBatis structure to Kotlin+JPA/QueryDSL,
+            and redesigned heavy JOIN queries and data-layer-bound business logic into an <span class="highlight">event-driven architecture</span>.
           </li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li>
-            決済システムの次世代移行を担当。過度なJoinクエリとDataレイヤーに集中していたビジネスロジックを
-            <span class="highlight">イベントドリブンアーキテクチャ</span>に再設計し、
-            技術スタックをJavaからKotlin、MyBatisからJPA/QueryDSLへ移行。
-            手続き型だったロジックをオブジェクト指向スタイルに転換し、ポーリング構造からAPI呼び出し可能な形へ改善。
+            決済・精算プログラムにおいて、運輸会社会員向けに自社充電所の固定単価適用および外部充電器の固定割引ロジックを開発し、
+            社内従業員向けCrewメンバーシップと自社サブスクリプションメンバーシップの割引政策を追加。
+          </li>
+          <li>
+            Hyundaiタイプ会員およびH Lucky Passマンション充電所の割引政策メソッドを分離して政策汚染を整理し、
+            高速道路の自社充電所でも自社サブスクリプションメンバーシップを適用できるよう割引ロジックを改善。
+          </li>
+          <li>
+            分散していたメッセージング機能を統合するメッセージングプラットフォームを設計し、
+            Node.js・Python・JVM環境で共通利用できるSDKをGitHub Packagesで提供。
+          </li>
+          <li>
+            自社充電所およびローミングアウト充電所の充電履歴に対する未精算・未決済の再処理と充電完了データ生成を担当するスケジューラを
+            Java+MyBatis構造からKotlin+JPA/QueryDSL構造へ移行し、
+            過度なJoinクエリとDataレイヤーに集中していたビジネスロジックを<span class="highlight">イベントドリブンアーキテクチャ</span>へ再設計。
           </li>
         </ul>
 
@@ -156,6 +190,12 @@
           <li>
             사내 금융 서비스의 <span class="highlight">전자금융업 자격 취득</span>을 주도.
             핵심 금융 도메인을 폐쇄망 환경으로 이전 완료.
+          </li>
+          <li>
+            크레딧 API에 AWS SQS와 EventBridge Scheduler를 활용한 매일 00시 만료 배치 처리 기능을 추가.
+          </li>
+          <li>
+            제네시스 제휴 대상 전용 크레딧 지급·조회·차감 기능을 개발.
           </li>
           <li>
             크레딧 일괄 충전 로직을 Spring Batch 기반 비동기 배치로 재구현하여,
@@ -180,6 +220,12 @@
             Successfully migrated core financial domains to an air-gapped network environment.
           </li>
           <li>
+            Added a daily midnight expiration batch to the credit API using AWS SQS and EventBridge Scheduler.
+          </li>
+          <li>
+            Developed dedicated credit issuance, inquiry, and deduction features for the Genesis partnership program.
+          </li>
+          <li>
             Re-implemented the bulk credit top-up process as an async Spring Batch job,
             <span class="highlight">reducing processing time from 1 hour to 20 minutes (66% improvement)</span>.
           </li>
@@ -198,6 +244,12 @@
           <li>
             社内金融サービスの<span class="highlight">電子金融業ライセンス取得</span>を主導。
             コア金融ドメインをクローズドネットワーク環境へ移行完了。
+          </li>
+          <li>
+            クレジットAPIにAWS SQSとEventBridge Schedulerを活用した毎日0時の満了バッチ処理機能を追加。
+          </li>
+          <li>
+            Genesis提携向け専用クレジットの付与・照会・差引機能を開発。
           </li>
           <li>
             クレジット一括チャージ処理をSpring Batchベースの非同期バッチに再実装し、
@@ -237,19 +289,27 @@
           <span lang="en" hidden>Back-end Engineer · Seongnam, Gyeonggi</span>
           <span lang="ja" hidden>Back-end Engineer · 京畿道 城南市</span>
         </p>
+        <p class="experience__team">
+          <span lang="ko">DT추진실 (2022.05 — 2022.12)</span>
+          <span lang="en" hidden>DT Promotion Office (May 2022 — Dec 2022)</span>
+          <span lang="ja" hidden>DT推進室（2022年5月 — 2022年12月）</span>
+        </p>
         <ul class="experience__list" lang="ko">
-          <li>충전기 관리자 시스템(Admin)의 기능 개발 및 유지보수 담당.</li>
-          <li>여러 도메인에 쿼리로 산재해 있던 크레딧 도메인을 정리하고 독립 API 애플리케이션으로 분리.</li>
+          <li>크레딧 API 개발 및 유지보수를 담당하며 원장 기반 프로그램을 구축하고, 부분·전액 잔액 이전, 수수료 부과 취소, 전체·부분 취소 기능을 개발.</li>
+          <li>B2B 크레딧 유형 추가, 유효기간 연장, 일괄 충전 기능을 개발.</li>
+          <li>(구) 충전기 관리자 시스템(Admin)의 기능 개발 및 유지보수와 민원 처리 업무를 담당.</li>
           <li>2023년 SK일렉링크로 인수합병되어 현재까지 근무 중.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Developed features and maintained the EV charger admin management system.</li>
-          <li>Consolidated the credit domain — previously scattered as raw queries across multiple domains — into a standalone API application.</li>
+          <li>Developed and maintained the credit API, building a ledger-based program and implementing partial and full balance transfer, fee-cancellation, and full and partial cancellation features.</li>
+          <li>Added B2B credit types, expiration-extension support, and bulk top-up functionality.</li>
+          <li>Developed and maintained the legacy EV charger admin system and handled customer complaint processing.</li>
           <li>Acquired by SK Eleclink in 2023; continued as a back-end engineer through the transition.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>EV充電器管理システム（Admin）の機能開発および保守を担当。</li>
-          <li>複数ドメインにクエリとして散在していたクレジットドメインを整理し、独立したAPIアプリケーションとして分離。</li>
+          <li>クレジットAPIの開発および保守を担当し、台帳ベースのプログラムを構築するとともに、一部・全額残高移転、手数料賦課取消、全体・部分取消機能を開発。</li>
+          <li>B2Bクレジット種別の追加、有効期限延長、一括チャージ機能を開発。</li>
+          <li>旧充電器管理システム（Admin）の機能開発・保守および問い合わせ対応業務を担当。</li>
           <li>2023年にSK Eleclinkへ買収合併され、現在までバックエンドエンジニアとして勤務。</li>
         </ul>
       </article>
