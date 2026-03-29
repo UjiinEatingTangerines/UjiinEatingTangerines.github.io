@@ -200,7 +200,8 @@
             내부적으로 멀티스레드 처리 구조를 적용해 대량 만료 대상도 안정적으로 처리할 수 있도록 개선.
           </li>
           <li>
-            제네시스 제휴 대상 전용 크레딧 지급·조회·차감 기능을 개발.
+            B2B 크레딧 중 제네시스 제휴 대상은 할인 적용 단가가 달라 결제/정산 프로그램에서 별도 유형 구분이 필요해,
+            해당 대상 전용 크레딧 충전·차감·조회 기능을 개발.
           </li>
           <li>
             크레딧 일괄 충전 로직을 Spring Batch 기반 비동기 배치로 재구현하여,
@@ -231,7 +232,8 @@
             Applied an internal multithreaded processing model so large expiration workloads could be handled reliably.
           </li>
           <li>
-            Developed dedicated credit issuance, inquiry, and deduction features for the Genesis partnership program.
+            Because Genesis partnership credits used a different discounted unit price within B2B credit types and required separate handling in the payment and settlement program,
+            developed dedicated credit charge, deduction, and inquiry features for that target group.
           </li>
           <li>
             Re-implemented the bulk credit top-up process as an async Spring Batch job,
@@ -260,7 +262,8 @@
             内部的にマルチスレッド処理構造を適用し、大量の満了対象も安定的に処理できるよう改善。
           </li>
           <li>
-            Genesis提携向け専用クレジットの付与・照会・差引機能を開発。
+            B2Bクレジットの中でもGenesis提携対象は割引適用単価が異なり、決済・精算プログラムで別途タイプ区分が必要だったため、
+            当該対象向け専用クレジットのチャージ・差引・照会機能を開発。
           </li>
           <li>
             クレジット一括チャージ処理をSpring Batchベースの非同期バッチに再実装し、
