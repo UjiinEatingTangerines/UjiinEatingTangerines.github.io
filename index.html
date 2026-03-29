@@ -54,18 +54,18 @@
       <h2 class="section__title">Profile</h2>
       <p class="profile__text" lang="ko">
         백엔드 엔지니어로 6년간 도시가스, 전기차 충전, 금융 서비스 등 다양한 도메인에서 시스템을 설계하고 운영해 왔습니다.
-        현재 SK일렉링크에서 포인트 및 결제 시스템을 담당하며, 레거시 아키텍처를 이벤트 드리븐 구조로 전환하는 작업을 진행하고 있습니다.
-        주어진 도구를 쓰는 데 그치지 않고, 팀에 필요한 도구를 직접 만들어 동료들이 더 편하게 일할 수 있는 환경을 만드는 데 관심이 많습니다.
+        현재 SK일렉링크에서 포인트 및 결제 시스템을 담당하며, 복잡해진 정산 흐름과 서비스 간 결합도를 낮추기 위해 레거시 아키텍처를 이벤트 드리븐 구조로 전환하는 작업을 진행하고 있습니다.
+        주어진 도구를 쓰는 데 그치지 않고, 반복 작업과 커뮤니케이션 비용을 줄이기 위해 팀에 필요한 도구를 직접 만들어 동료들이 더 편하게 일할 수 있는 환경을 만드는 데 관심이 많습니다.
       </p>
       <p class="profile__text" lang="en" hidden>
         Back-end engineer with 6 years of experience building and operating systems across city gas, EV charging, and financial service domains.
-        Currently responsible for the point and payment systems at SK Eleclink, leading a migration from legacy architecture to an event-driven design.
-        I care about building internal tools that make my teammates' work easier — not just using what's given, but creating what's needed.
+        Currently responsible for the point and payment systems at SK Eleclink, leading a migration from legacy architecture to an event-driven design to reduce coupling across increasingly complex settlement flows.
+        I care about building internal tools that make my teammates' work easier by reducing repetitive work and communication overhead — not just using what is given, but creating what is needed.
       </p>
       <p class="profile__text" lang="ja" hidden>
         バックエンドエンジニアとして6年間、都市ガス・EV充電・金融サービスなど多様なドメインでシステムの設計・運用に携わってきました。
-        現在はSK Eleclinkでポイント・決済システムを担当し、レガシーアーキテクチャからイベントドリブン構造への移行を推進しています。
-        与えられたツールを使うだけでなく、チームに必要なツールを自ら作り、メンバーがより快適に働ける環境づくりに関心があります。
+        現在はSK Eleclinkでポイント・決済システムを担当し、複雑化した精算フローとサービス間の結合度を下げるため、レガシーアーキテクチャからイベントドリブン構造への移行を推進しています。
+        与えられたツールを使うだけでなく、繰り返し作業とコミュニケーションコストを減らすためにチームに必要なツールを自ら作り、メンバーがより快適に働ける環境づくりに関心があります。
       </p>
     </section>
 
@@ -124,7 +124,7 @@
         </p>
         <ul class="experience__list" lang="ko">
           <li>
-            결제/정산 프로그램에서 운수사 회원의 자사 충전소 고정 단가 적용 및 외부 충전기 고정 할인 로직을 개발하고,
+            결제/정산 프로그램에서 회원 유형별 단가 정책을 분리하기 위해 운수사 회원의 자사 충전소 고정 단가 적용 및 외부 충전기 고정 할인 로직을 개발하고,
             내부 직원 전용 크루 멤버십과 자사 구독 멤버십 할인 정책을 추가.
           </li>
           <li>
@@ -132,7 +132,7 @@
             고속도로 자사 충전소에서도 자사 구독 멤버십을 적용할 수 있도록 할인 로직을 개선.
           </li>
           <li>
-            파편화된 메시징 기능을 통합하는 메시징 플랫폼을 설계하고,
+            서비스별로 흩어져 있던 메시징 구현 비용을 줄이기 위해 파편화된 메시징 기능을 통합하는 메시징 플랫폼을 설계하고,
             Node.js·Python·JVM 환경에서 공통 사용할 수 있는 SDK를 GitHub Packages로 제공.
           </li>
           <li>
@@ -144,7 +144,7 @@
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li>
-            Developed payment and settlement logic for transport-operator members, including fixed pricing at company-operated charging stations, fixed discounts at external chargers,
+            Developed payment and settlement logic for transport-operator members to separate unit-price policies by member type, including fixed pricing at company-operated charging stations and fixed discounts at external chargers,
             and discount policies for the internal Crew membership and in-house subscription membership.
           </li>
           <li>
@@ -152,7 +152,7 @@
             and updated the discount logic so the in-house subscription membership could also be applied at company-operated highway charging stations.
           </li>
           <li>
-            Designed an integrated messaging platform to unify fragmented messaging features,
+            Designed an integrated messaging platform to reduce duplicated service-specific implementations,
             and distributed a shared SDK through GitHub Packages for Node.js, Python, and JVM environments.
           </li>
           <li>
@@ -163,7 +163,7 @@
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li>
-            決済・精算プログラムにおいて、運輸会社会員向けに自社充電所の固定単価適用および外部充電器の固定割引ロジックを開発し、
+            決済・精算プログラムにおいて、会員タイプごとの単価政策を分離するため、運輸会社会員向けに自社充電所の固定単価適用および外部充電器の固定割引ロジックを開発し、
             社内従業員向けCrewメンバーシップと自社サブスクリプションメンバーシップの割引政策を追加。
           </li>
           <li>
@@ -171,7 +171,7 @@
             高速道路の自社充電所でも自社サブスクリプションメンバーシップを適用できるよう割引ロジックを改善。
           </li>
           <li>
-            分散していたメッセージング機能を統合するメッセージングプラットフォームを設計し、
+            サービスごとに分散していたメッセージング実装コストを下げるため、メッセージング機能を統合するプラットフォームを設計し、
             Node.js・Python・JVM環境で共通利用できるSDKをGitHub Packagesで提供。
           </li>
           <li>
@@ -204,19 +204,19 @@
             해당 대상 전용 크레딧 충전·차감·조회 기능을 개발.
           </li>
           <li>
-            크레딧 일괄 충전 로직을 Spring Batch 기반 비동기 배치로 재구현하여,
+            장시간 동기 처리로 인한 운영 부담을 줄이기 위해 크레딧 일괄 충전 로직을 Spring Batch 기반 비동기 배치로 재구현하여,
             기존 1시간 소요되던 작업을 <span class="highlight">20분으로 단축(66% 개선)</span>.
           </li>
           <li>
-            SQL Injection 위험이 있던 String 기반 쿼리를 제거하고,
+            금융 도메인에서의 안정성과 정합성을 높이기 위해 SQL Injection 위험이 있던 String 기반 쿼리를 제거하고,
             데이터 정합성을 해치던 Double Writing 로직을 정리해 시스템 안정성과 성능을 개선.
           </li>
           <li>
-            JIRA 민원 티켓 처리를 Admin 기능으로 내재화하여,
+            외부 도구 의존과 반복 수작업을 줄이기 위해 JIRA 민원 티켓 처리를 Admin 기능으로 내재화하여,
             담당자별 일 60건의 수동 처리를 <span class="highlight">0~3건으로 자동화(95% 감소)</span>.
           </li>
           <li>
-            Jira 보드 자동화 기능과 PR 알림 봇을 개발해 개발 프로세스의 투명성을 높이고,
+            개발 흐름을 더 쉽게 공유하고 수작업 커뮤니케이션을 줄이기 위해 Jira 보드 자동화 기능과 PR 알림 봇을 개발해 개발 프로세스의 투명성을 높이고,
             수동 주문 업무를 자동화.
           </li>
         </ul>
@@ -236,18 +236,18 @@
             developed dedicated credit charge, deduction, and inquiry features for that target group.
           </li>
           <li>
-            Re-implemented the bulk credit top-up process as an async Spring Batch job,
+            Re-implemented the bulk credit top-up process as an async Spring Batch job to reduce the operational cost of long-running synchronous work,
             <span class="highlight">reducing processing time from 1 hour to 20 minutes (66% improvement)</span>.
           </li>
           <li>
-            Eliminated string-concatenated queries vulnerable to SQL Injection and removed Double Writing logic that caused data inconsistency, improving system stability and performance.
+            Eliminated string-concatenated queries vulnerable to SQL Injection and removed Double Writing logic that caused data inconsistency to improve stability and integrity in a financial domain, improving system performance as well.
           </li>
           <li>
-            Built JIRA ticket handling into the Admin system,
+            Built JIRA ticket handling into the Admin system to reduce dependence on external tools and repetitive manual processing,
             <span class="highlight">automating 60 daily manual tasks per agent down to 0–3 (95% reduction)</span>.
           </li>
           <li>
-            Developed Jira board automation and a PR notification bot, increasing development process transparency and eliminating manual order tasks.
+            Developed Jira board automation and a PR notification bot to reduce manual coordination overhead, increasing development process transparency and eliminating manual order tasks.
           </li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
@@ -266,19 +266,19 @@
             当該対象向け専用クレジットのチャージ・差引・照会機能を開発。
           </li>
           <li>
-            クレジット一括チャージ処理をSpring Batchベースの非同期バッチに再実装し、
+            長時間の同期処理による運用負荷を下げるため、クレジット一括チャージ処理をSpring Batchベースの非同期バッチに再実装し、
             従来1時間かかっていた処理を<span class="highlight">20分に短縮（66%改善）</span>。
           </li>
           <li>
-            SQLインジェクションのリスクがあったString型クエリを排除し、
+            金融ドメインでの安定性と整合性を高めるため、SQLインジェクションのリスクがあったString型クエリを排除し、
             データ整合性を損なっていたDouble Writingロジックを整理してシステムの安定性とパフォーマンスを改善。
           </li>
           <li>
-            JIRAの問い合わせチケット処理をAdmin機能に内製化し、
+            外部ツール依存と繰り返し手作業を減らすため、JIRAの問い合わせチケット処理をAdmin機能に内製化し、
             担当者あたり1日60件の手動対応を<span class="highlight">0〜3件に自動化（95%削減）</span>。
           </li>
           <li>
-            Jiraボード自動化機能とPR通知ボットを開発し、開発プロセスの透明性を向上。
+            手動コミュニケーションコストを下げるため、Jiraボード自動化機能とPR通知ボットを開発し、開発プロセスの透明性を向上。
             手動発注業務を自動化。
           </li>
         </ul>
@@ -309,21 +309,21 @@
           <span lang="ja" hidden>DT推進室</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>크레딧 API 개발 및 유지보수를 담당하며 원장 기반 프로그램을 구축하고, 부분·전액 잔액 이전, 수수료 부과 취소, 전체·부분 취소 기능을 개발.</li>
-          <li>B2B 크레딧 유형 추가, 유효기간 연장, 일괄 충전 기능을 개발.</li>
-          <li>(구) 충전기 관리자 시스템(Admin)의 기능 개발 및 유지보수와 민원 처리 업무를 담당.</li>
+          <li>크레딧 정산 기준을 일관되게 관리하기 위해 크레딧 API 개발 및 유지보수를 담당하며 원장 기반 프로그램을 구축하고, 부분·전액 잔액 이전, 수수료 부과 취소, 전체·부분 취소 기능을 개발.</li>
+          <li>B2B 고객별 운영 정책 차이를 반영하기 위해 B2B 크레딧 유형 추가, 유효기간 연장, 일괄 충전 기능을 개발.</li>
+          <li>운영 이슈 대응 경로를 한곳으로 모으기 위해 (구) 충전기 관리자 시스템(Admin)의 기능 개발 및 유지보수와 민원 처리 업무를 담당.</li>
           <li>2023년 SK일렉링크로 인수합병되어 현재까지 근무 중.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Developed and maintained the credit API, building a ledger-based program and implementing partial and full balance transfer, fee-cancellation, and full and partial cancellation features.</li>
-          <li>Added B2B credit types, expiration-extension support, and bulk top-up functionality.</li>
-          <li>Developed and maintained the legacy EV charger admin system and handled customer complaint processing.</li>
+          <li>Developed and maintained the credit API to manage settlement rules consistently, building a ledger-based program and implementing partial and full balance transfer, fee-cancellation, and full and partial cancellation features.</li>
+          <li>Added B2B credit types, expiration-extension support, and bulk top-up functionality to reflect differences in operating policies across B2B customers.</li>
+          <li>Developed and maintained the legacy EV charger admin system and handled customer complaint processing to centralize operational issue handling.</li>
           <li>Acquired by SK Eleclink in 2023; continued as a back-end engineer through the transition.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>クレジットAPIの開発および保守を担当し、台帳ベースのプログラムを構築するとともに、一部・全額残高移転、手数料賦課取消、全体・部分取消機能を開発。</li>
-          <li>B2Bクレジット種別の追加、有効期限延長、一括チャージ機能を開発。</li>
-          <li>旧充電器管理システム（Admin）の機能開発・保守および問い合わせ対応業務を担当。</li>
+          <li>クレジット精算基準を一貫して管理するため、クレジットAPIの開発および保守を担当し、台帳ベースのプログラムを構築するとともに、一部・全額残高移転、手数料賦課取消、全体・部分取消機能を開発。</li>
+          <li>B2B顧客ごとの運用ポリシー差分を反映するため、B2Bクレジット種別の追加、有効期限延長、一括チャージ機能を開発。</li>
+          <li>運用イシュー対応の経路を一元化するため、旧充電器管理システム（Admin）の機能開発・保守および問い合わせ対応業務を担当。</li>
           <li>2023年にSK Eleclinkへ買収合併され、現在までバックエンドエンジニアとして勤務。</li>
         </ul>
       </article>
@@ -348,19 +348,19 @@
           <span lang="ja" hidden>Back-end Engineer · ソウル市 麻浦区</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>미래엔서해에너지, CNCITY, 삼천리도시가스 등 도시가스 고객사의 배관·자재·계량기 등 자산 및 공사 관리 ERP 시스템 기능 개발과 유지보수 수행.</li>
-          <li>카카오톡 알림톡 기반 인터랙티브 플랫폼 개발.</li>
-          <li>미래엔서해에너지와 삼천리도시가스의 계량기·배관 검침 및 점검 업무를 현장 PDA에서 측정·기입할 수 있는 웹앱 개발 및 유지보수 수행.</li>
+          <li>도시가스 고객사의 자산·공사 운영 기준을 시스템으로 일원화하기 위해 미래엔서해에너지, CNCITY, 삼천리도시가스 등의 배관·자재·계량기 관리 ERP 시스템 기능 개발과 유지보수를 수행.</li>
+          <li>고객사와 사용자 간 안내·응답 흐름을 단축하기 위해 카카오톡 알림톡 기반 인터랙티브 플랫폼을 개발.</li>
+          <li>현장 검침·점검 정보를 즉시 기록할 수 있도록 미래엔서해에너지와 삼천리도시가스의 계량기·배관 업무를 PDA에서 측정·기입하는 웹앱을 개발 및 유지보수 수행.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Developed features for and maintained ERP systems that managed assets such as pipelines, materials, and meters, as well as construction operations for city gas clients including Miraen Seohae Energy, CNCITY, and Samchully City Gas.</li>
-          <li>Built an interactive platform based on KakaoTalk AlimTalk notifications.</li>
-          <li>Developed and maintained a web app that allowed field workers at Miraen Seohae Energy and Samchully City Gas to record meter and pipeline readings and inspection results on PDA devices.</li>
+          <li>Developed features for and maintained ERP systems for pipelines, materials, meters, and construction operations to standardize asset and work-management rules for city gas clients including Miraen Seohae Energy, CNCITY, and Samchully City Gas.</li>
+          <li>Built an interactive platform based on KakaoTalk AlimTalk notifications to shorten communication and response flows between operators and users.</li>
+          <li>Developed and maintained a web app that allowed field workers at Miraen Seohae Energy and Samchully City Gas to record meter and pipeline readings and inspection results on PDA devices in real time.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>未来エン西海エネルギー、CNCITY、三千里都市ガスなど都市ガス顧客向けに、配管・資材・計量器などの資産および工事管理ERPシステムの機能開発と保守を担当。</li>
-          <li>KakaoTalkのアリムトークを基盤としたインタラクティブプラットフォームを開発。</li>
-          <li>未来エン西海エネルギーと三千里都市ガス向けに、計量器・配管の検針および点検内容を現場のPDAで記録できるウェブアプリを開発・保守。</li>
+          <li>都市ガス顧客の資産・工事運用基準をシステムで一元化するため、未来エン西海エネルギー、CNCITY、三千里都市ガス向けの配管・資材・計量器管理ERPシステムの機能開発と保守を担当。</li>
+          <li>運営側と利用者の案内・応答フローを短縮するため、KakaoTalkのアリムトークを基盤としたインタラクティブプラットフォームを開発。</li>
+          <li>現場の検針・点検情報を即時に記録できるよう、未来エン西海エネルギーと三千里都市ガス向けに、計量器・配管業務をPDAで入力できるウェブアプリを開発・保守。</li>
         </ul>
       </article>
     </section>
