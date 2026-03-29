@@ -137,8 +137,9 @@
           </li>
           <li>
             자사 충전소 및 로밍 아웃 충전소의 충전 이력에 대한 미정산·미결제 재처리와 충전 완료 데이터 생성을 담당하는 스케줄러를
-            Java+MyBatis 구조에서 Kotlin+JPA/QueryDSL 구조로 전환하고,
-            과도한 Join 쿼리와 Data 레이어에 밀집된 비즈니스 로직을 <span class="highlight">이벤트 드리븐 아키텍처</span>로 재설계.
+            Java+MyBatis 구조에서 Kotlin+JPA/QueryDSL 구조로 전환하고, MyBatis에 Join으로 결합돼 있던 테이블 조합을 제거해
+            프로젝트 관리 테이블만 직접 조회·수정하도록 재구성.
+            외부 테이블 의존 처리는 API 호출로 분리하고, 비즈니스 로직을 DB 레이어에서 서비스 레이어로 이동시켜 <span class="highlight">이벤트 드리븐 아키텍처</span>로 재설계.
           </li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
@@ -156,8 +157,8 @@
           </li>
           <li>
             Migrated the scheduler responsible for retrying unsettled and unpaid charging histories and generating charge-completion data for company-operated and roaming-out chargers
-            from a Java+MyBatis structure to Kotlin+JPA/QueryDSL,
-            and redesigned heavy JOIN queries and data-layer-bound business logic into an <span class="highlight">event-driven architecture</span>.
+            from a Java+MyBatis structure to Kotlin+JPA/QueryDSL, removed MyBatis JOIN-based table combinations so the service directly queried and updated only project-owned tables,
+            split dependencies on external tables behind API calls, and moved business logic from the DB layer into the service layer as part of an <span class="highlight">event-driven architecture</span> redesign.
           </li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
@@ -175,8 +176,9 @@
           </li>
           <li>
             自社充電所およびローミングアウト充電所の充電履歴に対する未精算・未決済の再処理と充電完了データ生成を担当するスケジューラを
-            Java+MyBatis構造からKotlin+JPA/QueryDSL構造へ移行し、
-            過度なJoinクエリとDataレイヤーに集中していたビジネスロジックを<span class="highlight">イベントドリブンアーキテクチャ</span>へ再設計。
+            Java+MyBatis構造からKotlin+JPA/QueryDSL構造へ移行し、MyBatisのJoinで結合されていたテーブル組み合わせを解消して
+            プロジェクト管理テーブルのみを直接参照・更新する構成へ再編。
+            外部テーブル依存はAPI呼び出しへ分離し、ビジネスロジックをDBレイヤーからサービスレイヤーへ移して<span class="highlight">イベントドリブンアーキテクチャ</span>へ再設計。
           </li>
         </ul>
 
@@ -290,9 +292,9 @@
           <span lang="ja" hidden>Back-end Engineer · 京畿道 城南市</span>
         </p>
         <p class="experience__team">
-          <span lang="ko">DT추진실 (2022.05 — 2022.12)</span>
-          <span lang="en" hidden>DT Promotion Office (May 2022 — Dec 2022)</span>
-          <span lang="ja" hidden>DT推進室（2022年5月 — 2022年12月）</span>
+          <span lang="ko">DT추진실</span>
+          <span lang="en" hidden>DT Promotion Office</span>
+          <span lang="ja" hidden>DT推進室</span>
         </p>
         <ul class="experience__list" lang="ko">
           <li>크레딧 API 개발 및 유지보수를 담당하며 원장 기반 프로그램을 구축하고, 부분·전액 잔액 이전, 수수료 부과 취소, 전체·부분 취소 기능을 개발.</li>
