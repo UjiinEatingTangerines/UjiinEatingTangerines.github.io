@@ -190,8 +190,9 @@
         </p>
         <ul class="experience__list" lang="ko">
           <li>
-            사내 금융 서비스의 <span class="highlight">전자금융업 자격 취득</span>을 주도.
-            핵심 금융 도메인을 폐쇄망 환경으로 이전 완료.
+            크레딧 API와 마일리지 API를 <span class="highlight">폐쇄망 환경</span>으로 이전하고, 폐쇄망에 새로 구성된 DB 및 멤버십 체계에 맞춰
+            두 API의 기준을 카드번호 중심에서 멤버 아이디 중심으로 전환하며 전체 아키텍처를 개선.
+            종속성을 Nexus로 이관하고, Admin 및 앱 백엔드 등 서비스가 DB에 직접 의존하지 않고 두 API를 호출해 CRUD 처리할 수 있도록 기능을 개발.
           </li>
           <li>
             크레딧 API에 AWS SQS와 EventBridge Scheduler를 활용한 매일 00시 만료 배치 처리 기능을 추가.
@@ -218,8 +219,9 @@
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li>
-            Led the company's <span class="highlight">electronic financial business license acquisition</span>.
-            Successfully migrated core financial domains to an air-gapped network environment.
+            Migrated the credit API and mileage API into an <span class="highlight">air-gapped environment</span>, and reworked both services around the new closed-network database and membership model
+            by shifting their core standard from card-number-based processing to member-id-based processing as part of a broader architecture improvement.
+            Moved dependencies into Nexus, and built features so services such as Admin and the app backend could perform CRUD operations by calling the two APIs instead of depending directly on the database.
           </li>
           <li>
             Added a daily midnight expiration batch to the credit API using AWS SQS and EventBridge Scheduler.
@@ -244,8 +246,9 @@
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li>
-            社内金融サービスの<span class="highlight">電子金融業ライセンス取得</span>を主導。
-            コア金融ドメインをクローズドネットワーク環境へ移行完了。
+            クレジットAPIとマイレージAPIを<span class="highlight">クローズドネットワーク環境</span>へ移行し、閉域網に新たに構成されたDBおよびメンバーシップ体系に合わせて、
+            2つのAPIの基準をカード番号中心からメンバーID中心へ切り替えながら全体アーキテクチャを改善。
+            依存関係をNexusへ移管し、AdminおよびアプリバックエンドなどのサービスがDBへ直接依存せず、2つのAPI呼び出しでCRUD処理できるよう機能を開発。
           </li>
           <li>
             クレジットAPIにAWS SQSとEventBridge Schedulerを活用した毎日0時の満了バッチ処理機能を追加。
