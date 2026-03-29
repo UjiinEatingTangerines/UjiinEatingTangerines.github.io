@@ -195,7 +195,9 @@
             종속성을 Nexus로 이관하고, Admin 및 앱 백엔드 등 서비스가 DB에 직접 의존하지 않고 두 API를 호출해 CRUD 처리할 수 있도록 기능을 개발.
           </li>
           <li>
-            크레딧 API에 AWS SQS와 EventBridge Scheduler를 활용한 매일 00시 만료 배치 처리 기능을 추가.
+            크레딧 API에 AWS SQS와 EventBridge Scheduler를 활용한 매일 00시 만료 배치 처리 기능을 추가하고,
+            재무적 낙전수입 인식 개선을 위해 시스템 만료 시각, 실제 만료 시각, 만료 상태를 도입한 만료 처리 로직을 설계.
+            내부적으로 멀티스레드 처리 구조를 적용해 대량 만료 대상도 안정적으로 처리할 수 있도록 개선.
           </li>
           <li>
             제네시스 제휴 대상 전용 크레딧 지급·조회·차감 기능을 개발.
@@ -224,7 +226,9 @@
             Moved dependencies into Nexus, and built features so services such as Admin and the app backend could perform CRUD operations by calling the two APIs instead of depending directly on the database.
           </li>
           <li>
-            Added a daily midnight expiration batch to the credit API using AWS SQS and EventBridge Scheduler.
+            Added a daily midnight expiration batch to the credit API using AWS SQS and EventBridge Scheduler,
+            and designed expiration logic with system expiration timestamps, actual expiration timestamps, and expiration statuses to improve financial breakage-revenue recognition.
+            Applied an internal multithreaded processing model so large expiration workloads could be handled reliably.
           </li>
           <li>
             Developed dedicated credit issuance, inquiry, and deduction features for the Genesis partnership program.
@@ -251,7 +255,9 @@
             依存関係をNexusへ移管し、AdminおよびアプリバックエンドなどのサービスがDBへ直接依存せず、2つのAPI呼び出しでCRUD処理できるよう機能を開発。
           </li>
           <li>
-            クレジットAPIにAWS SQSとEventBridge Schedulerを活用した毎日0時の満了バッチ処理機能を追加。
+            クレジットAPIにAWS SQSとEventBridge Schedulerを活用した毎日0時の満了バッチ処理機能を追加し、
+            財務上の失効収益認識改善のために、システム満了時刻・実際満了時刻・満了ステータスを導入した満了処理ロジックを設計。
+            内部的にマルチスレッド処理構造を適用し、大量の満了対象も安定的に処理できるよう改善。
           </li>
           <li>
             Genesis提携向け専用クレジットの付与・照会・差引機能を開発。
