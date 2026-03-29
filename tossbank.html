@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>김현우 — Toss Bank Server Developer Resume</title>
+  <meta name="description" content="토스뱅크 서버 개발자 지원용 이력서 | 백엔드 엔지니어 김현우">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+
+    <header class="header">
+      <h1 class="header__name">김현우</h1>
+      <p class="header__title">Server Developer · Toss Bank 지원 버전</p>
+
+      <div class="header__contact-info">
+        <span>서울특별시 중랑구</span>
+        <span class="sep" aria-hidden="true">/</span>
+        <span>+82 9625 2784</span>
+        <span class="sep" aria-hidden="true">/</span>
+        <a href="mailto:kkepm012@naver.com">kkepm012@naver.com</a>
+        <span class="sep" aria-hidden="true">/</span>
+        <a href="mailto:1996.devjiinu@gmail.com">1996.devjiinu@gmail.com</a>
+      </div>
+
+      <div class="header__links">
+        <a href="https://github.com/UjiinEatingTangerines" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/hyunwoo-kim-9a295420b/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://your-friendly-neighborhood.com/" target="_blank" rel="noopener">Blog</a>
+      </div>
+    </header>
+
+    <section class="section">
+      <h2 class="section__title">Profile</h2>
+      <p class="profile__text">
+        Java/Kotlin 기반 백엔드 엔지니어로 6년간 도시가스, 전기차 충전, 금융/정산 도메인에서 API와 정산·결제·크레딧 시스템을 설계하고 운영해 왔습니다.
+        현재 SK일렉링크에서 포인트 및 결제 시스템을 담당하며, 복잡해진 정산 구조를 재설계하고 레거시 시스템을 이벤트 드리븐 구조로 전환하는 작업을 진행하고 있습니다.
+        금융 도메인에서 안정성·정합성·운영 효율을 함께 개선하는 일을 좋아하고, 팀이 재사용할 수 있는 SDK와 자동화 도구까지 직접 설계하는 백엔드 엔지니어입니다.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Technical Skills</h2>
+      <div class="skills__list">
+        <div class="skills__row">
+          <span class="skills__label">Backend</span>
+          <span class="skills__value">Java, Kotlin, Node.js, Spring Boot, Spring Batch, MyBatis, JPA, QueryDSL</span>
+        </div>
+        <div class="skills__row">
+          <span class="skills__label">Infra &amp; Tools</span>
+          <span class="skills__value">AWS (SQS, EventBridge), Git, GitHub Packages, Nexus, Jira</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Selected Problem Solving Cases</h2>
+
+      <article class="experience">
+        <div class="experience__header">
+          <span class="experience__company">SK일렉링크</span>
+          <span class="experience__period">2026.03 — 현재</span>
+        </div>
+        <p class="experience__team">정산/미결제 재처리 스케줄러 재설계</p>
+        <ul class="experience__list">
+          <li>문제: 자사 충전소 및 로밍 아웃 충전소의 미정산·미결제 재처리와 충전 완료 데이터 생성을 담당하는 스케줄러가 Java+MyBatis 구조, 과도한 Join 쿼리, Data 레이어 중심 비즈니스 로직에 묶여 있었습니다.</li>
+          <li>해결: Kotlin+JPA/QueryDSL 구조로 전환하면서 MyBatis Join 기반 테이블 결합을 제거하고, 프로젝트 관리 테이블만 직접 다루도록 경계를 다시 설계했습니다. 외부 테이블 의존은 API 호출로 분리하고, 비즈니스 로직은 서비스 레이어로 이동시켜 이벤트 드리븐 구조로 재설계했습니다.</li>
+          <li>기여: 기존 데이터 접근 구조를 분해하고, 직접 관리 데이터와 외부 의존 데이터를 구분하는 방식으로 결합도와 변경 영향 범위를 줄이는 작업을 주도했습니다.</li>
+        </ul>
+      </article>
+
+      <article class="experience">
+        <div class="experience__header">
+          <span class="experience__company">SK일렉링크</span>
+          <span class="experience__period">2023.01 — 2026.02</span>
+        </div>
+        <p class="experience__team">크레딧 일괄 충전 성능 개선</p>
+        <ul class="experience__list">
+          <li>문제: 크레딧 일괄 충전 작업이 장시간 동기 처리에 의존해 운영 부담이 컸고, 대량 처리 시 작업 시간이 길었습니다.</li>
+          <li>해결: Spring Batch 기반 비동기 배치로 로직을 재구현해 작업 흐름을 분리했습니다.</li>
+          <li>결과: 기존 1시간 소요 작업을 20분으로 단축해 처리 시간을 66% 개선했습니다.</li>
+        </ul>
+      </article>
+
+      <article class="experience">
+        <div class="experience__header">
+          <span class="experience__company">SK일렉링크</span>
+          <span class="experience__period">2023.01 — 2026.02</span>
+        </div>
+        <p class="experience__team">운영 업무 자동화와 내부 도구 내재화</p>
+        <ul class="experience__list">
+          <li>문제: JIRA 기반 민원 처리와 수동 주문 업무가 반복적으로 발생해 운영자별 수작업이 많고 외부 도구 의존도도 높았습니다.</li>
+          <li>해결: JIRA 민원 티켓 처리를 Admin 기능으로 내재화하고, Jira 보드 자동화 기능과 PR 알림 봇을 직접 개발해 팀이 같은 흐름을 공유할 수 있도록 만들었습니다.</li>
+          <li>결과: 담당자별 하루 60건 수준의 수동 처리를 0~3건으로 줄여 95% 자동화했습니다.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Professional Experience</h2>
+
+      <article class="experience">
+        <div class="experience__header">
+          <span class="experience__company">SK일렉링크</span>
+          <span class="experience__period">2023.01 — 현재</span>
+        </div>
+        <p class="experience__company-desc">전기차 충전 인프라를 기반으로 충전·결제·데이터 서비스를 운영하는 그린 모빌리티 플랫폼 기업.</p>
+        <p class="experience__role">Back-end Engineer · 서울 송파구</p>
+
+        <p class="experience__team">테크팀 — 플랫폼 셀 (2026.03 — 현재)</p>
+        <ul class="experience__list">
+          <li>운수사 회원의 자사 충전소 고정 단가 및 외부 충전기 고정 할인 로직을 개발하고, 내부 직원 전용 크루 멤버십과 자사 구독 멤버십 할인 정책을 추가했습니다.</li>
+          <li>현대 타입 회원 및 H 럭키패스 아파트 충전소 할인 정책 메서드를 분리해 정책 오염을 줄이고, 고속도로 자사 충전소에서도 자사 구독 멤버십이 적용되도록 개선했습니다.</li>
+          <li>파편화된 메시징 기능을 통합하는 메시징 플랫폼을 설계하고, Node.js·Python·JVM 환경에서 재사용할 수 있는 SDK를 GitHub Packages로 제공했습니다.</li>
+          <li>정산/미결제 재처리 스케줄러를 Kotlin+JPA/QueryDSL로 전환하고, API 경계 재설계와 서비스 레이어 분리를 통해 이벤트 드리븐 구조로 개선했습니다.</li>
+        </ul>
+
+        <p class="experience__team">플랫폼 개발팀 (2023.01 — 2026.02)</p>
+        <ul class="experience__list">
+          <li>크레딧 API와 마일리지 API를 폐쇄망 환경으로 이전하고, 카드번호 기준 구조를 멤버 아이디 기준으로 전환해 데이터 모델과 API 경계를 재설계했습니다.</li>
+          <li>Admin 및 앱 백엔드가 DB 직접 접근 대신 API 호출로 CRUD 처리할 수 있도록 구조를 바꾸고, 종속성은 Nexus로 이관했습니다.</li>
+          <li>AWS SQS와 EventBridge Scheduler를 활용한 만료 배치 처리 기능을 추가하고, 시스템 만료 시각·실제 만료 시각·상태 모델을 도입해 재무적 낙전수입 인식 개선 로직을 설계했습니다.</li>
+          <li>금융 도메인에서 SQL Injection 위험이 있던 문자열 기반 쿼리를 제거하고, Double Writing 로직을 정리해 안정성과 정합성을 개선했습니다.</li>
+          <li>제네시스 제휴 크레딧처럼 별도 정산 기준이 필요한 B2B 크레딧 유형을 분리하고, 전용 충전·차감·조회 기능을 구현했습니다.</li>
+        </ul>
+      </article>
+
+      <article class="experience">
+        <div class="experience__header">
+          <span class="experience__company">에스트래픽</span>
+          <span class="experience__period">2022.05 — 2022.12</span>
+        </div>
+        <p class="experience__company-desc">전기차 충전 운영 시스템과 크레딧 서비스를 개발·운영하던 조직.</p>
+        <p class="experience__role">Back-end Engineer · 경기 성남시</p>
+        <p class="experience__team">DT추진실</p>
+        <ul class="experience__list">
+          <li>크레딧 API 개발 및 유지보수를 담당하며 원장 기반 프로그램을 구축하고, 부분·전액 잔액 이전, 수수료 부과 취소, 전체·부분 취소 기능을 개발했습니다.</li>
+          <li>B2B 고객별 운영 정책 차이를 반영하기 위해 크레딧 유형 추가, 유효기간 연장, 일괄 충전 기능을 구현했습니다.</li>
+          <li>(구) 충전기 관리자 시스템 기능 개발 및 유지보수와 민원 처리 업무를 담당했습니다.</li>
+        </ul>
+      </article>
+
+      <article class="experience">
+        <div class="experience__header">
+          <span class="experience__company">모바일엔트로피</span>
+          <span class="experience__period">2019.04 — 2022.04</span>
+        </div>
+        <p class="experience__company-desc">도시가스 고객사의 자산·현장 업무 시스템을 개발·운영하던 소프트웨어 기업.</p>
+        <p class="experience__role">Back-end Engineer · 서울 마포구</p>
+        <ul class="experience__list">
+          <li>도시가스 고객사의 자산·공사 운영 기준을 시스템으로 일원화하기 위해 배관·자재·계량기 관리 ERP 시스템 기능 개발과 유지보수를 수행했습니다.</li>
+          <li>현장 검침·점검 정보를 즉시 기록할 수 있도록 PDA 기반 웹앱을 개발·유지보수했고, 고객사와 사용자 간 안내·응답 흐름을 줄이는 알림톡 기반 플랫폼을 개발했습니다.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Growth Direction</h2>
+      <p class="profile__text">
+        앞으로는 복잡한 금융·정산 시스템을 더 단순하고 안전하며 확장 가능한 구조로 설계할 수 있는 백엔드 엔지니어로 성장하고 싶습니다.
+        이를 위해 기능 구현 자체보다 데이터 모델과 API 경계, 운영 자동화, 안정성과 정합성까지 함께 고려하는 방식을 유지하고 있고,
+        팀이 함께 사용할 수 있는 플랫폼과 도구를 설계하는 역량을 더 넓혀가고자 합니다.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">Education</h2>
+
+      <div class="education">
+        <div class="education__header">
+          <span class="education__school">한국방송통신대학교</span>
+          <span class="education__period">2020.03 — 재학 중</span>
+        </div>
+        <p class="education__major">컴퓨터과학과</p>
+      </div>
+
+      <div class="education">
+        <div class="education__header">
+          <span class="education__school">인덕대학교</span>
+          <span class="education__period">2015.03 — 2017.02</span>
+        </div>
+        <p class="education__major">비즈니스일본어과 졸업</p>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
