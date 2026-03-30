@@ -123,15 +123,15 @@
         <ul class="experience__list" lang="ko">
           <li>
             회원 유형별 가격·할인 규칙이 하나의 정산 흐름에 계속 누적되며 변경 영향 범위가 커지던 문제를 줄이기 위해,
-            운수사 회원의 자사 충전소 고정 단가·외부 충전기 고정 할인 정책을 분리하고 내부 직원 전용 크루 멤버십과 자사 구독 멤버십 할인까지 별도 규칙으로 설계.
+            운수사 회원의 자사 충전소 고정 단가·외부 충전기 고정 할인 정책을 공용 흐름에서 분리하고 내부 직원 전용 크루 멤버십과 자사 구독 멤버십 할인도 각각 독립 규칙으로 격리해 정책 변경이 다른 회원 유형 로직으로 번지는 결합을 낮춤.
           </li>
           <li>
-            현대 타입 회원 및 H 럭키패스 아파트 충전소 정책은 메서드 단위로 분리해 할인 정책 간 결합도를 낮추고,
-            고속도로 자사 충전소에도 자사 구독 멤버십이 적용되도록 조건 분기와 로직 경계를 정리해 신규 상품 확장 요구를 수용.
+            현대 타입 회원 및 H 럭키패스 아파트 충전소 정책은 메서드 단위로 분리해 할인 정책별 조건 분기를 통제하고 로직 경계를 정리했으며,
+            고속도로 자사 충전소에도 자사 구독 멤버십이 적용되도록 기존 분기와의 충돌 지점을 줄이는 구조로 신규 상품 확장 요구를 수용.
           </li>
           <li>
-            채널별로 흩어져 있던 메시징 기능이 팀마다 다른 구현으로 중복되던 문제를 해결하기 위해 통합 메시징 플랫폼을 설계하고,
-            공통 계약을 SDK로 추상화해 Node.js·Python·JVM 환경에서 사용할 수 있도록 GitHub Packages로 배포해 재사용 비용을 낮춤.
+            채널별로 흩어져 있던 메시징 기능이 팀마다 일회성 구현으로 중복되던 문제를 줄이기 위해 통합 메시징 플랫폼을 설계하고,
+            메시지 발송과 채널 처리 규약을 공통 계약 SDK로 추상화해 GitHub Packages로 배포함으로써 Node.js·Python·JVM 서비스가 런타임별 구현 경계는 분리하되 같은 계약을 재사용하도록 구조를 정리.
           </li>
           <li>
             자사 충전소 및 로밍 아웃 충전소의 미정산·미결제 재처리와 충전 완료 데이터 생성을 담당하는 스케줄러는 Java+MyBatis, 과도한 Join, DB 레이어 중심 로직 때문에 변경 영향 범위가 넓었습니다.
@@ -140,16 +140,16 @@
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li>
-            As pricing and discount rules kept accumulating in a single settlement flow, I separated policy logic by member type,
-            including fixed pricing for transport-operator members at company-operated chargers, fixed discounts at external chargers, and dedicated discount rules for the internal Crew and in-house subscription memberships.
+            As member-type-specific pricing and discount rules kept piling into a single settlement flow and widening the change surface, I isolated pricing and discount policies by member type,
+            separating transport-operator pricing at company-operated chargers, fixed discounts at external chargers, and the Crew and in-house subscription discounts into dedicated rules so policy changes were less coupled to other member-type logic.
           </li>
           <li>
-            Separated policy methods for Hyundai-type members and H Lucky Pass apartment charging stations to reduce coupling between discount rules,
-            and clarified the conditional branches and logic boundary so the in-house subscription membership could also be applied at company-operated highway charging stations as the product expanded.
+            I split Hyundai-type member and H Lucky Pass apartment-charger policies at the method level to keep discount-specific condition branches contained and clean up logic boundaries,
+            which reduced coupling between policies and let the in-house subscription membership extend to company-operated highway chargers by reducing collisions with existing branches as the product expanded.
           </li>
           <li>
-            Because messaging capabilities had become fragmented and duplicated across teams, I designed an integrated messaging platform
-            and abstracted the shared contract into an SDK distributed through GitHub Packages so services in Node.js, Python, and JVM environments could reuse the same contract instead of maintaining one-off implementations.
+            Because messaging capabilities had become fragmented into duplicated one-off implementations across teams, I designed an integrated messaging platform
+            and packaged the shared send-and-channel contract as an SDK in GitHub Packages so Node.js, Python, and JVM services could keep runtime-specific implementation boundaries separate while reusing the same contract instead of re-implementing it.
           </li>
           <li>
             The scheduler responsible for retrying unsettled and unpaid charging histories and generating charge-completion data for company-operated and roaming-out chargers had a wide change surface because business logic was tied to a Java+MyBatis structure, heavy JOIN queries, and a DB-layer-centric design.
@@ -159,15 +159,15 @@
         <ul class="experience__list" lang="ja" hidden>
           <li>
             価格・割引ルールがひとつの精算フローに蓄積し続け、変更影響範囲が広がっていた問題を抑えるため、
-            運輸会社会員向けの自社充電所固定単価・外部充電器固定割引ロジックを分離し、社内従業員向けCrewメンバーシップと自社サブスクリプションメンバーシップの割引も個別ルールとして設計。
+            運輸会社会員向けの自社充電所固定単価・外部充電器固定割引ポリシーを共通フローから分離し、社内従業員向けCrewメンバーシップと自社サブスクリプションメンバーシップの割引も個別ルールとして隔離して、ポリシー変更が他会員タイプのロジックへ波及しにくい構造に整理。
           </li>
           <li>
-            Hyundaiタイプ会員およびH Lucky Passマンション充電所のポリシーはメソッド単位で分離して割引ルール間の結合を下げ、
-            高速道路の自社充電所にも自社サブスクリプションメンバーシップを適用できるよう条件分岐とロジック境界を整理し、新規商品拡張要件を吸収。
+            Hyundaiタイプ会員およびH Lucky Passマンション充電所のポリシーはメソッド単位で分離して割引ポリシーごとの条件分岐を制御し、ロジック境界を整理して、
+            高速道路の自社充電所にも自社サブスクリプションメンバーシップを適用できるよう既存分岐との衝突点を減らす構造で新規商品拡張要件を吸収。
           </li>
           <li>
-            チャネルごとに分散していたメッセージング機能がチーム別の重複実装を生んでいたため、統合メッセージングプラットフォームを設計し、
-            共通契約をSDKとして抽象化してNode.js・Python・JVM環境で利用できるようGitHub Packagesで提供し、再利用コストを下げました。
+            チャネルごとに分散していたメッセージング機能がチーム別の都度実装として重複していたため、統合メッセージングプラットフォームを設計し、
+            メッセージ送信とチャネル処理の共通契約をSDKとして抽象化しGitHub Packagesで提供することで、Node.js・Python・JVMサービスがランタイムごとの実装境界は分けたまま同じ契約を再利用できる構造に整理しました。
           </li>
           <li>
             自社充電所およびローミングアウト充電所の未精算・未決済再処理と充電完了データ生成を担うスケジューラは、Java+MyBatis、過度なJoin、DBレイヤー中心ロジックのため変更影響範囲が広い状態でした。
@@ -240,7 +240,7 @@
             <span class="highlight">automating 60 daily manual tasks per agent down to 0–3 (95% reduction)</span>.
           </li>
           <li>
-            Developed Jira board automation and a PR notification bot so the team could share the same engineering workflow more easily, increasing delivery transparency while eliminating manual order tasks.
+            Developed Jira board automation and a PR notification bot so the team could share the same engineering workflow more easily, improving progress transparency while automating manual order tasks.
           </li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
@@ -314,15 +314,15 @@
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li>To keep credit settlement rules from scattering across features, I developed and maintained the credit API, built a ledger-based program, and designed partial/full balance transfer, fee-cancellation, and full/partial cancellation flows so money-state changes remained traceable.</li>
-          <li>Because each B2B customer followed different operating policies, I added B2B credit types, expiration-extension support, and bulk top-up capabilities through APIs and batch flows so customer-specific rules could be absorbed as product capabilities instead of ad hoc work.</li>
+          <li>Because each B2B customer followed different operating policies, I added B2B credit types, expiration-extension support, and bulk top-up capabilities through APIs and batch flows so customer-specific policy differences could be organized as product capabilities.</li>
           <li>To avoid fragmented issue-handling paths, I developed and maintained the legacy EV charger admin system while also handling complaint-processing work, which let field issues and back-office needs feed directly into Admin features and backend logic.</li>
-          <li>After the organization was acquired by SK Eleclink in 2023, I continued in the same domain and expanded my scope across credit, payment, and settlement systems from the perspective of APIs, batch processing, and settlement logic.</li>
+          <li>After the organization was acquired by SK Eleclink in 2023, I continued in the same domain, working on expansion across credit, payment, and settlement systems from the perspective of APIs, batch processing, and settlement logic.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li>クレジット精算基準が機能ごとに分散しないよう、クレジットAPIの開発・保守を担当して台帳ベースのプログラムを構築し、一部・全額残高移転、手数料賦課取消、全体・部分取消など金額状態の変化を追跡できるよう機能を設計。</li>
           <li>B2B顧客ごとの運用ポリシー差分を同じシステムの中で吸収する必要があったため、B2Bクレジット種別の追加、有効期限延長、一括チャージ機能をAPIとバッチ機能として実装し、顧客別ルールを製品機能として整理。</li>
           <li>運用イシュー対応の経路が分散しないよう、旧充電器管理システム（Admin）の機能開発・保守と問い合わせ対応をあわせて担当し、現場課題とバックオフィス要件がAdmin機能とバックエンド処理ロジックへ直接反映されるようにしました。</li>
-          <li>2023年にSK Eleclinkへ買収合併された後も同じドメインで勤務を続け、クレジット・決済・精算システムへAPI、バッチ、精算ロジックの観点で役割を拡張しました。</li>
+          <li>2023年にSK Eleclinkへ買収合併された後も同じドメインを続け、クレジット・決済・精算システムの拡張業務をAPI、バッチ、精算ロジックの観点で担当しました。</li>
         </ul>
       </article>
 
@@ -356,13 +356,13 @@
           <li>현장 검침·점검 데이터가 사후 입력으로 지연되지 않도록 미래엔서해에너지와 삼천리도시가스의 계량기·배관 업무를 PDA에서 즉시 측정·기입할 수 있는 웹앱과 입력 처리 기능을 개발 및 유지보수 수행.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Developed and maintained ERP features and data-processing logic for pipelines, materials, meters, and construction operations to standardize asset and field-work rules that varied across city gas clients such as Miraen Seohae Energy, CNCITY, and Samchully City Gas.</li>
-          <li>Built an interactive platform and message-handling flow based on KakaoTalk AlimTalk notifications to reduce long communication and response loops between operators and users.</li>
+          <li>Developed and maintained ERP features and data-processing logic for pipelines, materials, meters, and construction operations to standardize asset and construction-operation rules that varied across city gas clients such as Miraen Seohae Energy, CNCITY, and Samchully City Gas.</li>
+          <li>Built an interactive platform and message-handling flow based on KakaoTalk AlimTalk notifications to reduce long communication and response loops between client companies and users.</li>
           <li>Developed and maintained a PDA-based web app and input-processing features so meter and pipeline readings and inspections at Miraen Seohae Energy and Samchully City Gas could be recorded immediately in the field instead of being entered later.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li>都市ガス顧客ごとに異なっていた資産・工事運用基準をシステムで標準化するため、未来エン西海エネルギー、CNCITY、三千里都市ガス向けの配管・資材・計量器管理ERP機能とデータ処理ロジックの開発・保守を担当。</li>
-          <li>運営側と利用者の案内・応答が長くなる問題を減らすため、KakaoTalkのアリムトークを基盤としたインタラクティブプラットフォームとメッセージ処理フローを開発。</li>
+          <li>顧客企業と利用者の案内・応答が長くなる問題を減らすため、KakaoTalkのアリムトークを基盤としたインタラクティブプラットフォームとメッセージ処理フローを開発。</li>
           <li>現場の検針・点検データが後入力で遅れないよう、未来エン西海エネルギーと三千里都市ガス向けに、計量器・配管業務をPDAで即時入力できるウェブアプリと入力処理機能を開発・保守。</li>
         </ul>
       </article>
