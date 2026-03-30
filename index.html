@@ -881,17 +881,43 @@
         sandbox.appendChild(exportPage);
         document.body.appendChild(sandbox);
 
+        // A4: 297mm height, 10mm top+bottom margin each → 277mm content
+        // 780px DOM width maps to (210-20)mm = 190mm
+        // pageHeight in DOM px = 277 * (780 / 190) ≈ 1137px
+        var pageH = 277 * (780 / 190);
+        var sel = 'li, p, h2, .skills__row, .education, .experience__header';
+        var maxPasses = 5;
+
+        for (var pass = 0; pass < maxPasses; pass++) {
+          var changed = false;
+          var base = exportPage.getBoundingClientRect().top;
+          var els = exportPage.querySelectorAll(sel);
+
+          for (var i = 0; i < els.length; i++) {
+            var el = els[i];
+            if (el.hidden || el.offsetHeight === 0) continue;
+
+            var r = el.getBoundingClientRect();
+            var top = r.top - base;
+            var bot = r.bottom - base;
+            var pagBot = (Math.floor(top / pageH) + 1) * pageH;
+
+            if (top < pagBot && bot > pagBot) {
+              var shift = pagBot - top + 2;
+              el.style.marginTop = (parseFloat(getComputedStyle(el).marginTop) || 0) + shift + 'px';
+              changed = true;
+            }
+          }
+          if (!changed) break;
+        }
+
         html2pdf()
           .set({
             filename: 'hyunwoo-kim-resume.pdf',
             margin: [10, 10, 10, 10],
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            pagebreak: {
-              mode: ['css', 'legacy'],
-              avoid: ['li', '.profile__text', '.psc__label', '.experience__header', '.experience__team', '.education', '.skills__row']
-            }
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
           })
           .from(exportPage)
           .save()
