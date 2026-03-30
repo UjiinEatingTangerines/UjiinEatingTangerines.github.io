@@ -547,7 +547,7 @@
           </li>
           <li>
             채널별로 흩어져 있던 메시징 기능이 팀마다 일회성 구현으로 중복되던 문제를 줄이기 위해 통합 메시징 플랫폼을 설계하고,
-            메시지 발송과 채널 처리 규약을 공통 계약 SDK로 추상화해 GitHub Packages로 배포함으로써 Python·JVM 등 다양한 런타임 서비스가 구현 경계는 분리하되 같은 계약을 재사용하도록 구조를 정리.
+            메시지 발송과 채널 처리 규약을 공통 계약 SDK로 추상화해 GitHub Packages로 배포함으로써 Node.js·Python·JVM 서비스가 런타임별 구현 경계는 분리하되 같은 계약을 재사용하도록 구조를 정리.
           </li>
           <li>
             자사 충전소 및 로밍 아웃 충전소의 미정산·미결제 재처리와 충전 완료 데이터 생성을 담당하는 스케줄러는 Java+MyBatis, 과도한 Join, DB 레이어 중심 로직 때문에 변경 영향 범위가 넓었습니다.
@@ -565,7 +565,7 @@
           </li>
           <li>
             Because messaging capabilities had become fragmented into duplicated one-off implementations across teams, I designed an integrated messaging platform
-            and packaged the shared send-and-channel contract as an SDK in GitHub Packages so Python, JVM, and other runtime services could keep runtime-specific implementation boundaries separate while reusing the same contract instead of re-implementing it.
+            and packaged the shared send-and-channel contract as an SDK in GitHub Packages so Node.js, Python, and JVM services could keep runtime-specific implementation boundaries separate while reusing the same contract instead of re-implementing it.
           </li>
           <li>
             The scheduler responsible for retrying unsettled and unpaid charging histories and generating charge-completion data for company-operated and roaming-out chargers had a wide change surface because business logic was tied to a Java+MyBatis structure, heavy JOIN queries, and a DB-layer-centric design.
@@ -583,7 +583,7 @@
           </li>
           <li>
             チャネルごとに分散していたメッセージング機能がチーム別の都度実装として重複していたため、統合メッセージングプラットフォームを設計し、
-            メッセージ送信とチャネル処理の共通契約をSDKとして抽象化しGitHub Packagesで提供することで、Python・JVM等の各ランタイムサービスが実装境界は分けたまま同じ契約を再利用できる構造に整理しました。
+            メッセージ送信とチャネル処理の共通契約をSDKとして抽象化しGitHub Packagesで提供することで、Node.js・Python・JVMサービスがランタイムごとの実装境界は分けたまま同じ契約を再利用できる構造に整理しました。
           </li>
           <li>
             自社充電所およびローミングアウト充電所の未精算・未決済再処理と充電完了データ生成を担うスケジューラは、Java+MyBatis、過度なJoin、DBレイヤー中心ロジックのため変更影響範囲が広い状態でした。
