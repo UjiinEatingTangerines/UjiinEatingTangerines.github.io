@@ -9,7 +9,8 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
 <body>
   <main class="page">
@@ -855,18 +856,13 @@
         });
       });
 
-      window.downloadPdf = function () {
+      window.downloadPdf = async function () {
         var sourcePage = document.querySelector('.page');
-        if (!sourcePage || typeof html2pdf === 'undefined') {
-          return;
-        }
+        if (!sourcePage) return;
 
         var exportPage = sourcePage.cloneNode(true);
         var toolbar = exportPage.querySelector('.toolbar');
-
-        if (toolbar) {
-          toolbar.remove();
-        }
+        if (toolbar) toolbar.remove();
 
         exportPage.style.margin = '0';
         exportPage.style.boxShadow = 'none';
@@ -881,49 +877,85 @@
         sandbox.appendChild(exportPage);
         document.body.appendChild(sandbox);
 
-        // A4: 297mm height, 10mm top+bottom margin each → 277mm content
-        // 780px DOM width maps to (210-20)mm = 190mm
-        // pageHeight in DOM px = 277 * (780 / 190) ≈ 1137px
-        var pageH = 277 * (780 / 190);
-        var sel = 'li, p, h2, .skills__row, .education, .experience__header';
-        var maxPasses = 5;
+        try {
+          var SCALE = 2;
+          var MARGIN = 10; // mm
+          var PDF_W = 210 - MARGIN * 2; // 190mm
+          var PDF_H = 297 - MARGIN * 2; // 277mm
+          var DOM_W = 780;
 
-        for (var pass = 0; pass < maxPasses; pass++) {
-          var changed = false;
-          var base = exportPage.getBoundingClientRect().top;
-          var els = exportPage.querySelectorAll(sel);
-
-          for (var i = 0; i < els.length; i++) {
-            var el = els[i];
-            if (el.hidden || el.offsetHeight === 0) continue;
-
-            var r = el.getBoundingClientRect();
-            var top = r.top - base;
-            var bot = r.bottom - base;
-            var pagBot = (Math.floor(top / pageH) + 1) * pageH;
-
-            if (top < pagBot && bot > pagBot) {
-              var shift = pagBot - top + 2;
-              el.style.marginTop = (parseFloat(getComputedStyle(el).marginTop) || 0) + shift + 'px';
-              changed = true;
-            }
-          }
-          if (!changed) break;
-        }
-
-        html2pdf()
-          .set({
-            filename: 'hyunwoo-kim-resume.pdf',
-            margin: [10, 10, 10, 10],
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-          })
-          .from(exportPage)
-          .save()
-          .finally(function () {
-            sandbox.remove();
+          var canvas = await html2canvas(exportPage, {
+            scale: SCALE,
+            useCORS: true,
+            scrollY: 0,
+            backgroundColor: '#ffffff'
           });
+
+          // page height in canvas pixels
+          var pageHCanvas = (PDF_H / PDF_W) * canvas.width;
+
+          // collect safe split points (element bottom edges in canvas px)
+          var base = exportPage.getBoundingClientRect().top;
+          var items = exportPage.querySelectorAll(
+            'li, p, h2, ul, .skills__row, .education, .experience__header, .psc__label, .experience__team, article'
+          );
+          var splits = [];
+          for (var i = 0; i < items.length; i++) {
+            var el = items[i];
+            if (el.hidden || el.offsetHeight === 0) continue;
+            var bottom = (el.getBoundingClientRect().bottom - base) * SCALE;
+            if (bottom > 0 && bottom < canvas.height) splits.push(Math.round(bottom));
+          }
+          splits = Array.from(new Set(splits)).sort(function (a, b) { return a - b; });
+
+          // row-aware page splitting
+          var jsPDF = window.jspdf.jsPDF;
+          var pdf = new jsPDF('portrait', 'mm', 'a4');
+          var y = 0;
+          var first = true;
+
+          while (y < canvas.height - 1) {
+            var ideal = y + pageHCanvas;
+            var cutY;
+
+            if (ideal >= canvas.height) {
+              cutY = canvas.height;
+            } else {
+              // find largest split point <= ideal
+              cutY = y;
+              for (var j = 0; j < splits.length; j++) {
+                if (splits[j] > y && splits[j] <= ideal) cutY = splits[j];
+                if (splits[j] > ideal) break;
+              }
+              if (cutY <= y) cutY = Math.min(ideal, canvas.height);
+            }
+
+            var sliceH = Math.ceil(cutY - y);
+            if (sliceH <= 0) break;
+
+            // slice canvas
+            var slice = document.createElement('canvas');
+            slice.width = canvas.width;
+            slice.height = sliceH;
+            var ctx = slice.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, slice.width, sliceH);
+            ctx.drawImage(canvas, 0, y, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
+
+            if (!first) pdf.addPage();
+            first = false;
+
+            var imgW = PDF_W;
+            var imgH = (sliceH / canvas.width) * PDF_W;
+            pdf.addImage(slice.toDataURL('image/jpeg', 0.95), 'JPEG', MARGIN, MARGIN, imgW, imgH);
+
+            y = cutY;
+          }
+
+          pdf.save('hyunwoo-kim-resume.pdf');
+        } finally {
+          sandbox.remove();
+        }
       };
     })();
   </script>
