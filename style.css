@@ -88,8 +88,6 @@ body {
 /* Header */
 .header {
   margin-bottom: 40px;
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--color-border);
 }
 
 .header__name {
