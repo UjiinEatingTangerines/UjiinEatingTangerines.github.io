@@ -407,6 +407,28 @@ body {
   }
 }
 
+/* PDF Export (html2pdf) */
+.pdf-export .header__links {
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pdf-export .header__links a {
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  font-size: 0.82rem;
+}
+
+.pdf-export .header__links a::after {
+  content: ' — ' attr(href);
+  font-weight: 400;
+  color: var(--color-text-muted);
+  opacity: 1;
+  transform: none;
+  font-size: 0.78rem;
+}
+
 /* Print */
 @media print {
   @page {
@@ -494,8 +516,25 @@ body {
     margin-bottom: 10px;
   }
 
+  .header__links {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .header__links a {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    font-size: 0.82rem;
+  }
+
   .header__links a::after {
-    content: none;
+    content: ' — ' attr(href);
+    font-weight: 400;
+    color: var(--color-text-muted);
+    opacity: 1;
+    transform: none;
+    font-size: 0.78rem;
   }
 
   a {
