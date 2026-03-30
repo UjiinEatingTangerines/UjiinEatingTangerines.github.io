@@ -369,7 +369,7 @@
     </section>
 
     <!-- Selected Problem Solving Cases -->
-    <section class="section">
+    <section class="section psc">
       <h2 class="section__title">Selected Problem Solving Cases</h2>
 
       <article class="experience">
@@ -379,9 +379,15 @@
             <span lang="en" hidden>Credit & Mileage API Design and Development</span>
             <span lang="ja" hidden>クレジット・マイレージAPI設計・開発</span>
           </span>
-          <span class="experience__period">Spring Boot, JPA, QueryDSL, GitHub Packages, Nexus</span>
+          <div class="psc__tags">
+            <span class="psc__tag">Spring Boot</span>
+            <span class="psc__tag">JPA</span>
+            <span class="psc__tag">QueryDSL</span>
+            <span class="psc__tag">GitHub Packages</span>
+            <span class="psc__tag">Nexus</span>
+          </div>
         </div>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">문제</span>
           <span lang="en" hidden>Problem</span>
           <span lang="ja" hidden>課題</span>
@@ -395,7 +401,7 @@
         <p class="profile__text" lang="ja" hidden>
           クレジットの付与・使用・差引処理で同時リクエストにより残高整合性が崩れるケースが散発的に発生。さらに内部サービスごとにクレジット連携方式がバラバラで、新規サービス統合のたびに2週間以上の連携開発が必要だった。
         </p>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">해결 과정</span>
           <span lang="en" hidden>Solution</span>
           <span lang="ja" hidden>解決プロセス</span>
@@ -415,7 +421,7 @@
           <li><strong>QueryDSLベースの動的クエリで履歴照会性能を確保。</strong> 期間・種別・状態など複合条件照会が頻繁で、MyBatis動的SQLは条件組み合わせ増加時にXMLの保守が困難になりQueryDSLへ移行。カバリングインデックスと組み合わせ履歴照会p95応答速度を改善。</li>
           <li><strong>SDKパッケージングで連携コストを除去。</strong> API境界を明確に定義しクライアントSDKをGitHub Packages/Nexusで配布。サービスごとの直接HTTP連携をSDK依存追加に置き換え。</li>
         </ul>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">결과</span>
           <span lang="en" hidden>Results</span>
           <span lang="ja" hidden>成果</span>
@@ -444,9 +450,15 @@
             <span lang="en" hidden>Settlement & Payment Batch System</span>
             <span lang="ja" hidden>精算・決済バッチシステム構築</span>
           </span>
-          <span class="experience__period">Spring Boot, Spring Batch, MyBatis, AWS SQS, EventBridge</span>
+          <div class="psc__tags">
+            <span class="psc__tag">Spring Boot</span>
+            <span class="psc__tag">Spring Batch</span>
+            <span class="psc__tag">MyBatis</span>
+            <span class="psc__tag">AWS SQS</span>
+            <span class="psc__tag">EventBridge</span>
+          </div>
         </div>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">문제</span>
           <span lang="en" hidden>Problem</span>
           <span lang="ja" hidden>課題</span>
@@ -460,7 +472,7 @@
         <p class="profile__text" lang="ja" hidden>
           日次精算集計を単一クエリで処理していた構造で、決済トランザクション増加に伴いバッチ実行時間が線形増加し夜間バッチウィンドウを超過し始めた。精算エラー発生時は手動再処理で翌営業日まで遅延する運用リスクが存在。
         </p>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">해결 과정</span>
           <span lang="en" hidden>Solution</span>
           <span lang="ja" hidden>解決プロセス</span>
@@ -480,7 +492,7 @@
           <li><strong>SQS＋EventBridgeで非同期イベントベースの精算トリガーを構築。</strong> 決済完了イベントをSQSで受信し、EventBridgeスケジュールで日次・月次精算Jobをトリガー。手動cron管理を排除し、失敗時はSQS DLQから自動再投入。</li>
           <li><strong>対査（reconciliation）ロジックを別Stepとして分離。</strong> 精算集計と対査を1つのJob内の別Stepとして構成し、対査失敗時に集計をロールバックせず対査Stepのみ再実行可能に設計。</li>
         </ul>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">결과</span>
           <span lang="en" hidden>Results</span>
           <span lang="ja" hidden>成果</span>
@@ -509,7 +521,15 @@
             <span lang="en" hidden>Unified Messaging Platform (Project Lead)</span>
             <span lang="ja" hidden>統合メッセージングプラットフォーム構築（プロジェクトリード）</span>
           </span>
-          <span class="experience__period">Kotlin, Spring Boot, JPA, gRPC, Protobuf, MQTT(EMQX), GitHub Packages</span>
+          <div class="psc__tags">
+            <span class="psc__tag">Kotlin</span>
+            <span class="psc__tag">Spring Boot</span>
+            <span class="psc__tag">JPA</span>
+            <span class="psc__tag">gRPC</span>
+            <span class="psc__tag">Protobuf</span>
+            <span class="psc__tag">MQTT(EMQX)</span>
+            <span class="psc__tag">GitHub Packages</span>
+          </div>
         </div>
         <p class="profile__text" lang="ko">
           SMS, LMS, 앱 푸시, 이메일, 알림톡 등 13개 이상의 서비스에서 각자 벤더 API를 직접 호출하는 구조로 운영. 채널 추가·벤더 변경 시 전 서비스 수정이 필요하고, 발송량 제어가 불가능하여 비용 초과 및 장애 전파 리스크 상존.
@@ -520,7 +540,7 @@
         <p class="profile__text" lang="ja" hidden>
           SMS、LMS、アプリプッシュ、メール、アリムトークなど13以上のサービスがそれぞれベンダーAPIを直接呼び出す構造で運用。チャネル追加・ベンダー変更時に全サービスの修正が必要で、送信量制御が不可能なためコスト超過と障害伝播リスクが常在。
         </p>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">문제</span>
           <span lang="en" hidden>Problem</span>
           <span lang="ja" hidden>課題</span>
@@ -534,7 +554,7 @@
         <p class="profile__text" lang="ja" hidden>
           断片化されたメッセージング構造そのものが問題。個別サービスがベンダーを直接呼び出す限りチャネル統制と障害隔離は不可能。
         </p>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">해결 과정</span>
           <span lang="en" hidden>Solution</span>
           <span lang="ja" hidden>解決プロセス</span>
@@ -557,7 +577,7 @@
           <li><strong>MQTTブローカー（EMQX）をディスパッチレイヤーとして導入、Kinesisと役割分離。</strong> 既存Kinesisはデータ・ログパイプラインとして維持し、メッセージ発送ディスパッチはEMQX（ECS）へ分離。Kinesisにディスパッチを載せるとログパイプラインと発送トラフィックが結合し障害伝播リスク。MQTTのトピックベースルーティングがチャネル別発送分岐に適合。</li>
           <li><strong>gRPC/ProtobufベースのSDKをGitHub Packagesで配布。</strong> REST比でペイロードサイズとシリアライズコストを削減。サービス側はSDK依存追加のみでメッセージング連携完了。</li>
         </ul>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">결과</span>
           <span lang="en" hidden>Results</span>
           <span lang="ja" hidden>成果</span>
@@ -586,9 +606,14 @@
             <span lang="en" hidden>Air-Gapped Migration & API Optimization for E-Finance Registration</span>
             <span lang="ja" hidden>電子金融業資格取得のための閉域網移行およびAPI最適化</span>
           </span>
-          <span class="experience__period">Spring Boot, JPA, QueryDSL, MyBatis</span>
+          <div class="psc__tags">
+            <span class="psc__tag">Spring Boot</span>
+            <span class="psc__tag">JPA</span>
+            <span class="psc__tag">QueryDSL</span>
+            <span class="psc__tag">MyBatis</span>
+          </div>
         </div>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">문제</span>
           <span lang="en" hidden>Problem</span>
           <span lang="ja" hidden>課題</span>
@@ -602,7 +627,7 @@
         <p class="profile__text" lang="ja" hidden>
           電子金融業登録要件によりクレジット・マイレージシステムを閉域網（ネットワーク分離）へ移行する必要があったが、レガシーAPIにN+1クエリと非効率インデックスが多数存在し、移行後の制限されたインフラ資源ではSLO達成が不可能な状態だった。
         </p>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">해결 과정</span>
           <span lang="en" hidden>Solution</span>
           <span lang="ja" hidden>解決プロセス</span>
@@ -622,7 +647,7 @@
           <li><strong>QueryDSLベースの動的クエリリファクタリングおよびインデックス再設計。</strong> MyBatis XMLで管理されていた複合条件クエリをQueryDSLへ移行しながら、実行計画分析に基づき複合インデックスを再構成。</li>
           <li><strong>無停止DBマイグレーション戦略の設計・実行。</strong> データ整合性検証スクリプトを事前作成し、段階的トラフィックスイッチング（読み取り転換→書き込み転換）でダウンタイムゼロで移行完了。ロールバックシナリオ別手順書を事前策定。</li>
         </ul>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">결과</span>
           <span lang="en" hidden>Results</span>
           <span lang="ja" hidden>成果</span>
@@ -654,9 +679,14 @@
             <span lang="en" hidden>KFTC Reporting — Credit Expiration & Windfall Revenue Recognition</span>
             <span lang="ja" hidden>金決院報告対応 — クレジット満了処理および雑収入認識改善</span>
           </span>
-          <span class="experience__period">Spring Boot, Spring Batch, JPA, EventBridge</span>
+          <div class="psc__tags">
+            <span class="psc__tag">Spring Boot</span>
+            <span class="psc__tag">Spring Batch</span>
+            <span class="psc__tag">JPA</span>
+            <span class="psc__tag">EventBridge</span>
+          </div>
         </div>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">문제</span>
           <span lang="en" hidden>Problem</span>
           <span lang="ja" hidden>課題</span>
@@ -670,7 +700,7 @@
         <p class="profile__text" lang="ja" hidden>
           クレジット満了処理が体系化されておらず、満了対象クレジットが残高にそのまま残っている状態。金決院報告時の雑収入認識タイミングが不明確で財務報告の正確性にリスクが発生。
         </p>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">해결 과정</span>
           <span lang="en" hidden>Solution</span>
           <span lang="ja" hidden>解決プロセス</span>
@@ -690,7 +720,7 @@
           <li><strong>満了→雑収入勘定への振替ロジックを会計基準と整合。</strong> 満了処理時点での雑収入勘定への振替が会計認識基準と一致するようビジネスロジックを設計。財務チームと認識時点の基準を事前合意し報告時の解釈差異を排除。</li>
           <li><strong>EventBridgeスケジューリング＋監査ログで追跡体系を確保。</strong> バッチ実行周期をEventBridgeで管理し、満了処理の件別監査（audit）ログを記録して金決院報告時に件別追跡可能なデータ体系を構築。</li>
         </ul>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">결과</span>
           <span lang="en" hidden>Results</span>
           <span lang="ja" hidden>成果</span>
@@ -719,7 +749,12 @@
             <span lang="en" hidden>JIRA Ticket Reduction for Engineering Focus</span>
             <span lang="ja" hidden>JIRAチケット定量削減によるエンジニア集中度向上</span>
           </span>
-          <span class="experience__period">Spring Boot, Spring Batch, AWS SQS, EventBridge</span>
+          <div class="psc__tags">
+            <span class="psc__tag">Spring Boot</span>
+            <span class="psc__tag">Spring Batch</span>
+            <span class="psc__tag">AWS SQS</span>
+            <span class="psc__tag">EventBridge</span>
+          </div>
         </div>
         <p class="profile__text" lang="ko">
           개발팀의 JIRA 티켓을 유형별로 분석한 결과, 전체 티켓의 상당수가 데이터 보정, 수기 발송, 설정 변경 등 반복 운영성 요청. 엔지니어가 핵심 개발이 아닌 운영 대응에 시간을 소모하는 구조가 문제.
@@ -730,7 +765,7 @@
         <p class="profile__text" lang="ja" hidden>
           開発チームのJIRAチケットを類型別に分析した結果、全体の相当数がデータ補正、手動発送、設定変更など反復的な運用要請。エンジニアが核心的な開発ではなく運用対応に時間を消耗する構造が問題だった。
         </p>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">문제</span>
           <span lang="en" hidden>Problem</span>
           <span lang="ja" hidden>課題</span>
@@ -744,7 +779,7 @@
         <p class="profile__text" lang="ja" hidden>
           チケット数自体が多いのではなく、<strong>自動化されていない手作業がチケットとして流入する構造</strong>が問題。
         </p>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">해결 과정</span>
           <span lang="en" hidden>Solution</span>
           <span lang="ja" hidden>解決プロセス</span>
@@ -764,7 +799,7 @@
           <li><strong>手動リクエストをバッチ自動化またはセルフサービスAdminへ転換。</strong> データ補正リクエストはSpring Batch Jobへ、設定変更リクエストはAdmin UIセルフサービスへ転換。SQSイベントベーストリガーでリクエスト受付→自動処理パイプラインを構築。</li>
           <li><strong>EventBridgeスケジュールバッチで定期運用作業を自動化。</strong> 定期的に発生する運用作業（レポート生成、ステータス同期等）をスケジュールバッチへ転換しチケット発生自体を除去。</li>
         </ul>
-        <p class="experience__team">
+        <p class="psc__label">
           <span lang="ko">결과</span>
           <span lang="en" hidden>Results</span>
           <span lang="ja" hidden>成果</span>
