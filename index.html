@@ -85,6 +85,289 @@
       </div>
     </section>
 
+    <!-- Professional Experience -->
+    <section class="section">
+      <h2 class="section__title">Professional Experience</h2>
+
+      <!-- SK Eleclink -->
+      <article class="experience">
+        <div class="experience__header">
+          <span class="experience__company">
+            <span lang="ko">SK일렉링크</span>
+            <span lang="en" hidden>SK Eleclink</span>
+            <span lang="ja" hidden>SK Eleclink</span>
+          </span>
+          <span class="experience__period">
+            <span lang="ko">2023.01 — 현재</span>
+            <span lang="en" hidden>Jan 2023 — Present</span>
+            <span lang="ja" hidden>2023年1月 — 現在</span>
+          </span>
+        </div>
+        <p class="experience__company-desc">
+          <span lang="ko">전기차 충전 인프라를 기반으로 충전 슈퍼앱, 차량 진단 O2O, 데이터 기반 핀테크 등 대용량 트래픽을 처리하는 모빌리티 생태계를 구축하는 그린 모빌리티 플랫폼 기업.</span>
+          <span lang="en" hidden>Green mobility platform company building a mobility ecosystem on EV charging infrastructure, including a charging super app, O2O vehicle diagnostics, and data-driven fintech services designed for high-traffic workloads.</span>
+          <span lang="ja" hidden>EV充電インフラを基盤に、充電スーパーアプリ、車両診断O2O、データ基盤フィンテックなど、大容量トラフィックを処理するモビリティエコシステムを構築するグリーンモビリティプラットフォーム企業。</span>
+        </p>
+        <p class="experience__role">
+          <span lang="ko">Back-end Engineer · 서울 송파구</span>
+          <span lang="en" hidden>Back-end Engineer · Songpa-gu, Seoul</span>
+          <span lang="ja" hidden>Back-end Engineer · ソウル市 松坡区</span>
+        </p>
+
+        <!-- Platform Cell -->
+        <p class="experience__team">
+          <span lang="ko">테크팀 — 플랫폼 셀 (2026.03 — 현재)</span>
+          <span lang="en" hidden>Tech Team — Platform Cell (Mar 2026 — Present)</span>
+          <span lang="ja" hidden>テックチーム — プラットフォームセル（2026年3月 — 現在）</span>
+        </p>
+        <ul class="experience__list" lang="ko">
+          <li>
+            회원 유형별 가격·할인 규칙이 하나의 정산 흐름에 계속 누적되며 변경 영향 범위가 커지던 문제를 줄이기 위해,
+            운수사 회원의 자사 충전소 고정 단가·외부 충전기 고정 할인 정책을 공용 흐름에서 분리하고 내부 직원 전용 크루 멤버십과 자사 구독 멤버십 할인도 각각 독립 규칙으로 격리해 정책 변경이 다른 회원 유형 로직으로 번지는 결합을 낮춤.
+          </li>
+          <li>
+            현대 타입 회원 및 H 럭키패스 아파트 충전소 정책은 메서드 단위로 분리해 할인 정책별 조건 분기를 통제하고 로직 경계를 정리했으며,
+            고속도로 자사 충전소에도 자사 구독 멤버십이 적용되도록 기존 분기와의 충돌 지점을 줄이는 구조로 신규 상품 확장 요구를 수용.
+          </li>
+          <li>
+            채널별로 흩어져 있던 메시징 기능이 팀마다 일회성 구현으로 중복되던 문제를 줄이기 위해 통합 메시징 플랫폼을 설계하고,
+            메시지 발송과 채널 처리 규약을 공통 계약 SDK로 추상화해 GitHub Packages로 배포함으로써 Node.js·Python·JVM 서비스가 런타임별 구현 경계는 분리하되 같은 계약을 재사용하도록 구조를 정리.
+          </li>
+          <li>
+            자사 충전소 및 로밍 아웃 충전소의 미정산·미결제 재처리와 충전 완료 데이터 생성을 담당하는 스케줄러는 Java+MyBatis, 과도한 Join, DB 레이어 중심 로직 때문에 변경 영향 범위가 넓었습니다.
+            이를 Kotlin+JPA/QueryDSL 구조로 전환하면서 직접 관리 테이블만 서비스가 다루고 외부 테이블 의존은 API 호출로 분리했으며, 비즈니스 로직을 서비스 레이어로 이동시켜 <span class="highlight">이벤트 드리븐 아키텍처</span>로 재설계해 향후 정산 정책 변경과 장애 대응 범위를 줄였습니다.
+          </li>
+        </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>
+            As member-type-specific pricing and discount rules kept piling into a single settlement flow and widening the change surface, I isolated pricing and discount policies by member type,
+            separating transport-operator pricing at company-operated chargers, fixed discounts at external chargers, and the Crew and in-house subscription discounts into dedicated rules so policy changes were less coupled to other member-type logic.
+          </li>
+          <li>
+            I split Hyundai-type member and H Lucky Pass apartment-charger policies at the method level to keep discount-specific condition branches contained and clean up logic boundaries,
+            which reduced coupling between policies and let the in-house subscription membership extend to company-operated highway chargers by reducing collisions with existing branches as the product expanded.
+          </li>
+          <li>
+            Because messaging capabilities had become fragmented into duplicated one-off implementations across teams, I designed an integrated messaging platform
+            and packaged the shared send-and-channel contract as an SDK in GitHub Packages so Node.js, Python, and JVM services could keep runtime-specific implementation boundaries separate while reusing the same contract instead of re-implementing it.
+          </li>
+          <li>
+            The scheduler responsible for retrying unsettled and unpaid charging histories and generating charge-completion data for company-operated and roaming-out chargers had a wide change surface because business logic was tied to a Java+MyBatis structure, heavy JOIN queries, and a DB-layer-centric design.
+            I migrated it to Kotlin+JPA/QueryDSL, limited direct access to project-owned management tables, moved external-table dependencies behind APIs, and lifted business logic into the service layer as part of an <span class="highlight">event-driven architecture</span> redesign to reduce future policy-change and incident-response cost.
+          </li>
+        </ul>
+        <ul class="experience__list" lang="ja" hidden>
+          <li>
+            価格・割引ルールがひとつの精算フローに蓄積し続け、変更影響範囲が広がっていた問題を抑えるため、
+            運輸会社会員向けの自社充電所固定単価・外部充電器固定割引ポリシーを共通フローから分離し、社内従業員向けCrewメンバーシップと自社サブスクリプションメンバーシップの割引も個別ルールとして隔離して、ポリシー変更が他会員タイプのロジックへ波及しにくい構造に整理。
+          </li>
+          <li>
+            Hyundaiタイプ会員およびH Lucky Passマンション充電所のポリシーはメソッド単位で分離して割引ポリシーごとの条件分岐を制御し、ロジック境界を整理して、
+            高速道路の自社充電所にも自社サブスクリプションメンバーシップを適用できるよう既存分岐との衝突点を減らす構造で新規商品拡張要件を吸収。
+          </li>
+          <li>
+            チャネルごとに分散していたメッセージング機能がチーム別の都度実装として重複していたため、統合メッセージングプラットフォームを設計し、
+            メッセージ送信とチャネル処理の共通契約をSDKとして抽象化しGitHub Packagesで提供することで、Node.js・Python・JVMサービスがランタイムごとの実装境界は分けたまま同じ契約を再利用できる構造に整理しました。
+          </li>
+          <li>
+            自社充電所およびローミングアウト充電所の未精算・未決済再処理と充電完了データ生成を担うスケジューラは、Java+MyBatis、過度なJoin、DBレイヤー中心ロジックのため変更影響範囲が広い状態でした。
+            これをKotlin+JPA/QueryDSL構造へ移行し、直接管理するテーブルだけをサービスが扱い、外部テーブル依存はAPI呼び出しへ分離し、ビジネスロジックをサービスレイヤーへ移して<span class="highlight">イベントドリブンアーキテクチャ</span>へ再設計することで、今後の精算ポリシー変更と障害対応コストを下げました。
+          </li>
+        </ul>
+
+        <!-- Platform Dev Team -->
+        <p class="experience__team">
+          <span lang="ko">플랫폼 개발팀 (2023.01 — 2026.02)</span>
+          <span lang="en" hidden>Platform Dev Team (Jan 2023 — Feb 2026)</span>
+          <span lang="ja" hidden>プラットフォーム開発チーム（2023年1月 — 2026年2月）</span>
+        </p>
+        <ul class="experience__list" lang="ko">
+          <li>
+            크레딧 API와 마일리지 API의 <span class="highlight">폐쇄망 환경</span> 이전은 단순 인프라 이동이 아니라 새 DB·멤버십 체계에 맞는 기준 재정의가 필요한 작업이어서,
+            두 API의 기준을 카드번호 중심에서 멤버 아이디 중심으로 전환하며 전체 아키텍처를 재설계.
+            종속성은 Nexus로 이관하고, Admin 및 앱 백엔드가 DB 직접 접근 대신 두 API 호출 기반 CRUD로 처리하도록 바꿔 이후 구조 변경을 서비스 경계 안에서 흡수할 수 있게 함.
+          </li>
+          <li>
+            매일 00시 만료 처리는 재무 기준과 대량 처리 안정성이 함께 필요한 문제였기 때문에, 크레딧 API에 AWS SQS와 EventBridge Scheduler를 활용한 배치 처리 기능을 추가하고,
+            시스템 만료 시각·실제 만료 시각·만료 상태를 분리한 비동기 만료 로직을 설계.
+            내부적으로 멀티스레드 처리 구조를 적용해 대량 만료 대상도 안정적으로 처리할 수 있도록 개선.
+          </li>
+          <li>
+            B2B 크레딧 중 제네시스 제휴 대상은 할인 적용 단가가 달라 기존 정산 규칙에 그대로 넣으면 정책 충돌이 발생할 수 있어,
+            별도 유형으로 분리하고 해당 대상 전용 크레딧 충전·차감·조회 API를 구현.
+          </li>
+          <li>
+            장시간 동기 처리로 운영자가 대기해야 하던 크레딧 일괄 충전은 Spring Batch 기반 비동기 배치로 재구현해 작업 흐름을 분리했고,
+            기존 1시간 소요되던 작업을 <span class="highlight">20분으로 단축(66% 개선)</span>.
+          </li>
+          <li>
+            금융 도메인에서 정합성 리스크를 키우던 SQL Injection 위험의 String 기반 쿼리와 Double Writing 로직을 제거해,
+            쿼리 방식과 저장 흐름을 바로잡아 데이터 일관성과 시스템 안정성, 성능을 함께 개선.
+          </li>
+          <li>
+            JIRA 민원 티켓 처리를 Admin 기능으로 내재화해 팀의 반복 수작업과 외부 도구 의존을 줄였고,
+            담당자별 일 60건의 수동 처리를 <span class="highlight">0~3건으로 자동화(95% 감소)</span>.
+          </li>
+          <li>
+            Jira 보드 자동화 기능과 PR 알림 봇을 직접 개발해 팀이 같은 개발 흐름을 쉽게 공유하도록 만들고, 진행 상황의 투명성을 높이면서
+            수동 주문 업무를 자동화.
+          </li>
+        </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>
+            Moving the credit API and mileage API into an <span class="highlight">air-gapped environment</span> was not only an infrastructure migration; it required redefining the core standard for a new database and membership model,
+            so I redesigned both services from card-number-based processing to member-id-based processing.
+            I moved dependencies into Nexus and changed the structure so services such as Admin and the app backend performed API-based CRUD operations instead of direct database access, keeping later changes inside clear service boundaries.
+          </li>
+          <li>
+            The daily midnight expiration flow had to satisfy both financial recognition requirements and large-volume processing stability, so I added a batch to the credit API using AWS SQS and EventBridge Scheduler
+            and designed the async expiration flow around separate system expiration timestamps, actual expiration timestamps, and expiration statuses.
+            I also applied an internal multithreaded processing model so large expiration workloads could be handled reliably.
+          </li>
+          <li>
+            Genesis partnership credits used a different discounted unit price inside the B2B credit model, and folding them into existing settlement rules would have created policy conflicts,
+            so I separated them as a dedicated type and implemented credit charge, deduction, and inquiry APIs for that target group.
+          </li>
+          <li>
+            I re-implemented the bulk credit top-up flow as an async Spring Batch job to break apart long-running synchronous work that operators had to wait on,
+            <span class="highlight">reducing processing time from 1 hour to 20 minutes (66% improvement)</span>.
+          </li>
+          <li>
+            Removed string-based queries vulnerable to SQL Injection and cleaned up Double Writing logic that was undermining data consistency, correcting both query and persistence flows to improve integrity, stability, and performance in a financial domain.
+          </li>
+          <li>
+            Built JIRA ticket handling into the Admin system to reduce repetitive manual work and reliance on external tools,
+            <span class="highlight">automating 60 daily manual tasks per agent down to 0–3 (95% reduction)</span>.
+          </li>
+          <li>
+            Developed Jira board automation and a PR notification bot so the team could share the same engineering workflow more easily, improving progress transparency while automating manual order tasks.
+          </li>
+        </ul>
+        <ul class="experience__list" lang="ja" hidden>
+          <li>
+            クレジットAPIとマイレージAPIの<span class="highlight">クローズドネットワーク環境</span>への移行は、単なるインフラ移動ではなく、新しいDB・メンバーシップ体系に合わせて基準を定義し直す必要がある作業でした。
+            そのため、2つのAPIの基準をカード番号中心からメンバーID中心へ切り替えながら全体アーキテクチャを再設計。
+            依存関係をNexusへ移管し、AdminおよびアプリバックエンドがDBへ直接依存せずAPI呼び出しベースでCRUDを行う構造に変えることで、その後の変更を明確なサービス境界の中で吸収できるようにしました。
+          </li>
+          <li>
+            毎日0時の満了処理は、財務上の認識要件と大量処理の安定性を同時に満たす必要があったため、クレジットAPIにAWS SQSとEventBridge Schedulerを活用したバッチ処理を追加し、
+            システム満了時刻・実際満了時刻・満了ステータスを分離した非同期満了ロジックを設計。
+            内部的にマルチスレッド処理構造を適用し、大量の満了対象も安定的に処理できるよう改善。
+          </li>
+          <li>
+            B2Bクレジットの中でもGenesis提携対象は割引適用単価が異なり、既存の精算ルールへそのまま組み込むとポリシー競合が起きるため、
+            別タイプとして分離し、当該対象向け専用クレジットのチャージ・差引・照会APIを実装。
+          </li>
+          <li>
+            長時間の同期処理で運用担当者が待たされていたクレジット一括チャージを、Spring Batchベースの非同期バッチへ再実装して処理フローを分離し、
+            従来1時間かかっていた処理を<span class="highlight">20分に短縮（66%改善）</span>。
+          </li>
+          <li>
+            金融ドメインでの整合性リスクを高めていたSQLインジェクションの恐れがあるString型クエリとDouble Writingロジックを除去し、
+            クエリ方式と保存フローを是正し、データ整合性、システム安定性、パフォーマンスを同時に改善。
+          </li>
+          <li>
+            JIRAの問い合わせチケット処理をAdmin機能に内製化して、チームの繰り返し手作業と外部ツール依存を減らし、
+            担当者あたり1日60件の手動対応を<span class="highlight">0〜3件に自動化（95%削減）</span>。
+          </li>
+          <li>
+            Jiraボード自動化機能とPR通知ボットを直接開発し、チームが同じ開発フローを共有しやすい状態を作り、進行状況の透明性を向上。
+            手動発注業務を自動化。
+          </li>
+        </ul>
+      </article>
+
+      <!-- S-Traffic -->
+      <article class="experience">
+        <div class="experience__header">
+          <span class="experience__company">
+            <span lang="ko">에스트래픽</span>
+            <span lang="en" hidden>S-Traffic</span>
+            <span lang="ja" hidden>S-Traffic</span>
+          </span>
+          <span class="experience__period">
+            <span lang="ko">2022.05 — 2022.12</span>
+            <span lang="en" hidden>May 2022 — Dec 2022</span>
+            <span lang="ja" hidden>2022年5月 — 2022年12月</span>
+          </span>
+        </div>
+        <p class="experience__company-desc">
+          <span lang="ko">전기차 충전 운영 시스템과 크레딧 서비스를 개발·운영하던 조직.</span>
+          <span lang="en" hidden>Organization that developed and operated EV charging operation systems and credit services.</span>
+          <span lang="ja" hidden>EV充電の運用システムとクレジットサービスを開発・運営していた組織。</span>
+        </p>
+        <p class="experience__role">
+          <span lang="ko">Back-end Engineer · 경기 성남시</span>
+          <span lang="en" hidden>Back-end Engineer · Seongnam, Gyeonggi</span>
+          <span lang="ja" hidden>Back-end Engineer · 京畿道 城南市</span>
+        </p>
+        <p class="experience__team">
+          <span lang="ko">DT추진실</span>
+          <span lang="en" hidden>DT Promotion Office</span>
+          <span lang="ja" hidden>DT推進室</span>
+        </p>
+        <ul class="experience__list" lang="ko">
+          <li>크레딧 정산 기준이 기능별로 흩어지지 않도록 크레딧 API 개발 및 유지보수를 맡아 원장 기반 프로그램을 구축했고, 부분·전액 잔액 이전, 수수료 부과 취소, 전체·부분 취소처럼 금액 상태 변화가 추적 가능하도록 기능을 설계.</li>
+          <li>B2B 고객마다 다른 운영 정책을 동일 시스템 안에서 흡수해야 했기 때문에 B2B 크레딧 유형 추가, 유효기간 연장, 일괄 충전 기능을 API와 배치 기능으로 구현해 고객별 정책 차이를 제품 기능으로 정리.</li>
+          <li>운영 이슈 대응 경로가 분산되지 않도록 (구) 충전기 관리자 시스템(Admin)의 기능 개발 및 유지보수와 민원 처리 업무를 함께 맡아, 현장 이슈와 백오피스 요구가 Admin 기능과 백엔드 처리 로직에 바로 반영되도록 함.</li>
+          <li>2023년 SK일렉링크로 인수합병된 이후에도 동일 도메인을 이어가며 크레딧·결제·정산 시스템 확장 업무를 API, 배치, 정산 로직 관점에서 담당 중.</li>
+        </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>To keep credit settlement rules from scattering across features, I developed and maintained the credit API, built a ledger-based program, and designed partial/full balance transfer, fee-cancellation, and full/partial cancellation flows so money-state changes remained traceable.</li>
+          <li>Because each B2B customer followed different operating policies, I added B2B credit types, expiration-extension support, and bulk top-up capabilities through APIs and batch flows so customer-specific policy differences could be organized as product capabilities.</li>
+          <li>To avoid fragmented issue-handling paths, I developed and maintained the legacy EV charger admin system while also handling complaint-processing work, which let field issues and back-office needs feed directly into Admin features and backend logic.</li>
+          <li>After the organization was acquired by SK Eleclink in 2023, I continued in the same domain, working on expansion across credit, payment, and settlement systems from the perspective of APIs, batch processing, and settlement logic.</li>
+        </ul>
+        <ul class="experience__list" lang="ja" hidden>
+          <li>クレジット精算基準が機能ごとに分散しないよう、クレジットAPIの開発・保守を担当して台帳ベースのプログラムを構築し、一部・全額残高移転、手数料賦課取消、全体・部分取消など金額状態の変化を追跡できるよう機能を設計。</li>
+          <li>B2B顧客ごとの運用ポリシー差分を同じシステムの中で吸収する必要があったため、B2Bクレジット種別の追加、有効期限延長、一括チャージ機能をAPIとバッチ機能として実装し、顧客別ルールを製品機能として整理。</li>
+          <li>運用イシュー対応の経路が分散しないよう、旧充電器管理システム（Admin）の機能開発・保守と問い合わせ対応をあわせて担当し、現場課題とバックオフィス要件がAdmin機能とバックエンド処理ロジックへ直接反映されるようにしました。</li>
+          <li>2023年にSK Eleclinkへ買収合併された後も同じドメインを続け、クレジット・決済・精算システムの拡張業務をAPI、バッチ、精算ロジックの観点で担当しました。</li>
+        </ul>
+      </article>
+
+      <!-- Mobile Entropy -->
+      <article class="experience">
+        <div class="experience__header">
+          <span class="experience__company">
+            <span lang="ko">모바일엔트로피</span>
+            <span lang="en" hidden>Mobile Entropy</span>
+            <span lang="ja" hidden>Mobile Entropy</span>
+          </span>
+          <span class="experience__period">
+            <span lang="ko">2019.04 — 2022.04</span>
+            <span lang="en" hidden>Apr 2019 — Apr 2022</span>
+            <span lang="ja" hidden>2019年4月 — 2022年4月</span>
+          </span>
+        </div>
+        <p class="experience__company-desc">
+          <span lang="ko">20년 전문성을 보유한 도시가스·상하수도 특화 솔루션 기업으로, AI 원격검침·GIS·RPA 등 고객 맞춤형 시스템 공급 및 안정적 운영 서비스를 제공.</span>
+          <span lang="en" hidden>City gas and waterworks-focused solution company with 20 years of expertise, providing tailored systems such as AI remote metering, GIS, and RPA along with stable operation services.</span>
+          <span lang="ja" hidden>20年の専門性を持つ都市ガス・上下水道特化ソリューション企業で、AI遠隔検針、GIS、RPAなどの顧客別システム提供と安定した運用サービスを行う会社。</span>
+        </p>
+        <p class="experience__role">
+          <span lang="ko">Back-end Engineer · 서울 마포구</span>
+          <span lang="en" hidden>Back-end Engineer · Mapo-gu, Seoul</span>
+          <span lang="ja" hidden>Back-end Engineer · ソウル市 麻浦区</span>
+        </p>
+        <ul class="experience__list" lang="ko">
+          <li>도시가스 고객사마다 달랐던 자산·공사 운영 기준을 시스템으로 표준화하기 위해 미래엔서해에너지, CNCITY, 삼천리도시가스 등의 배관·자재·계량기 관리 ERP 기능과 데이터 처리 로직을 개발·유지보수 수행.</li>
+          <li>고객사와 사용자 간 안내·응답이 길어지는 문제를 줄이기 위해 카카오톡 알림톡 기반 인터랙티브 플랫폼과 메시지 처리 흐름을 개발.</li>
+          <li>현장 검침·점검 데이터가 사후 입력으로 지연되지 않도록 미래엔서해에너지와 삼천리도시가스의 계량기·배관 업무를 PDA에서 즉시 측정·기입할 수 있는 웹앱과 입력 처리 기능을 개발 및 유지보수 수행.</li>
+        </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>Developed and maintained ERP features and data-processing logic for pipelines, materials, meters, and construction operations to standardize asset and construction-operation rules that varied across city gas clients such as Miraen Seohae Energy, CNCITY, and Samchully City Gas.</li>
+          <li>Built an interactive platform and message-handling flow based on KakaoTalk AlimTalk notifications to reduce long communication and response loops between client companies and users.</li>
+          <li>Developed and maintained a PDA-based web app and input-processing features so meter and pipeline readings and inspections at Miraen Seohae Energy and Samchully City Gas could be recorded immediately in the field instead of being entered later.</li>
+        </ul>
+        <ul class="experience__list" lang="ja" hidden>
+          <li>都市ガス顧客ごとに異なっていた資産・工事運用基準をシステムで標準化するため、未来エン西海エネルギー、CNCITY、三千里都市ガス向けの配管・資材・計量器管理ERP機能とデータ処理ロジックの開発・保守を担当。</li>
+          <li>顧客企業と利用者の案内・応答が長くなる問題を減らすため、KakaoTalkのアリムトークを基盤としたインタラクティブプラットフォームとメッセージ処理フローを開発。</li>
+          <li>現場の検針・点検データが後入力で遅れないよう、未来エン西海エネルギーと三千里都市ガス向けに、計量器・配管業務をPDAで即時入力できるウェブアプリと入力処理機能を開発・保守。</li>
+        </ul>
+      </article>
+    </section>
+
     <!-- Selected Problem Solving Cases -->
     <section class="section">
       <h2 class="section__title">Selected Problem Solving Cases</h2>
@@ -497,289 +780,6 @@
         <ul class="experience__list" lang="ja" hidden>
           <li>月間運用JIRAチケット <strong>160件 → 35件</strong>（78%削減）</li>
           <li>エンジニア運用対応時間 <strong>週14時間 → 3時間</strong></li>
-        </ul>
-      </article>
-    </section>
-
-    <!-- Professional Experience -->
-    <section class="section">
-      <h2 class="section__title">Professional Experience</h2>
-
-      <!-- SK Eleclink -->
-      <article class="experience">
-        <div class="experience__header">
-          <span class="experience__company">
-            <span lang="ko">SK일렉링크</span>
-            <span lang="en" hidden>SK Eleclink</span>
-            <span lang="ja" hidden>SK Eleclink</span>
-          </span>
-          <span class="experience__period">
-            <span lang="ko">2023.01 — 현재</span>
-            <span lang="en" hidden>Jan 2023 — Present</span>
-            <span lang="ja" hidden>2023年1月 — 現在</span>
-          </span>
-        </div>
-        <p class="experience__company-desc">
-          <span lang="ko">전기차 충전 인프라를 기반으로 충전 슈퍼앱, 차량 진단 O2O, 데이터 기반 핀테크 등 대용량 트래픽을 처리하는 모빌리티 생태계를 구축하는 그린 모빌리티 플랫폼 기업.</span>
-          <span lang="en" hidden>Green mobility platform company building a mobility ecosystem on EV charging infrastructure, including a charging super app, O2O vehicle diagnostics, and data-driven fintech services designed for high-traffic workloads.</span>
-          <span lang="ja" hidden>EV充電インフラを基盤に、充電スーパーアプリ、車両診断O2O、データ基盤フィンテックなど、大容量トラフィックを処理するモビリティエコシステムを構築するグリーンモビリティプラットフォーム企業。</span>
-        </p>
-        <p class="experience__role">
-          <span lang="ko">Back-end Engineer · 서울 송파구</span>
-          <span lang="en" hidden>Back-end Engineer · Songpa-gu, Seoul</span>
-          <span lang="ja" hidden>Back-end Engineer · ソウル市 松坡区</span>
-        </p>
-
-        <!-- Platform Cell -->
-        <p class="experience__team">
-          <span lang="ko">테크팀 — 플랫폼 셀 (2026.03 — 현재)</span>
-          <span lang="en" hidden>Tech Team — Platform Cell (Mar 2026 — Present)</span>
-          <span lang="ja" hidden>テックチーム — プラットフォームセル（2026年3月 — 現在）</span>
-        </p>
-        <ul class="experience__list" lang="ko">
-          <li>
-            회원 유형별 가격·할인 규칙이 하나의 정산 흐름에 계속 누적되며 변경 영향 범위가 커지던 문제를 줄이기 위해,
-            운수사 회원의 자사 충전소 고정 단가·외부 충전기 고정 할인 정책을 공용 흐름에서 분리하고 내부 직원 전용 크루 멤버십과 자사 구독 멤버십 할인도 각각 독립 규칙으로 격리해 정책 변경이 다른 회원 유형 로직으로 번지는 결합을 낮춤.
-          </li>
-          <li>
-            현대 타입 회원 및 H 럭키패스 아파트 충전소 정책은 메서드 단위로 분리해 할인 정책별 조건 분기를 통제하고 로직 경계를 정리했으며,
-            고속도로 자사 충전소에도 자사 구독 멤버십이 적용되도록 기존 분기와의 충돌 지점을 줄이는 구조로 신규 상품 확장 요구를 수용.
-          </li>
-          <li>
-            채널별로 흩어져 있던 메시징 기능이 팀마다 일회성 구현으로 중복되던 문제를 줄이기 위해 통합 메시징 플랫폼을 설계하고,
-            메시지 발송과 채널 처리 규약을 공통 계약 SDK로 추상화해 GitHub Packages로 배포함으로써 Node.js·Python·JVM 서비스가 런타임별 구현 경계는 분리하되 같은 계약을 재사용하도록 구조를 정리.
-          </li>
-          <li>
-            자사 충전소 및 로밍 아웃 충전소의 미정산·미결제 재처리와 충전 완료 데이터 생성을 담당하는 스케줄러는 Java+MyBatis, 과도한 Join, DB 레이어 중심 로직 때문에 변경 영향 범위가 넓었습니다.
-            이를 Kotlin+JPA/QueryDSL 구조로 전환하면서 직접 관리 테이블만 서비스가 다루고 외부 테이블 의존은 API 호출로 분리했으며, 비즈니스 로직을 서비스 레이어로 이동시켜 <span class="highlight">이벤트 드리븐 아키텍처</span>로 재설계해 향후 정산 정책 변경과 장애 대응 범위를 줄였습니다.
-          </li>
-        </ul>
-        <ul class="experience__list" lang="en" hidden>
-          <li>
-            As member-type-specific pricing and discount rules kept piling into a single settlement flow and widening the change surface, I isolated pricing and discount policies by member type,
-            separating transport-operator pricing at company-operated chargers, fixed discounts at external chargers, and the Crew and in-house subscription discounts into dedicated rules so policy changes were less coupled to other member-type logic.
-          </li>
-          <li>
-            I split Hyundai-type member and H Lucky Pass apartment-charger policies at the method level to keep discount-specific condition branches contained and clean up logic boundaries,
-            which reduced coupling between policies and let the in-house subscription membership extend to company-operated highway chargers by reducing collisions with existing branches as the product expanded.
-          </li>
-          <li>
-            Because messaging capabilities had become fragmented into duplicated one-off implementations across teams, I designed an integrated messaging platform
-            and packaged the shared send-and-channel contract as an SDK in GitHub Packages so Node.js, Python, and JVM services could keep runtime-specific implementation boundaries separate while reusing the same contract instead of re-implementing it.
-          </li>
-          <li>
-            The scheduler responsible for retrying unsettled and unpaid charging histories and generating charge-completion data for company-operated and roaming-out chargers had a wide change surface because business logic was tied to a Java+MyBatis structure, heavy JOIN queries, and a DB-layer-centric design.
-            I migrated it to Kotlin+JPA/QueryDSL, limited direct access to project-owned management tables, moved external-table dependencies behind APIs, and lifted business logic into the service layer as part of an <span class="highlight">event-driven architecture</span> redesign to reduce future policy-change and incident-response cost.
-          </li>
-        </ul>
-        <ul class="experience__list" lang="ja" hidden>
-          <li>
-            価格・割引ルールがひとつの精算フローに蓄積し続け、変更影響範囲が広がっていた問題を抑えるため、
-            運輸会社会員向けの自社充電所固定単価・外部充電器固定割引ポリシーを共通フローから分離し、社内従業員向けCrewメンバーシップと自社サブスクリプションメンバーシップの割引も個別ルールとして隔離して、ポリシー変更が他会員タイプのロジックへ波及しにくい構造に整理。
-          </li>
-          <li>
-            Hyundaiタイプ会員およびH Lucky Passマンション充電所のポリシーはメソッド単位で分離して割引ポリシーごとの条件分岐を制御し、ロジック境界を整理して、
-            高速道路の自社充電所にも自社サブスクリプションメンバーシップを適用できるよう既存分岐との衝突点を減らす構造で新規商品拡張要件を吸収。
-          </li>
-          <li>
-            チャネルごとに分散していたメッセージング機能がチーム別の都度実装として重複していたため、統合メッセージングプラットフォームを設計し、
-            メッセージ送信とチャネル処理の共通契約をSDKとして抽象化しGitHub Packagesで提供することで、Node.js・Python・JVMサービスがランタイムごとの実装境界は分けたまま同じ契約を再利用できる構造に整理しました。
-          </li>
-          <li>
-            自社充電所およびローミングアウト充電所の未精算・未決済再処理と充電完了データ生成を担うスケジューラは、Java+MyBatis、過度なJoin、DBレイヤー中心ロジックのため変更影響範囲が広い状態でした。
-            これをKotlin+JPA/QueryDSL構造へ移行し、直接管理するテーブルだけをサービスが扱い、外部テーブル依存はAPI呼び出しへ分離し、ビジネスロジックをサービスレイヤーへ移して<span class="highlight">イベントドリブンアーキテクチャ</span>へ再設計することで、今後の精算ポリシー変更と障害対応コストを下げました。
-          </li>
-        </ul>
-
-        <!-- Platform Dev Team -->
-        <p class="experience__team">
-          <span lang="ko">플랫폼 개발팀 (2023.01 — 2026.02)</span>
-          <span lang="en" hidden>Platform Dev Team (Jan 2023 — Feb 2026)</span>
-          <span lang="ja" hidden>プラットフォーム開発チーム（2023年1月 — 2026年2月）</span>
-        </p>
-        <ul class="experience__list" lang="ko">
-          <li>
-            크레딧 API와 마일리지 API의 <span class="highlight">폐쇄망 환경</span> 이전은 단순 인프라 이동이 아니라 새 DB·멤버십 체계에 맞는 기준 재정의가 필요한 작업이어서,
-            두 API의 기준을 카드번호 중심에서 멤버 아이디 중심으로 전환하며 전체 아키텍처를 재설계.
-            종속성은 Nexus로 이관하고, Admin 및 앱 백엔드가 DB 직접 접근 대신 두 API 호출 기반 CRUD로 처리하도록 바꿔 이후 구조 변경을 서비스 경계 안에서 흡수할 수 있게 함.
-          </li>
-          <li>
-            매일 00시 만료 처리는 재무 기준과 대량 처리 안정성이 함께 필요한 문제였기 때문에, 크레딧 API에 AWS SQS와 EventBridge Scheduler를 활용한 배치 처리 기능을 추가하고,
-            시스템 만료 시각·실제 만료 시각·만료 상태를 분리한 비동기 만료 로직을 설계.
-            내부적으로 멀티스레드 처리 구조를 적용해 대량 만료 대상도 안정적으로 처리할 수 있도록 개선.
-          </li>
-          <li>
-            B2B 크레딧 중 제네시스 제휴 대상은 할인 적용 단가가 달라 기존 정산 규칙에 그대로 넣으면 정책 충돌이 발생할 수 있어,
-            별도 유형으로 분리하고 해당 대상 전용 크레딧 충전·차감·조회 API를 구현.
-          </li>
-          <li>
-            장시간 동기 처리로 운영자가 대기해야 하던 크레딧 일괄 충전은 Spring Batch 기반 비동기 배치로 재구현해 작업 흐름을 분리했고,
-            기존 1시간 소요되던 작업을 <span class="highlight">20분으로 단축(66% 개선)</span>.
-          </li>
-          <li>
-            금융 도메인에서 정합성 리스크를 키우던 SQL Injection 위험의 String 기반 쿼리와 Double Writing 로직을 제거해,
-            쿼리 방식과 저장 흐름을 바로잡아 데이터 일관성과 시스템 안정성, 성능을 함께 개선.
-          </li>
-          <li>
-            JIRA 민원 티켓 처리를 Admin 기능으로 내재화해 팀의 반복 수작업과 외부 도구 의존을 줄였고,
-            담당자별 일 60건의 수동 처리를 <span class="highlight">0~3건으로 자동화(95% 감소)</span>.
-          </li>
-          <li>
-            Jira 보드 자동화 기능과 PR 알림 봇을 직접 개발해 팀이 같은 개발 흐름을 쉽게 공유하도록 만들고, 진행 상황의 투명성을 높이면서
-            수동 주문 업무를 자동화.
-          </li>
-        </ul>
-        <ul class="experience__list" lang="en" hidden>
-          <li>
-            Moving the credit API and mileage API into an <span class="highlight">air-gapped environment</span> was not only an infrastructure migration; it required redefining the core standard for a new database and membership model,
-            so I redesigned both services from card-number-based processing to member-id-based processing.
-            I moved dependencies into Nexus and changed the structure so services such as Admin and the app backend performed API-based CRUD operations instead of direct database access, keeping later changes inside clear service boundaries.
-          </li>
-          <li>
-            The daily midnight expiration flow had to satisfy both financial recognition requirements and large-volume processing stability, so I added a batch to the credit API using AWS SQS and EventBridge Scheduler
-            and designed the async expiration flow around separate system expiration timestamps, actual expiration timestamps, and expiration statuses.
-            I also applied an internal multithreaded processing model so large expiration workloads could be handled reliably.
-          </li>
-          <li>
-            Genesis partnership credits used a different discounted unit price inside the B2B credit model, and folding them into existing settlement rules would have created policy conflicts,
-            so I separated them as a dedicated type and implemented credit charge, deduction, and inquiry APIs for that target group.
-          </li>
-          <li>
-            I re-implemented the bulk credit top-up flow as an async Spring Batch job to break apart long-running synchronous work that operators had to wait on,
-            <span class="highlight">reducing processing time from 1 hour to 20 minutes (66% improvement)</span>.
-          </li>
-          <li>
-            Removed string-based queries vulnerable to SQL Injection and cleaned up Double Writing logic that was undermining data consistency, correcting both query and persistence flows to improve integrity, stability, and performance in a financial domain.
-          </li>
-          <li>
-            Built JIRA ticket handling into the Admin system to reduce repetitive manual work and reliance on external tools,
-            <span class="highlight">automating 60 daily manual tasks per agent down to 0–3 (95% reduction)</span>.
-          </li>
-          <li>
-            Developed Jira board automation and a PR notification bot so the team could share the same engineering workflow more easily, improving progress transparency while automating manual order tasks.
-          </li>
-        </ul>
-        <ul class="experience__list" lang="ja" hidden>
-          <li>
-            クレジットAPIとマイレージAPIの<span class="highlight">クローズドネットワーク環境</span>への移行は、単なるインフラ移動ではなく、新しいDB・メンバーシップ体系に合わせて基準を定義し直す必要がある作業でした。
-            そのため、2つのAPIの基準をカード番号中心からメンバーID中心へ切り替えながら全体アーキテクチャを再設計。
-            依存関係をNexusへ移管し、AdminおよびアプリバックエンドがDBへ直接依存せずAPI呼び出しベースでCRUDを行う構造に変えることで、その後の変更を明確なサービス境界の中で吸収できるようにしました。
-          </li>
-          <li>
-            毎日0時の満了処理は、財務上の認識要件と大量処理の安定性を同時に満たす必要があったため、クレジットAPIにAWS SQSとEventBridge Schedulerを活用したバッチ処理を追加し、
-            システム満了時刻・実際満了時刻・満了ステータスを分離した非同期満了ロジックを設計。
-            内部的にマルチスレッド処理構造を適用し、大量の満了対象も安定的に処理できるよう改善。
-          </li>
-          <li>
-            B2Bクレジットの中でもGenesis提携対象は割引適用単価が異なり、既存の精算ルールへそのまま組み込むとポリシー競合が起きるため、
-            別タイプとして分離し、当該対象向け専用クレジットのチャージ・差引・照会APIを実装。
-          </li>
-          <li>
-            長時間の同期処理で運用担当者が待たされていたクレジット一括チャージを、Spring Batchベースの非同期バッチへ再実装して処理フローを分離し、
-            従来1時間かかっていた処理を<span class="highlight">20分に短縮（66%改善）</span>。
-          </li>
-          <li>
-            金融ドメインでの整合性リスクを高めていたSQLインジェクションの恐れがあるString型クエリとDouble Writingロジックを除去し、
-            クエリ方式と保存フローを是正し、データ整合性、システム安定性、パフォーマンスを同時に改善。
-          </li>
-          <li>
-            JIRAの問い合わせチケット処理をAdmin機能に内製化して、チームの繰り返し手作業と外部ツール依存を減らし、
-            担当者あたり1日60件の手動対応を<span class="highlight">0〜3件に自動化（95%削減）</span>。
-          </li>
-          <li>
-            Jiraボード自動化機能とPR通知ボットを直接開発し、チームが同じ開発フローを共有しやすい状態を作り、進行状況の透明性を向上。
-            手動発注業務を自動化。
-          </li>
-        </ul>
-      </article>
-
-      <!-- S-Traffic -->
-      <article class="experience">
-        <div class="experience__header">
-          <span class="experience__company">
-            <span lang="ko">에스트래픽</span>
-            <span lang="en" hidden>S-Traffic</span>
-            <span lang="ja" hidden>S-Traffic</span>
-          </span>
-          <span class="experience__period">
-            <span lang="ko">2022.05 — 2022.12</span>
-            <span lang="en" hidden>May 2022 — Dec 2022</span>
-            <span lang="ja" hidden>2022年5月 — 2022年12月</span>
-          </span>
-        </div>
-        <p class="experience__company-desc">
-          <span lang="ko">전기차 충전 운영 시스템과 크레딧 서비스를 개발·운영하던 조직.</span>
-          <span lang="en" hidden>Organization that developed and operated EV charging operation systems and credit services.</span>
-          <span lang="ja" hidden>EV充電の運用システムとクレジットサービスを開発・運営していた組織。</span>
-        </p>
-        <p class="experience__role">
-          <span lang="ko">Back-end Engineer · 경기 성남시</span>
-          <span lang="en" hidden>Back-end Engineer · Seongnam, Gyeonggi</span>
-          <span lang="ja" hidden>Back-end Engineer · 京畿道 城南市</span>
-        </p>
-        <p class="experience__team">
-          <span lang="ko">DT추진실</span>
-          <span lang="en" hidden>DT Promotion Office</span>
-          <span lang="ja" hidden>DT推進室</span>
-        </p>
-        <ul class="experience__list" lang="ko">
-          <li>크레딧 정산 기준이 기능별로 흩어지지 않도록 크레딧 API 개발 및 유지보수를 맡아 원장 기반 프로그램을 구축했고, 부분·전액 잔액 이전, 수수료 부과 취소, 전체·부분 취소처럼 금액 상태 변화가 추적 가능하도록 기능을 설계.</li>
-          <li>B2B 고객마다 다른 운영 정책을 동일 시스템 안에서 흡수해야 했기 때문에 B2B 크레딧 유형 추가, 유효기간 연장, 일괄 충전 기능을 API와 배치 기능으로 구현해 고객별 정책 차이를 제품 기능으로 정리.</li>
-          <li>운영 이슈 대응 경로가 분산되지 않도록 (구) 충전기 관리자 시스템(Admin)의 기능 개발 및 유지보수와 민원 처리 업무를 함께 맡아, 현장 이슈와 백오피스 요구가 Admin 기능과 백엔드 처리 로직에 바로 반영되도록 함.</li>
-          <li>2023년 SK일렉링크로 인수합병된 이후에도 동일 도메인을 이어가며 크레딧·결제·정산 시스템 확장 업무를 API, 배치, 정산 로직 관점에서 담당 중.</li>
-        </ul>
-        <ul class="experience__list" lang="en" hidden>
-          <li>To keep credit settlement rules from scattering across features, I developed and maintained the credit API, built a ledger-based program, and designed partial/full balance transfer, fee-cancellation, and full/partial cancellation flows so money-state changes remained traceable.</li>
-          <li>Because each B2B customer followed different operating policies, I added B2B credit types, expiration-extension support, and bulk top-up capabilities through APIs and batch flows so customer-specific policy differences could be organized as product capabilities.</li>
-          <li>To avoid fragmented issue-handling paths, I developed and maintained the legacy EV charger admin system while also handling complaint-processing work, which let field issues and back-office needs feed directly into Admin features and backend logic.</li>
-          <li>After the organization was acquired by SK Eleclink in 2023, I continued in the same domain, working on expansion across credit, payment, and settlement systems from the perspective of APIs, batch processing, and settlement logic.</li>
-        </ul>
-        <ul class="experience__list" lang="ja" hidden>
-          <li>クレジット精算基準が機能ごとに分散しないよう、クレジットAPIの開発・保守を担当して台帳ベースのプログラムを構築し、一部・全額残高移転、手数料賦課取消、全体・部分取消など金額状態の変化を追跡できるよう機能を設計。</li>
-          <li>B2B顧客ごとの運用ポリシー差分を同じシステムの中で吸収する必要があったため、B2Bクレジット種別の追加、有効期限延長、一括チャージ機能をAPIとバッチ機能として実装し、顧客別ルールを製品機能として整理。</li>
-          <li>運用イシュー対応の経路が分散しないよう、旧充電器管理システム（Admin）の機能開発・保守と問い合わせ対応をあわせて担当し、現場課題とバックオフィス要件がAdmin機能とバックエンド処理ロジックへ直接反映されるようにしました。</li>
-          <li>2023年にSK Eleclinkへ買収合併された後も同じドメインを続け、クレジット・決済・精算システムの拡張業務をAPI、バッチ、精算ロジックの観点で担当しました。</li>
-        </ul>
-      </article>
-
-      <!-- Mobile Entropy -->
-      <article class="experience">
-        <div class="experience__header">
-          <span class="experience__company">
-            <span lang="ko">모바일엔트로피</span>
-            <span lang="en" hidden>Mobile Entropy</span>
-            <span lang="ja" hidden>Mobile Entropy</span>
-          </span>
-          <span class="experience__period">
-            <span lang="ko">2019.04 — 2022.04</span>
-            <span lang="en" hidden>Apr 2019 — Apr 2022</span>
-            <span lang="ja" hidden>2019年4月 — 2022年4月</span>
-          </span>
-        </div>
-        <p class="experience__company-desc">
-          <span lang="ko">20년 전문성을 보유한 도시가스·상하수도 특화 솔루션 기업으로, AI 원격검침·GIS·RPA 등 고객 맞춤형 시스템 공급 및 안정적 운영 서비스를 제공.</span>
-          <span lang="en" hidden>City gas and waterworks-focused solution company with 20 years of expertise, providing tailored systems such as AI remote metering, GIS, and RPA along with stable operation services.</span>
-          <span lang="ja" hidden>20年の専門性を持つ都市ガス・上下水道特化ソリューション企業で、AI遠隔検針、GIS、RPAなどの顧客別システム提供と安定した運用サービスを行う会社。</span>
-        </p>
-        <p class="experience__role">
-          <span lang="ko">Back-end Engineer · 서울 마포구</span>
-          <span lang="en" hidden>Back-end Engineer · Mapo-gu, Seoul</span>
-          <span lang="ja" hidden>Back-end Engineer · ソウル市 麻浦区</span>
-        </p>
-        <ul class="experience__list" lang="ko">
-          <li>도시가스 고객사마다 달랐던 자산·공사 운영 기준을 시스템으로 표준화하기 위해 미래엔서해에너지, CNCITY, 삼천리도시가스 등의 배관·자재·계량기 관리 ERP 기능과 데이터 처리 로직을 개발·유지보수 수행.</li>
-          <li>고객사와 사용자 간 안내·응답이 길어지는 문제를 줄이기 위해 카카오톡 알림톡 기반 인터랙티브 플랫폼과 메시지 처리 흐름을 개발.</li>
-          <li>현장 검침·점검 데이터가 사후 입력으로 지연되지 않도록 미래엔서해에너지와 삼천리도시가스의 계량기·배관 업무를 PDA에서 즉시 측정·기입할 수 있는 웹앱과 입력 처리 기능을 개발 및 유지보수 수행.</li>
-        </ul>
-        <ul class="experience__list" lang="en" hidden>
-          <li>Developed and maintained ERP features and data-processing logic for pipelines, materials, meters, and construction operations to standardize asset and construction-operation rules that varied across city gas clients such as Miraen Seohae Energy, CNCITY, and Samchully City Gas.</li>
-          <li>Built an interactive platform and message-handling flow based on KakaoTalk AlimTalk notifications to reduce long communication and response loops between client companies and users.</li>
-          <li>Developed and maintained a PDA-based web app and input-processing features so meter and pipeline readings and inspections at Miraen Seohae Energy and Samchully City Gas could be recorded immediately in the field instead of being entered later.</li>
-        </ul>
-        <ul class="experience__list" lang="ja" hidden>
-          <li>都市ガス顧客ごとに異なっていた資産・工事運用基準をシステムで標準化するため、未来エン西海エネルギー、CNCITY、三千里都市ガス向けの配管・資材・計量器管理ERP機能とデータ処理ロジックの開発・保守を担当。</li>
-          <li>顧客企業と利用者の案内・応答が長くなる問題を減らすため、KakaoTalkのアリムトークを基盤としたインタラクティブプラットフォームとメッセージ処理フローを開発。</li>
-          <li>現場の検針・点検データが後入力で遅れないよう、未来エン西海エネルギーと三千里都市ガス向けに、計量器・配管業務をPDAで即時入力できるウェブアプリと入力処理機能を開発・保守。</li>
         </ul>
       </article>
     </section>
