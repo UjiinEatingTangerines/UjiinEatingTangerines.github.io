@@ -427,22 +427,14 @@ body {
   font-size: 0.78rem;
 }
 
-.pdf-export .experience {
-  break-inside: avoid;
-  page-break-inside: avoid;
-}
-
-.pdf-export .experience__header {
+.pdf-export .experience__header,
+.pdf-export .psc__label,
+.pdf-export .experience__team {
   break-after: avoid;
   page-break-after: avoid;
 }
 
-.pdf-export .psc__label {
-  break-after: avoid;
-  page-break-after: avoid;
-}
-
-.pdf-export .section {
+.pdf-export .education {
   break-inside: avoid;
   page-break-inside: avoid;
 }
