@@ -427,6 +427,26 @@ body {
   font-size: 0.78rem;
 }
 
+.pdf-export .experience {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.pdf-export .experience__header {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+.pdf-export .psc__label {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+.pdf-export .section {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
 /* Print */
 @media print {
   @page {
