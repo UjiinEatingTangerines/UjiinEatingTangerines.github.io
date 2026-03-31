@@ -472,7 +472,7 @@
             <span lang="en" hidden>KFTC Reporting — Credit Expiration & Windfall Revenue Recognition</span>
             <span lang="ja" hidden>金決院報告対応 — クレジット満了処理および雑収入認識改善</span>
           </span>
-          <span class="experience__period">Spring Boot, Spring Batch, JPA, EventBridge</span>
+          <span class="experience__period">Spring Boot, JPA, AWS SQS, EventBridge Scheduler, CompletableFuture</span>
         </div>
         <p class="psc__label">
           <span lang="ko">문제</span>
@@ -480,13 +480,13 @@
           <span lang="ja" hidden>課題</span>
         </p>
         <p class="profile__text" lang="ko">
-          크레딧 만료 처리가 체계화되지 않아 만료 대상 크레딧이 잔액에 그대로 남아 있는 상태. 금결원 보고 시 낙전수입 인식 시점이 불명확하여 재무 보고 정확성에 리스크 발생.
+          크레딧 만료 처리가 체계화되지 않아 만료 대상 크레딧이 잔액에 그대로 남아 있는 상태. B2B·무상·유상 크레딧이 각기 다른 유효기간과 만료 정책을 갖고 있어 단일 순차 처리로는 일일 만료 대상 수만 건을 00시 안에 완료할 수 없었고, 금결원 보고 시 낙전수입 인식 시점이 불명확하여 재무 보고 정확성에 리스크 발생.
         </p>
         <p class="profile__text" lang="en" hidden>
-          Credit expiration was not systematized, leaving expired credits sitting in user balances. The timing of windfall revenue recognition was ambiguous during KFTC (Korea Financial Telecommunications & Clearings Institute) reporting, creating financial reporting accuracy risk.
+          Credit expiration was not systematized, leaving expired credits sitting in user balances. B2B, free, and paid credits each had different validity periods and expiration policies; sequential processing could not complete tens of thousands of daily expirations by midnight. The timing of windfall revenue recognition was ambiguous during KFTC reporting, creating financial reporting accuracy risk.
         </p>
         <p class="profile__text" lang="ja" hidden>
-          クレジット満了処理が体系化されておらず、満了対象クレジットが残高にそのまま残っている状態。金決院報告時の雑収入認識タイミングが不明確で財務報告の正確性にリスクが発生。
+          クレジット満了処理が体系化されておらず、満了対象クレジットが残高にそのまま残っている状態。B2B・無償・有償クレジットがそれぞれ異なる有効期間と満了ポリシーを持ち、単一順次処理では日次満了対象数万件を0時内に完了できず、金決院報告時の雑収入認識タイミングが不明確で財務報告の正確性にリスクが発生。
         </p>
         <p class="psc__label">
           <span lang="ko">해결 과정</span>
@@ -494,19 +494,19 @@
           <span lang="ja" hidden>解決プロセス</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong>Spring Batch 일별 만료 스캔 Job 구현.</strong> 만료일 도래 크레딧을 Chunk 단위로 스캔하여 상태 전환 처리. 실시간 이벤트 방식은 만료일 시점에 서비스 장애 시 누락 위험이 있어, 배치 스캔 방식이 정합성 보장에 유리.</li>
-          <li><strong>만료 → 낙전수입 계정 전환 로직을 회계 기준과 정합.</strong> 만료 처리 시점에 낙전수입 계정으로의 전환이 회계 인식 기준과 일치하도록 비즈니스 로직을 설계. 재무팀과 인식 시점 기준을 사전 합의하여 보고 시 해석 차이 제거.</li>
-          <li><strong>EventBridge 스케줄링 + 감사 로그로 추적 체계 확보.</strong> 배치 실행 주기를 EventBridge로 관리하고, 만료 처리 건별 감사(audit) 로그를 기록하여 금결원 보고 시 건별 추적 가능한 데이터 체계 구축.</li>
+          <li><strong>SQS + EventBridge Scheduler로 만료 배치 트리거 구축.</strong> EventBridge Scheduler가 매일 00시에 SQS로 만료 처리 이벤트를 발행하고, 애플리케이션이 SQS 메시지를 수신해 만료 Job을 실행. 서비스 장애 시에도 SQS 메시지가 보존되어 재기동 후 자동 재처리되며, 수동 크론 관리를 완전히 제거.</li>
+          <li><strong>B2B·무상·유상 유형별 병렬 쓰레드 처리.</strong> 크레딧 유형별로 유효기간·만료 정책·낙전수입 인식 기준이 다르기 때문에 각 유형을 독립 태스크로 분리하고, <code>CompletableFuture.allOf()</code>로 B2B·무상·유상 만료 조회 및 상태 전환을 동시에 실행. 유형 간 데이터 간섭 없이 처리 시간을 단축하면서도, 개별 유형 실패가 다른 유형에 전파되지 않도록 유형별 예외 처리를 격리.</li>
+          <li><strong>만료 → 낙전수입 계정 전환 로직을 회계 기준과 정합.</strong> 재무팀과 유형별 낙전수입 인식 시점을 사전 합의하고, 만료 처리와 계정 전환이 하나의 트랜잭션 안에서 원자적으로 실행되도록 설계. 건별 감사 로그를 기록해 금결원 보고 시 건별 추적 가능한 데이터 체계를 확보.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong>Daily expiration scan Job with Spring Batch.</strong> Scans credits reaching their expiration date in chunks and transitions their status. A real-time event approach risks missing expirations if the service is down at the exact moment, so batch scanning is safer for consistency.</li>
-          <li><strong>Aligned expiration → windfall revenue account transfer logic with accounting standards.</strong> Designed business logic so the transfer to the windfall revenue account matches accounting recognition criteria. Pre-aligned recognition timing with the finance team to eliminate reporting interpretation differences.</li>
-          <li><strong>EventBridge scheduling + audit logs for traceability.</strong> Managed batch execution cycles through EventBridge and recorded per-item audit logs for each expiration, building a data trail traceable at the individual record level for KFTC reporting.</li>
+          <li><strong>SQS + EventBridge Scheduler for expiration batch triggers.</strong> EventBridge Scheduler publishes an expiration event to SQS daily at midnight; the application consumes the SQS message and executes the expiration job. SQS message retention ensures automatic reprocessing after service recovery, fully eliminating manual cron management.</li>
+          <li><strong>Parallel thread processing by B2B / free / paid credit type.</strong> Each credit type has different validity periods, expiration policies, and revenue recognition rules, so each was split into an independent task and executed concurrently via <code>CompletableFuture.allOf()</code>. This reduced processing time without cross-type data interference, with per-type exception handling isolated so a failure in one type does not propagate to others.</li>
+          <li><strong>Aligned expiration → windfall revenue transfer with accounting standards.</strong> Pre-agreed per-type recognition timing with the finance team and designed expiration and account transfer to execute atomically within a single transaction. Per-item audit logs ensure record-level traceability for KFTC reporting.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>Spring Batch日次満了スキャンJobを実装。</strong> 満了日到来クレジットをChunk単位でスキャンし状態遷移処理。リアルタイムイベント方式は満了時点のサービス障害で漏れリスクがあり、バッチスキャン方式が整合性保証に有利。</li>
-          <li><strong>満了→雑収入勘定への振替ロジックを会計基準と整合。</strong> 満了処理時点での雑収入勘定への振替が会計認識基準と一致するようビジネスロジックを設計。財務チームと認識時点の基準を事前合意し報告時の解釈差異を排除。</li>
-          <li><strong>EventBridgeスケジューリング＋監査ログで追跡体系を確保。</strong> バッチ実行周期をEventBridgeで管理し、満了処理の件別監査（audit）ログを記録して金決院報告時に件別追跡可能なデータ体系を構築。</li>
+          <li><strong>SQS＋EventBridge Schedulerで満了バッチトリガーを構築。</strong> EventBridge Schedulerが毎日0時にSQSへ満了処理イベントを発行し、アプリケーションがSQSメッセージを受信して満了Jobを実行。サービス障害時もSQSメッセージが保持され再起動後に自動再処理、手動cron管理を完全排除。</li>
+          <li><strong>B2B・無償・有償タイプ別の並列スレッド処理。</strong> クレジットタイプごとに有効期間・満了ポリシー・雑収入認識基準が異なるため、各タイプを独立タスクとして分離し<code>CompletableFuture.allOf()</code>でB2B・無償・有償の満了照会と状態遷移を同時実行。タイプ間のデータ干渉なく処理時間を短縮しつつ、個別タイプの失敗が他タイプへ伝播しないようタイプ別例外処理を隔離。</li>
+          <li><strong>満了→雑収入勘定振替ロジックを会計基準と整合。</strong> 財務チームとタイプ別の雑収入認識時点を事前合意し、満了処理と勘定振替が単一トランザクション内で原子的に実行される設計。件別監査ログを記録し金決院報告時に件別追跡可能なデータ体系を確保。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
@@ -515,18 +515,21 @@
         </p>
         <ul class="experience__list" lang="ko">
           <li>미처리 만료 크레딧 <strong>2,400건 → 0건</strong></li>
+          <li>3개 유형 병렬 처리로 만료 배치 수행 시간 <strong>순차 대비 약 1/3로 단축</strong></li>
           <li>금결원 보고 시 낙전수입 인식 정확도 <strong>100%</strong></li>
-          <li>만료 처리 감사 추적 <strong>수동 → 자동화</strong></li>
+          <li>SQS 메시지 보존으로 장애 후 재처리 <strong>자동화</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li>Unprocessed expired credits <strong>2,400 → 0</strong></li>
+          <li>Parallel processing across 3 types reduced expiration batch time to <strong>~1/3 of sequential</strong></li>
           <li>Windfall revenue recognition accuracy for KFTC reporting <strong>100%</strong></li>
-          <li>Expiration audit trail <strong>manual → automated</strong></li>
+          <li>Post-failure reprocessing <strong>automated via SQS message retention</strong></li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li>未処理満了クレジット <strong>2,400件 → 0件</strong></li>
+          <li>3タイプ並列処理で満了バッチ実行時間 <strong>順次比約1/3に短縮</strong></li>
           <li>金決院報告時の雑収入認識精度 <strong>100%</strong></li>
-          <li>満了処理監査追跡 <strong>手動 → 自動化</strong></li>
+          <li>SQSメッセージ保持により障害後再処理を<strong>自動化</strong></li>
         </ul>
       </article>
 
