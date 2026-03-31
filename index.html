@@ -472,7 +472,7 @@
             <span lang="en" hidden>KFTC Reporting — Credit Expiration & Windfall Revenue Recognition</span>
             <span lang="ja" hidden>金決院報告対応 — クレジット満了処理および雑収入認識改善</span>
           </span>
-          <span class="experience__period">Spring Boot, JPA, AWS SQS, EventBridge Scheduler, CompletableFuture</span>
+          <span class="experience__period">Spring Boot, JPA, AWS SQS, EventBridge Scheduler, Virtual Thread (Java 21)</span>
         </div>
         <p class="psc__label">
           <span lang="ko">문제</span>
@@ -495,17 +495,17 @@
         </p>
         <ul class="experience__list" lang="ko">
           <li><strong>SQS + EventBridge Scheduler로 만료 배치 트리거 구축.</strong> EventBridge Scheduler가 매일 00시에 SQS로 만료 처리 이벤트를 발행하고, 애플리케이션이 SQS 메시지를 수신해 만료 Job을 실행. 서비스 장애 시에도 SQS 메시지가 보존되어 재기동 후 자동 재처리되며, 수동 크론 관리를 완전히 제거.</li>
-          <li><strong>B2B·무상·유상 유형별 병렬 쓰레드 처리.</strong> 크레딧 유형별로 유효기간·만료 정책·낙전수입 인식 기준이 다르기 때문에 각 유형을 독립 태스크로 분리하고, <code>CompletableFuture.allOf()</code>로 B2B·무상·유상 만료 조회 및 상태 전환을 동시에 실행. 유형 간 데이터 간섭 없이 처리 시간을 단축하면서도, 개별 유형 실패가 다른 유형에 전파되지 않도록 유형별 예외 처리를 격리.</li>
+          <li><strong>가상 쓰레드 기반 유형별 병렬 처리 + 배치 슬라이스 루프.</strong> B2B·무상·유상 각 유형을 가상 쓰레드(Virtual Thread)로 동시에 실행해 유형 간 데이터 간섭 없이 병렬 처리. 각 유형 내부는 배치 슬라이스 단위로 조회·만료 상태 전환·이력 저장을 하나의 트랜잭션으로 묶고, 슬라이스 간 0.5초 간격을 두어 DB 부하를 분산. 처리할 건이 없을 때까지 루프를 반복하는 구조로, 수만 건 대량 만료도 1~2분 내에 안정적으로 완료. 개별 유형 실패가 다른 유형에 전파되지 않도록 유형별 예외 처리를 격리.</li>
           <li><strong>만료 → 낙전수입 계정 전환 로직을 회계 기준과 정합.</strong> 재무팀과 유형별 낙전수입 인식 시점을 사전 합의하고, 만료 처리와 계정 전환이 하나의 트랜잭션 안에서 원자적으로 실행되도록 설계. 건별 감사 로그를 기록해 금결원 보고 시 건별 추적 가능한 데이터 체계를 확보.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li><strong>SQS + EventBridge Scheduler for expiration batch triggers.</strong> EventBridge Scheduler publishes an expiration event to SQS daily at midnight; the application consumes the SQS message and executes the expiration job. SQS message retention ensures automatic reprocessing after service recovery, fully eliminating manual cron management.</li>
-          <li><strong>Parallel thread processing by B2B / free / paid credit type.</strong> Each credit type has different validity periods, expiration policies, and revenue recognition rules, so each was split into an independent task and executed concurrently via <code>CompletableFuture.allOf()</code>. This reduced processing time without cross-type data interference, with per-type exception handling isolated so a failure in one type does not propagate to others.</li>
+          <li><strong>Virtual-thread-based parallel processing with batch-slice loops.</strong> B2B, free, and paid types run concurrently on virtual threads (Java 21) with no cross-type data interference. Within each type, a loop queries, transitions, and persists history in one transaction per slice, with a 500 ms pause between slices to spread DB load. The loop repeats until no records remain, completing tens of thousands of expirations reliably in 1–2 minutes. Per-type exception handling is isolated so a failure in one type does not propagate.</li>
           <li><strong>Aligned expiration → windfall revenue transfer with accounting standards.</strong> Pre-agreed per-type recognition timing with the finance team and designed expiration and account transfer to execute atomically within a single transaction. Per-item audit logs ensure record-level traceability for KFTC reporting.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li><strong>SQS＋EventBridge Schedulerで満了バッチトリガーを構築。</strong> EventBridge Schedulerが毎日0時にSQSへ満了処理イベントを発行し、アプリケーションがSQSメッセージを受信して満了Jobを実行。サービス障害時もSQSメッセージが保持され再起動後に自動再処理、手動cron管理を完全排除。</li>
-          <li><strong>B2B・無償・有償タイプ別の並列スレッド処理。</strong> クレジットタイプごとに有効期間・満了ポリシー・雑収入認識基準が異なるため、各タイプを独立タスクとして分離し<code>CompletableFuture.allOf()</code>でB2B・無償・有償の満了照会と状態遷移を同時実行。タイプ間のデータ干渉なく処理時間を短縮しつつ、個別タイプの失敗が他タイプへ伝播しないようタイプ別例外処理を隔離。</li>
+          <li><strong>仮想スレッドベースのタイプ別並列処理＋バッチスライスループ。</strong> B2B・無償・有償の各タイプを仮想スレッド（Virtual Thread、Java 21）で同時実行しタイプ間のデータ干渉を排除。各タイプ内部はバッチスライス単位で照会・満了状態遷移・履歴保存を1トランザクションにまとめ、スライス間に500ms間隔を置きDB負荷を分散。処理対象がなくなるまでループを繰り返す構造で、数万件の大量満了も1〜2分で安定完了。個別タイプの失敗が他タイプへ伝播しないようタイプ別例外処理を隔離。</li>
           <li><strong>満了→雑収入勘定振替ロジックを会計基準と整合。</strong> 財務チームとタイプ別の雑収入認識時点を事前合意し、満了処理と勘定振替が単一トランザクション内で原子的に実行される設計。件別監査ログを記録し金決院報告時に件別追跡可能なデータ体系を確保。</li>
         </ul>
         <p class="psc__label">
@@ -515,19 +515,19 @@
         </p>
         <ul class="experience__list" lang="ko">
           <li>미처리 만료 크레딧 <strong>2,400건 → 0건</strong></li>
-          <li>3개 유형 병렬 처리로 만료 배치 수행 시간 <strong>순차 대비 약 1/3로 단축</strong></li>
+          <li>가상 쓰레드 병렬 + 배치 슬라이스 루프로 수만 건 만료를 <strong>1~2분 내 안정 처리</strong></li>
           <li>금결원 보고 시 낙전수입 인식 정확도 <strong>100%</strong></li>
           <li>SQS 메시지 보존으로 장애 후 재처리 <strong>자동화</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li>Unprocessed expired credits <strong>2,400 → 0</strong></li>
-          <li>Parallel processing across 3 types reduced expiration batch time to <strong>~1/3 of sequential</strong></li>
+          <li>Virtual-thread parallel + batch-slice loop handles tens of thousands of expirations <strong>reliably in 1–2 minutes</strong></li>
           <li>Windfall revenue recognition accuracy for KFTC reporting <strong>100%</strong></li>
           <li>Post-failure reprocessing <strong>automated via SQS message retention</strong></li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li>未処理満了クレジット <strong>2,400件 → 0件</strong></li>
-          <li>3タイプ並列処理で満了バッチ実行時間 <strong>順次比約1/3に短縮</strong></li>
+          <li>仮想スレッド並列＋バッチスライスループで数万件満了を<strong>1〜2分で安定処理</strong></li>
           <li>金決院報告時の雑収入認識精度 <strong>100%</strong></li>
           <li>SQSメッセージ保持により障害後再処理を<strong>自動化</strong></li>
         </ul>
