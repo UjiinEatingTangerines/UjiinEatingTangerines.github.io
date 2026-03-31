@@ -296,22 +296,22 @@
           <span lang="ja" hidden>解決プロセス</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong>멀티모듈 구조로 채널 추상화 계층 설계.</strong> 벤더 연동(세종텔레콤, Firebase FCM, AWS SES)을 채널 어댑터 모듈로 분리하여, 벤더 교체 시 어댑터만 교체하면 되는 구조 확보. 서비스 코드에서 벤더 의존성을 완전 제거.</li>
-          <li><strong>서비스별 일일·월별 Rate Limit 정책 수립.</strong> 13개 서비스의 과거 발송량을 분석하여 피크 볼륨 대비 배수로 쿼터를 산정. 월초 배치 패턴 서비스는 일일 한도를 별도 상향, 버스트 특성 서비스는 Token Bucket에 30% 버스트 헤드룸 적용.</li>
-          <li><strong>MQTT 브로커(EMQX)를 디스패치 레이어로 도입, Kinesis와 역할 분리.</strong> 기존 Kinesis는 데이터·로그 파이프라인으로 유지하고, 메시지 발송 디스패치는 EMQX(ECS)로 분리. Kinesis에 디스패치를 태우면 로그 파이프라인과 발송 트래픽이 결합되어 장애 전파 위험. MQTT의 토픽 기반 라우팅이 채널별 발송 분기에 적합.</li>
-          <li><strong>gRPC/Protobuf 기반 내부 SDK를 GitHub Packages로 배포.</strong> REST 대비 페이로드 크기와 직렬화 비용 절감. 서비스 측은 SDK 의존성 추가만으로 메시징 연동 완료.</li>
+          <li><strong>채널 어댑터 멀티모듈 + gRPC SDK로 벤더 의존 제거.</strong> 벤더 연동을 채널 어댑터 모듈로 분리하고, gRPC/Protobuf 기반 SDK를 GitHub Packages로 배포해 서비스 코드에서 벤더 의존성을 완전 제거. MQTT(EMQX)를 디스패치 레이어로 도입해 로그 파이프라인(Kinesis)과 발송 트래픽을 분리.</li>
+          <li><strong>지연 발송 자동 감지 및 재처리 흐름 구현.</strong> 스케줄러가 임계시간 초과 건을 자동 감지하고, 지수 백오프 기반으로 재발송. 최대 재시도 초과 시 최종 실패 처리 및 알람 트리거. DLQ 유입 메시지도 재처리 대상에 포함.</li>
+          <li><strong>CloudWatch 기반 채널별 모니터링·알람 체계 구축.</strong> 커스텀 메트릭으로 채널별 실패율을 발행하고, 채널별 차등 임계치 초과 시 SNS → Slack·이메일로 자동 알람 발송. 심각도 구분(WARNING/CRITICAL)과 중복 억제 로직 적용.</li>
+          <li><strong>발송 이력·통계 API 및 오디언스 타게팅 제공.</strong> 기간·채널·상태 등 복합 조건 발송 이력 조회, 수동 재발송, 일별/주별/월별 발송 통계 집계 API를 제공하고, 오디언스 타게팅 기능으로 데이터 기반 고객 커뮤니케이션 품질을 확보.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong>Multi-module architecture with a channel abstraction layer.</strong> Vendor integrations (Sejong Telecom, Firebase FCM, AWS SES) were isolated into channel adapter modules so that swapping a vendor only requires replacing one adapter. Vendor dependencies were completely removed from service code.</li>
-          <li><strong>Per-service daily/monthly rate limit policies.</strong> Analyzed historical send volumes across 13 services to set quotas at a multiple of peak volume. Batch-pattern services received elevated daily limits; burst-heavy services got Token Bucket with 30% burst headroom.</li>
-          <li><strong>MQTT broker (EMQX) as the dispatch layer, separated from Kinesis.</strong> Kept Kinesis for data/log pipelines and routed message dispatch through EMQX (on ECS). Combining dispatch with Kinesis would couple log pipelines to send traffic, risking cascading failures. MQTT's topic-based routing is a natural fit for per-channel dispatch branching.</li>
-          <li><strong>gRPC/Protobuf-based internal SDK published to GitHub Packages.</strong> Reduced payload size and serialization cost compared to REST. Services complete messaging integration by adding a single SDK dependency.</li>
+          <li><strong>Channel adapter multi-module + gRPC SDK to eliminate vendor dependency.</strong> Isolated vendor integrations into channel adapter modules and published a gRPC/Protobuf SDK via GitHub Packages, fully removing vendor coupling from service code. Introduced MQTT (EMQX) as the dispatch layer to separate log pipelines (Kinesis) from delivery traffic.</li>
+          <li><strong>Automated delayed-delivery detection and retry flow.</strong> A scheduler detects messages exceeding the threshold time, retries with exponential backoff, and triggers alarms on final failure after max retries. DLQ messages are included in the retry scope.</li>
+          <li><strong>CloudWatch-based per-channel monitoring and alerting.</strong> Published custom metrics for per-channel failure rates, with differentiated thresholds triggering automatic alarms via SNS to Slack and email. Applied severity levels (WARNING/CRITICAL) and duplicate suppression logic.</li>
+          <li><strong>Delivery history/statistics APIs and audience targeting.</strong> Provided delivery history queries with multi-condition filtering, manual resend, and daily/weekly/monthly statistics aggregation APIs, along with audience targeting for data-driven communication quality.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>マルチモジュール構造でチャネル抽象化レイヤーを設計。</strong> ベンダー連携（セジョンテレコム、Firebase FCM、AWS SES）をチャネルアダプターモジュールとして分離し、ベンダー交替時にアダプターだけ差し替える構造を確保。サービスコードからベンダー依存を完全除去。</li>
-          <li><strong>サービス別の日次・月次Rate Limitポリシーを策定。</strong> 13サービスの過去送信量を分析しピークボリューム倍数でクォータを算定。月初バッチパターンのサービスは日次上限を別途引き上げ、バースト特性のサービスにはToken Bucketに30%バーストヘッドルームを適用。</li>
-          <li><strong>MQTTブローカー（EMQX）をディスパッチレイヤーとして導入、Kinesisと役割分離。</strong> 既存Kinesisはデータ・ログパイプラインとして維持し、メッセージ発送ディスパッチはEMQX（ECS）へ分離。Kinesisにディスパッチを載せるとログパイプラインと発送トラフィックが結合し障害伝播リスク。MQTTのトピックベースルーティングがチャネル別発送分岐に適合。</li>
-          <li><strong>gRPC/ProtobufベースのSDKをGitHub Packagesで配布。</strong> REST比でペイロードサイズとシリアライズコストを削減。サービス側はSDK依存追加のみでメッセージング連携完了。</li>
+          <li><strong>チャネルアダプターマルチモジュール＋gRPC SDKでベンダー依存を除去。</strong> ベンダー連携をチャネルアダプターモジュールとして分離し、gRPC/ProtobufベースのSDKをGitHub Packagesで配布してサービスコードからベンダー依存を完全除去。MQTT（EMQX）をディスパッチレイヤーとして導入しログパイプライン（Kinesis）と配信トラフィックを分離。</li>
+          <li><strong>遅延配信の自動検知および再処理フローを実装。</strong> スケジューラが閾値超過の件を自動検知し、指数バックオフで再送。最大リトライ超過時は最終失敗処理およびアラームをトリガー。DLQ流入メッセージも再処理対象に含む。</li>
+          <li><strong>CloudWatchベースのチャネル別モニタリング・アラーム体系を構築。</strong> カスタムメトリクスでチャネル別失敗率を発行し、チャネル別差等閾値超過時にSNS→Slack・メールで自動アラーム送信。深刻度区分（WARNING/CRITICAL）と重複抑制ロジックを適用。</li>
+          <li><strong>配信履歴・統計APIおよびオーディエンスターゲティングを提供。</strong> 期間・チャネル・状態等の複合条件配信履歴照会、手動再送、日次/週次/月次配信統計集計APIを提供し、オーディエンスターゲティング機能でデータ基盤の顧客コミュニケーション品質を確保。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
