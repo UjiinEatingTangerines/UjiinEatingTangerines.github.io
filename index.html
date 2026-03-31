@@ -329,11 +329,11 @@
       <article class="experience">
         <div class="experience__header">
           <span class="experience__company">
-            <span lang="ko">정산·결제 배치 시스템 구축</span>
-            <span lang="en" hidden>Settlement & Payment Batch System</span>
-            <span lang="ja" hidden>精算・決済バッチシステム構築</span>
+            <span lang="ko">정산·결제 배치 시스템 개발 및 운영</span>
+            <span lang="en" hidden>Settlement & Payment Batch System Development and Operations</span>
+            <span lang="ja" hidden>精算・決済バッチシステム開発および運用</span>
           </span>
-          <span class="experience__period">Spring Boot, Spring Batch, MyBatis, AWS SQS, EventBridge</span>
+          <span class="experience__period">Java, Spring Boot, MyBatis, Oracle, Nicepay PG</span>
         </div>
         <p class="psc__label">
           <span lang="ko">문제</span>
@@ -341,13 +341,13 @@
           <span lang="ja" hidden>課題</span>
         </p>
         <p class="profile__text" lang="ko">
-          일별 정산 집계를 단일 쿼리로 처리하던 구조에서 결제 트랜잭션 증가에 따라 배치 수행 시간이 선형 증가, 야간 배치 윈도우를 초과하기 시작. 정산 오류 발생 시 수동 재처리로 익영업일까지 지연되는 운영 리스크 존재.
+          충전 완료 트랜잭션마다 무상 크레딧·B2B 크레딧·마일리지·파트너 포인트(블루멤버스/레드멤버스)·신용카드(PG)를 순차 차감하는 다단계 결제 파이프라인에서, 회원 유형별 단가 정책·할인·쿠폰·예외 라우팅 규칙이 계속 추가되며 정합성 검증과 장애 추적이 어려워지는 상태.
         </p>
         <p class="profile__text" lang="en" hidden>
-          Daily settlement aggregation relied on a single query, and batch execution time grew linearly as payment transactions increased, eventually exceeding the nightly batch window. Settlement errors required manual reprocessing that was delayed until the next business day, creating operational risk.
+          A multi-step payment pipeline sequentially deducts free credits, B2B credits, mileage, partner points (Blue/Red Members), and credit card (PG) per completed charge. Member-type pricing, discounts, coupons, and exception-routing rules kept accumulating, making consistency verification and failure tracing increasingly difficult.
         </p>
         <p class="profile__text" lang="ja" hidden>
-          日次精算集計を単一クエリで処理していた構造で、決済トランザクション増加に伴いバッチ実行時間が線形増加し夜間バッチウィンドウを超過し始めた。精算エラー発生時は手動再処理で翌営業日まで遅延する運用リスクが存在。
+          充電完了トランザクションごとに無償クレジット・B2Bクレジット・マイレージ・パートナーポイント（Blue/Red Members）・クレジットカード（PG）を順次差引する多段決済パイプラインで、会員タイプ別単価ポリシー・割引・クーポン・例外ルーティング規則が増え続け整合性検証と障害追跡が困難な状態。
         </p>
         <p class="psc__label">
           <span lang="ko">해결 과정</span>
@@ -355,19 +355,25 @@
           <span lang="ja" hidden>解決プロセス</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong>Spring Batch Chunk 기반 분할 처리로 배치 시간 단축.</strong> 단일 대량 쿼리를 MyBatis Cursor + Chunk 처리로 전환하여 메모리 사용량을 일정하게 유지하면서 처리량 확보. Partitioning은 정산 특성상 날짜 단위 순차 정합이 필요하여 Chunk 단위 처리가 적합.</li>
-          <li><strong>SQS + EventBridge로 비동기 이벤트 기반 정산 트리거 구축.</strong> 결제 완료 이벤트를 SQS로 수신하고, EventBridge 스케줄로 일별·월별 정산 Job을 트리거. 수동 크론 관리를 제거하고 재처리 시 SQS DLQ에서 실패 이벤트를 자동 재투입.</li>
-          <li><strong>대사(reconciliation) 로직을 별도 Step으로 분리.</strong> 정산 집계와 대사를 하나의 Job 내 별도 Step으로 구성하여, 대사 실패 시 집계 롤백 없이 대사 Step만 재실행 가능하도록 설계.</li>
+          <li><strong>3초 주기 단건 처리 스케줄러로 정합성 우선 설계.</strong> 충전 완료 건을 1건씩 순차 처리해 트랜잭션 간 간섭을 원천 차단. 멀티 인스턴스 환경에서 인스턴스별 처리 대상을 분리(MULTI_TYPE)해 중복 처리를 방지.</li>
+          <li><strong>상태 코드 기반 예외 라우팅.</strong> 택시·제네시스·인카페이·픽업앤차지 등 정산 규칙이 다른 거래를 상태 코드로 분류하고, 48시간 미만 보류 건 자동 감지 등 예외 케이스를 파이프라인 진입 전에 분기 처리.</li>
+          <li><strong>회원 유형별 동적 단가 조정.</strong> 가격 인상 시점에 B2B 크레딧 잔액이 있는 현대·제네시스·신한 회원에게 기존 단가를 유지하는 로직, 아파트 프로모션 충전소의 입주민/비입주민 구분 적용, 럭키패스 H 멤버십 할인 등 회원·충전소·시점 조합에 따른 단가를 처리 시점에 동적으로 결정.</li>
+          <li><strong>순차 차감 결제 파이프라인과 정산 집계.</strong> 무상 크레딧 → B2B 크레딧 → 마일리지 → 파트너 포인트 → 신용카드(Nicepay PG) → 포인트 적립 순서로 잔액이 0이 될 때까지 순차 차감. SummaryContext에 각 단계별 차감 내역을 누적해 할인·쿠폰·크레딧·포인트·카드 결제 금액을 건별로 집계.</li>
+          <li><strong>실패 재처리 및 금액 대사.</strong> 스타터 크레딧 실패 건은 최대 3회까지 100ms 간격 재시도 후 최종 실패 처리. 정산 완료 후 산출 금액과 카드 청구 금액 간 차이를 검증하는 대사 로직으로 불일치 건을 자동 분류(정상/이상/검토 필요).</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong>Spring Batch chunk-based processing to reduce batch time.</strong> Replaced the single bulk query with MyBatis Cursor + chunk processing to keep memory usage constant while maintaining throughput. Partitioning was unsuitable because settlement requires date-sequential consistency, making chunk-level processing the right fit.</li>
-          <li><strong>SQS + EventBridge for async event-driven settlement triggers.</strong> Payment completion events are received via SQS, and EventBridge schedules trigger daily/monthly settlement jobs. Eliminated manual cron management; on failure, events are automatically re-ingested from the SQS DLQ.</li>
-          <li><strong>Separated reconciliation logic into a dedicated Step.</strong> Structured aggregation and reconciliation as separate Steps within a single Job so that reconciliation failures can be retried without rolling back the aggregation.</li>
+          <li><strong>3-second single-record scheduler for consistency-first design.</strong> Processes one completed charge at a time to eliminate inter-transaction interference. In a multi-instance environment, each instance processes only its assigned partition (MULTI_TYPE) to prevent duplicate processing.</li>
+          <li><strong>Status-code-based exception routing.</strong> Classifies transactions with different settlement rules — taxi, Genesis, Incarpay, Pickup & Charge — by status code, and branches exception cases such as sub-48-hour holds before pipeline entry.</li>
+          <li><strong>Dynamic unit-price adjustment by member type.</strong> Preserves previous pricing for Hyundai/Genesis/Shinhan members with remaining B2B credits at the time of a price increase, applies resident/non-resident pricing at apartment promotion stations, and determines Lucky Pass H membership discounts dynamically based on member, station, and timing.</li>
+          <li><strong>Sequential-deduction payment pipeline and settlement aggregation.</strong> Deducts in order — free credits → B2B credits → mileage → partner points → credit card (Nicepay PG) → point accumulation — until the balance reaches zero. Accumulates per-step deduction details in a SummaryContext to produce per-transaction settlement breakdowns.</li>
+          <li><strong>Failure retry and reconciliation.</strong> Starter credit failures are retried up to 3 times at 100 ms intervals before final failure. Post-settlement reconciliation compares calculated amounts against card-billed amounts and auto-classifies discrepancies (normal / abnormal / needs review).</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>Spring Batch Chunkベース分割処理でバッチ時間を短縮。</strong> 単一大量クエリをMyBatis Cursor＋Chunk処理へ転換しメモリ使用量を一定に保ちながらスループットを確保。Partitioningは精算特性上、日付単位の順次整合が必要なためChunk単位処理が適切。</li>
-          <li><strong>SQS＋EventBridgeで非同期イベントベースの精算トリガーを構築。</strong> 決済完了イベントをSQSで受信し、EventBridgeスケジュールで日次・月次精算Jobをトリガー。手動cron管理を排除し、失敗時はSQS DLQから自動再投入。</li>
-          <li><strong>対査（reconciliation）ロジックを別Stepとして分離。</strong> 精算集計と対査を1つのJob内の別Stepとして構成し、対査失敗時に集計をロールバックせず対査Stepのみ再実行可能に設計。</li>
+          <li><strong>3秒周期の単件処理スケジューラで整合性優先設計。</strong> 充電完了件を1件ずつ順次処理しトランザクション間の干渉を根本的に遮断。マルチインスタンス環境ではインスタンス別処理対象を分離（MULTI_TYPE）し重複処理を防止。</li>
+          <li><strong>ステータスコードベースの例外ルーティング。</strong> タクシー・Genesis・Incarpay・Pickup & Chargeなど精算ルールが異なる取引をステータスコードで分類し、48時間未満保留件の自動検知等の例外ケースをパイプライン進入前に分岐処理。</li>
+          <li><strong>会員タイプ別の動的単価調整。</strong> 価格引き上げ時点でB2Bクレジット残高がある現代・Genesis・新韓会員には旧単価を維持するロジック、マンションプロモーション充電所の入居者/非入居者区分適用、Lucky Pass Hメンバーシップ割引など、会員・充電所・時点の組み合わせに応じた単価を処理時点で動的に決定。</li>
+          <li><strong>順次差引決済パイプラインと精算集計。</strong> 無償クレジット→B2Bクレジット→マイレージ→パートナーポイント→クレジットカード（Nicepay PG）→ポイント積立の順で残高が0になるまで順次差引。SummaryContextに各段階の差引明細を蓄積し、割引・クーポン・クレジット・ポイント・カード決済金額を件別に集計。</li>
+          <li><strong>失敗再処理および金額対査。</strong> スタータークレジット失敗件は最大3回まで100ms間隔でリトライ後最終失敗処理。精算完了後、算出金額とカード請求金額間の差異を検証する対査ロジックで不一致件を自動分類（正常/異常/要確認）。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
@@ -375,19 +381,19 @@
           <span lang="ja" hidden>成果</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>야간 정산 배치 수행 시간 <strong>4시간 → 35분</strong></li>
-          <li>정산 오류 재처리 리드타임 <strong>익영업일 → 자동 즉시 재처리</strong></li>
-          <li>수동 크론 관리 포인트 <strong>8개 → 0개</strong></li>
+          <li>6종 결제수단 순차 차감 파이프라인을 단일 시스템에서 <strong>정합성 보장하며 운영</strong></li>
+          <li>회원 유형·충전소·시점별 단가 조합을 <strong>코드 변경 없이 동적 적용</strong></li>
+          <li>정산 금액 불일치 건 <strong>자동 분류·추적 체계 확보</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Nightly settlement batch time <strong>4 hours → 35 minutes</strong></li>
-          <li>Settlement error reprocessing lead time <strong>next business day → automatic immediate retry</strong></li>
-          <li>Manual cron management points <strong>8 → 0</strong></li>
+          <li>Operates a 6-method sequential-deduction pipeline <strong>with guaranteed consistency in a single system</strong></li>
+          <li>Applies member-type / station / timing price combinations <strong>dynamically without code changes</strong></li>
+          <li>Established <strong>automated classification and tracking for settlement discrepancies</strong></li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>夜間精算バッチ実行時間 <strong>4時間 → 35分</strong></li>
-          <li>精算エラー再処理リードタイム <strong>翌営業日 → 自動即時再処理</strong></li>
-          <li>手動cron管理ポイント <strong>8個 → 0個</strong></li>
+          <li>6種決済手段の順次差引パイプラインを単一システムで<strong>整合性を保証しながら運用</strong></li>
+          <li>会員タイプ・充電所・時点別単価の組み合わせを<strong>コード変更なしに動的適用</strong></li>
+          <li>精算金額不一致件の<strong>自動分類・追跡体系を確保</strong></li>
         </ul>
       </article>
 
