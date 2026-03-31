@@ -123,56 +123,53 @@
         </p>
         <ul class="experience__list" lang="ko">
           <li>
-            회원 유형별 가격·할인 규칙이 하나의 정산 흐름에 계속 누적되며 변경 영향 범위가 커지던 문제를 줄이기 위해,
-            운수사 회원의 자사 충전소 고정 단가·외부 충전기 고정 할인 정책을 공용 흐름에서 분리하고 내부 직원 전용 크루 멤버십과 자사 구독 멤버십 할인도 각각 독립 규칙으로 격리해 정책 변경이 다른 회원 유형 로직으로 번지는 결합을 낮춤.
+            팀마다 채널별 메시징을 일회성으로 구현하며 중복이 누적되던 문제를 해결하기 위해 통합 메시징 플랫폼을 설계.
+            발송·채널 처리 규약을 공통 계약 SDK로 추상화하고 GitHub Packages로 배포해, Node.js·Python·JVM 서비스가 동일한 계약을 재사용하는 구조로 전환.
+            임계시간 초과 건을 스케줄러가 자동 감지하고 지수 백오프 기반으로 재발송하는 지연 발송 감지·재처리 로직을 구현하고, DLQ 유입 메시지까지 포함해 최종 실패 시 알람을 트리거하도록 설계.
+            CloudWatch 커스텀 메트릭으로 채널별 실패율을 발행하고, 임계치 초과 시 SNS를 통해 Slack·이메일로 자동 알람을 발송하는 모니터링 체계를 구축.
+            발송 이력 조회·수동 재발송·일별/주별/월별 발송 통계 집계 API와 오디언스 타게팅 기능을 제공해 운영 편의성과 데이터 기반 고객 커뮤니케이션 품질을 확보.
           </li>
           <li>
-            현대 타입 회원 및 H 럭키패스 아파트 충전소 정책은 메서드 단위로 분리해 할인 정책별 조건 분기를 통제하고 로직 경계를 정리했으며,
-            고속도로 자사 충전소에도 자사 구독 멤버십이 적용되도록 기존 분기와의 충돌 지점을 줄이는 구조로 신규 상품 확장 요구를 수용.
+            회원 유형별 가격·할인 규칙이 하나의 정산 흐름에 누적되어 변경 영향 범위가 커지던 구조를 개선.
+            운수사·크루 멤버십·구독 멤버십 할인을 각각 독립 규칙으로 격리하고, 현대 타입·H 럭키패스 등 정책도 메서드 단위로 분리해 정책 간 결합을 낮춤.
           </li>
           <li>
-            채널별로 흩어져 있던 메시징 기능이 팀마다 일회성 구현으로 중복되던 문제를 줄이기 위해 통합 메시징 플랫폼을 설계하고,
-            메시지 발송과 채널 처리 규약을 공통 계약 SDK로 추상화해 GitHub Packages로 배포함으로써 Node.js·Python·JVM 서비스가 런타임별 구현 경계는 분리하되 같은 계약을 재사용하도록 구조를 정리.
-          </li>
-          <li>
-            자사 충전소 및 로밍 아웃 충전소의 미정산·미결제 재처리와 충전 완료 데이터 생성을 담당하는 스케줄러는 Java+MyBatis, 과도한 Join, DB 레이어 중심 로직 때문에 변경 영향 범위가 넓었습니다.
-            이를 Kotlin+JPA/QueryDSL 구조로 전환하면서 직접 관리 테이블만 서비스가 다루고 외부 테이블 의존은 API 호출로 분리했으며, 비즈니스 로직을 서비스 레이어로 이동시켜 <span class="highlight">이벤트 드리븐 아키텍처</span>로 재설계해 향후 정산 정책 변경과 장애 대응 범위를 줄였습니다.
+            미정산·미결제 재처리 스케줄러를 Java+MyBatis에서 Kotlin+JPA/QueryDSL로 전환.
+            외부 테이블 의존을 API 호출로 분리하고, 비즈니스 로직을 서비스 레이어로 이동시켜 <span class="highlight">이벤트 드리븐 아키텍처</span>로 재설계.
           </li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li>
-            As member-type-specific pricing and discount rules kept piling into a single settlement flow and widening the change surface, I isolated pricing and discount policies by member type,
-            separating transport-operator pricing at company-operated chargers, fixed discounts at external chargers, and the Crew and in-house subscription discounts into dedicated rules so policy changes were less coupled to other member-type logic.
+            Designed an integrated messaging platform to eliminate duplicated one-off implementations scattered across teams.
+            Abstracted the send-and-channel contract into a shared SDK published via GitHub Packages, enabling Node.js, Python, and JVM services to reuse the same contract.
+            Implemented delayed-delivery detection and auto-retry logic with exponential backoff, covering DLQ messages and triggering alarms on final failure.
+            Built a monitoring pipeline using CloudWatch custom metrics for per-channel failure rates, with threshold-based alarms routed through SNS to Slack and email.
+            Provided delivery history query, manual resend, periodic statistics APIs, and audience targeting to improve operational efficiency and data-driven communication quality.
           </li>
           <li>
-            I split Hyundai-type member and H Lucky Pass apartment-charger policies at the method level to keep discount-specific condition branches contained and clean up logic boundaries,
-            which reduced coupling between policies and let the in-house subscription membership extend to company-operated highway chargers by reducing collisions with existing branches as the product expanded.
+            Restructured the settlement flow where member-type pricing and discount rules had been piling up and widening the change surface.
+            Isolated transport-operator, Crew membership, and subscription discounts into independent rules, and split Hyundai-type and H Lucky Pass policies at the method level to reduce cross-policy coupling.
           </li>
           <li>
-            Because messaging capabilities had become fragmented into duplicated one-off implementations across teams, I designed an integrated messaging platform
-            and packaged the shared send-and-channel contract as an SDK in GitHub Packages so Node.js, Python, and JVM services could keep runtime-specific implementation boundaries separate while reusing the same contract instead of re-implementing it.
-          </li>
-          <li>
-            The scheduler responsible for retrying unsettled and unpaid charging histories and generating charge-completion data for company-operated and roaming-out chargers had a wide change surface because business logic was tied to a Java+MyBatis structure, heavy JOIN queries, and a DB-layer-centric design.
-            I migrated it to Kotlin+JPA/QueryDSL, limited direct access to project-owned management tables, moved external-table dependencies behind APIs, and lifted business logic into the service layer as part of an <span class="highlight">event-driven architecture</span> redesign to reduce future policy-change and incident-response cost.
+            Migrated the unsettled/unpaid retry scheduler from Java+MyBatis to Kotlin+JPA/QueryDSL.
+            Replaced external-table dependencies with API calls and lifted business logic into the service layer, redesigning it as an <span class="highlight">event-driven architecture</span>.
           </li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li>
-            価格・割引ルールがひとつの精算フローに蓄積し続け、変更影響範囲が広がっていた問題を抑えるため、
-            運輸会社会員向けの自社充電所固定単価・外部充電器固定割引ポリシーを共通フローから分離し、社内従業員向けCrewメンバーシップと自社サブスクリプションメンバーシップの割引も個別ルールとして隔離して、ポリシー変更が他会員タイプのロジックへ波及しにくい構造に整理。
+            チームごとにチャネル別メッセージングを都度実装し重複が蓄積していた問題を解消するため、統合メッセージングプラットフォームを設計。
+            送信・チャネル処理の共通契約をSDKとして抽象化しGitHub Packagesで配布、Node.js・Python・JVMサービスが同じ契約を再利用する構造へ転換。
+            閾値超過の遅延配信をスケジューラが自動検知し、指数バックオフで再送するロジックを実装。DLQメッセージも対象に含め、最終失敗時にアラームをトリガーする設計。
+            CloudWatchカスタムメトリクスでチャネル別失敗率を発行し、閾値超過時にSNS経由でSlack・メールへ自動アラームを送信するモニタリング体制を構築。
+            配信履歴照会・手動再送・日次/週次/月次配信統計集計APIとオーディエンスターゲティング機能を提供し、運用利便性とデータ基盤の顧客コミュニケーション品質を確保。
           </li>
           <li>
-            Hyundaiタイプ会員およびH Lucky Passマンション充電所のポリシーはメソッド単位で分離して割引ポリシーごとの条件分岐を制御し、ロジック境界を整理して、
-            高速道路の自社充電所にも自社サブスクリプションメンバーシップを適用できるよう既存分岐との衝突点を減らす構造で新規商品拡張要件を吸収。
+            会員タイプ別の価格・割引ルールがひとつの精算フローに蓄積し変更影響範囲が広がっていた構造を改善。
+            運輸会社・Crewメンバーシップ・サブスクリプション割引をそれぞれ独立ルールとして隔離し、Hyundaiタイプ・H Lucky Pass等のポリシーもメソッド単位で分離してポリシー間の結合を低減。
           </li>
           <li>
-            チャネルごとに分散していたメッセージング機能がチーム別の都度実装として重複していたため、統合メッセージングプラットフォームを設計し、
-            メッセージ送信とチャネル処理の共通契約をSDKとして抽象化しGitHub Packagesで提供することで、Node.js・Python・JVMサービスがランタイムごとの実装境界は分けたまま同じ契約を再利用できる構造に整理しました。
-          </li>
-          <li>
-            自社充電所およびローミングアウト充電所の未精算・未決済再処理と充電完了データ生成を担うスケジューラは、Java+MyBatis、過度なJoin、DBレイヤー中心ロジックのため変更影響範囲が広い状態でした。
-            これをKotlin+JPA/QueryDSL構造へ移行し、直接管理するテーブルだけをサービスが扱い、外部テーブル依存はAPI呼び出しへ分離し、ビジネスロジックをサービスレイヤーへ移して<span class="highlight">イベントドリブンアーキテクチャ</span>へ再設計することで、今後の精算ポリシー変更と障害対応コストを下げました。
+            未精算・未決済再処理スケジューラをJava+MyBatisからKotlin+JPA/QueryDSLへ移行。
+            外部テーブル依存をAPI呼び出しへ分離し、ビジネスロジックをサービスレイヤーへ移して<span class="highlight">イベントドリブンアーキテクチャ</span>へ再設計。
           </li>
         </ul>
 
