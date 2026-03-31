@@ -531,7 +531,7 @@
             <span lang="en" hidden>JIRA Ticket Reduction for Engineering Focus</span>
             <span lang="ja" hidden>JIRAチケット定量削減によるエンジニア集中度向上</span>
           </span>
-          <span class="experience__period">Spring Boot, Spring Batch, AWS SQS, EventBridge</span>
+          <span class="experience__period">Spring Boot, Jira Automation</span>
         </div>
         <p class="profile__text" lang="ko">
           개발팀의 JIRA 티켓을 유형별로 분석한 결과, 전체 티켓의 상당수가 데이터 보정, 수기 발송, 설정 변경 등 반복 운영성 요청. 엔지니어가 핵심 개발이 아닌 운영 대응에 시간을 소모하는 구조가 문제.
@@ -563,18 +563,12 @@
         </p>
         <ul class="experience__list" lang="ko">
           <li><strong>티켓 유형별 발생 빈도 분석 후 자동화 대상 선정.</strong> 최근 6개월 티켓을 카테고리별로 분류하여 상위 반복 유형을 도출. 자동화 ROI가 높은 유형부터 순차 전환.</li>
-          <li><strong>수동 요청을 배치 자동화 또는 셀프서비스 어드민으로 전환.</strong> 데이터 보정 요청은 Spring Batch Job으로, 설정 변경 요청은 어드민 UI 셀프서비스로 전환. SQS 이벤트 기반 트리거로 요청 접수 → 자동 처리 파이프라인 구축.</li>
-          <li><strong>EventBridge 스케줄 배치로 주기적 운영 작업 자동화.</strong> 정기적으로 발생하는 운영 작업(리포트 생성, 상태 동기화 등)을 스케줄 배치로 전환하여 티켓 발생 자체를 제거.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li><strong>Ticket frequency analysis by type and automation target selection.</strong> Classified 6 months of tickets by category to identify the top recurring types. Prioritized conversion by automation ROI.</li>
-          <li><strong>Converted manual requests to batch automation or self-service admin.</strong> Data correction requests became Spring Batch Jobs; configuration change requests became self-service admin UI flows. Built a request-intake → automatic-processing pipeline using SQS event-based triggers.</li>
-          <li><strong>EventBridge scheduled batches for periodic operational tasks.</strong> Converted recurring operational work (report generation, status synchronization, etc.) to scheduled batches, eliminating ticket creation at the source.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li><strong>チケット類型別発生頻度分析後、自動化対象を選定。</strong> 直近6ヶ月のチケットをカテゴリ別に分類し上位反復類型を抽出。自動化ROIの高い類型から順次転換。</li>
-          <li><strong>手動リクエストをバッチ自動化またはセルフサービスAdminへ転換。</strong> データ補正リクエストはSpring Batch Jobへ、設定変更リクエストはAdmin UIセルフサービスへ転換。SQSイベントベーストリガーでリクエスト受付→自動処理パイプラインを構築。</li>
-          <li><strong>EventBridgeスケジュールバッチで定期運用作業を自動化。</strong> 定期的に発生する運用作業（レポート生成、ステータス同期等）をスケジュールバッチへ転換しチケット発生自体を除去。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
