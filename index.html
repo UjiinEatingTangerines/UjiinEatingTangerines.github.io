@@ -265,30 +265,21 @@
             <span lang="en" hidden>Unified Messaging Platform (Project Lead)</span>
             <span lang="ja" hidden>統合メッセージングプラットフォーム構築（プロジェクトリード）</span>
           </span>
-          <span class="experience__period">Kotlin, Spring Boot, JPA, gRPC, Protobuf, MQTT(EMQX), GitHub Packages</span>
+          <span class="experience__period">Kotlin, Spring Boot, JPA, AWS CloudWatch, SNS, GitHub Packages</span>
         </div>
-        <p class="profile__text" lang="ko">
-          SMS, LMS, 앱 푸시, 이메일, 알림톡 등 13개 이상의 서비스에서 각자 벤더 API를 직접 호출하는 구조로 운영. 채널 추가·벤더 변경 시 전 서비스 수정이 필요하고, 발송량 제어가 불가능하여 비용 초과 및 장애 전파 리스크 상존.
-        </p>
-        <p class="profile__text" lang="en" hidden>
-          Over 13 services were each directly calling vendor APIs for SMS, LMS, push notifications, email, and KakaoTalk alerts. Adding a channel or switching a vendor required changes across all services, and there was no send-volume control, leading to cost overruns and cascading failure risk.
-        </p>
-        <p class="profile__text" lang="ja" hidden>
-          SMS、LMS、アプリプッシュ、メール、アリムトークなど13以上のサービスがそれぞれベンダーAPIを直接呼び出す構造で運用。チャネル追加・ベンダー変更時に全サービスの修正が必要で、送信量制御が不可能なためコスト超過と障害伝播リスクが常在。
-        </p>
         <p class="psc__label">
           <span lang="ko">문제</span>
           <span lang="en" hidden>Problem</span>
           <span lang="ja" hidden>課題</span>
         </p>
         <p class="profile__text" lang="ko">
-          파편화된 메시징 구조 자체가 문제. 개별 서비스가 벤더를 직접 호출하는 한 채널 통제와 장애 격리가 불가능.
+          13개 이상의 서비스가 각자 벤더 API를 직접 호출하는 구조로, 채널 추가·벤더 변경 시 전 서비스 수정이 필요. 발송 실패에 대한 감지·재처리 체계가 없어 누락 건을 수동으로 확인해야 했고, 발송 현황에 대한 통합 가시성도 부재.
         </p>
         <p class="profile__text" lang="en" hidden>
-          The fragmented messaging architecture itself was the problem. As long as individual services called vendors directly, channel governance and fault isolation were impossible.
+          Over 13 services each called vendor APIs directly, requiring changes across all services whenever a channel was added or a vendor changed. There was no detection or retry mechanism for delivery failures — missed messages had to be checked manually — and no unified visibility into delivery status.
         </p>
         <p class="profile__text" lang="ja" hidden>
-          断片化されたメッセージング構造そのものが問題。個別サービスがベンダーを直接呼び出す限りチャネル統制と障害隔離は不可能。
+          13以上のサービスがそれぞれベンダーAPIを直接呼び出す構造で、チャネル追加・ベンダー変更時に全サービスの修正が必要。配信失敗の検知・再処理体制がなく漏れを手動確認する状態で、配信状況の統合的な可視性も不在。
         </p>
         <p class="psc__label">
           <span lang="ko">해결 과정</span>
@@ -296,22 +287,22 @@
           <span lang="ja" hidden>解決プロセス</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong>채널 어댑터 멀티모듈 + gRPC SDK로 벤더 의존 제거.</strong> 벤더 연동을 채널 어댑터 모듈로 분리하고, gRPC/Protobuf 기반 SDK를 GitHub Packages로 배포해 서비스 코드에서 벤더 의존성을 완전 제거. MQTT(EMQX)를 디스패치 레이어로 도입해 로그 파이프라인(Kinesis)과 발송 트래픽을 분리.</li>
-          <li><strong>지연 발송 자동 감지 및 재처리 흐름 구현.</strong> 스케줄러가 임계시간 초과 건을 자동 감지하고, 지수 백오프 기반으로 재발송. 최대 재시도 초과 시 최종 실패 처리 및 알람 트리거. DLQ 유입 메시지도 재처리 대상에 포함.</li>
-          <li><strong>CloudWatch 기반 채널별 모니터링·알람 체계 구축.</strong> 커스텀 메트릭으로 채널별 실패율을 발행하고, 채널별 차등 임계치 초과 시 SNS → Slack·이메일로 자동 알람 발송. 심각도 구분(WARNING/CRITICAL)과 중복 억제 로직 적용.</li>
-          <li><strong>발송 이력·통계 API 및 오디언스 타게팅 제공.</strong> 기간·채널·상태 등 복합 조건 발송 이력 조회, 수동 재발송, 일별/주별/월별 발송 통계 집계 API를 제공하고, 오디언스 타게팅 기능으로 데이터 기반 고객 커뮤니케이션 품질을 확보.</li>
+          <li><strong>멀티모듈 채널 어댑터로 벤더 의존 제거.</strong> 벤더 연동을 채널 어댑터 모듈로 분리하고, 공통 계약 SDK를 GitHub Packages로 배포해 서비스 코드에서 벤더 의존성을 완전 제거.</li>
+          <li><strong>지연 발송 감지 및 자동 재처리.</strong> 스케줄러가 RECEIVED/PROCESSING 상태의 임계시간 초과 건을 주기적으로 탐지하고, retry_count 기준으로 지수 백오프 재발송 또는 최종 실패 처리. DLQ 유입 메시지도 재처리 대상에 포함.</li>
+          <li><strong>CloudWatch 기반 채널별 모니터링·알람.</strong> 커스텀 메트릭으로 채널별 발송 성공/실패 건수와 실패율을 발행. 채널별 차등 임계치(SMS 15%, 알림톡 10% 등) 초과 시 CloudWatch Alarm → SNS → Slack·이메일로 자동 알람 발송. 심각도 구분(WARNING/CRITICAL)과 중복 억제(snooze) 로직 적용.</li>
+          <li><strong>발송 이력·통계 API 및 오디언스 타게팅.</strong> 기간·채널·상태·수신자 등 복합 조건 조회, 수동 재발송, 일별/주별/월별 채널별 발송량·성공률·실패 사유 Top N 집계 API를 제공. 오디언스 타게팅 기능으로 데이터 기반 고객 커뮤니케이션 품질을 확보.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong>Channel adapter multi-module + gRPC SDK to eliminate vendor dependency.</strong> Isolated vendor integrations into channel adapter modules and published a gRPC/Protobuf SDK via GitHub Packages, fully removing vendor coupling from service code. Introduced MQTT (EMQX) as the dispatch layer to separate log pipelines (Kinesis) from delivery traffic.</li>
-          <li><strong>Automated delayed-delivery detection and retry flow.</strong> A scheduler detects messages exceeding the threshold time, retries with exponential backoff, and triggers alarms on final failure after max retries. DLQ messages are included in the retry scope.</li>
-          <li><strong>CloudWatch-based per-channel monitoring and alerting.</strong> Published custom metrics for per-channel failure rates, with differentiated thresholds triggering automatic alarms via SNS to Slack and email. Applied severity levels (WARNING/CRITICAL) and duplicate suppression logic.</li>
-          <li><strong>Delivery history/statistics APIs and audience targeting.</strong> Provided delivery history queries with multi-condition filtering, manual resend, and daily/weekly/monthly statistics aggregation APIs, along with audience targeting for data-driven communication quality.</li>
+          <li><strong>Multi-module channel adapters to remove vendor dependency.</strong> Isolated vendor integrations into channel adapter modules and published a shared contract SDK via GitHub Packages, fully removing vendor coupling from service code.</li>
+          <li><strong>Delayed-delivery detection and auto-retry.</strong> A scheduler periodically detects RECEIVED/PROCESSING messages exceeding the threshold time, retries with exponential backoff based on retry_count, or marks final failure. DLQ messages are included in the retry scope.</li>
+          <li><strong>CloudWatch-based per-channel monitoring and alerting.</strong> Published custom metrics for per-channel success/failure counts and failure rates. Differentiated thresholds per channel (SMS 15%, AlimTalk 10%, etc.) trigger CloudWatch Alarm → SNS → Slack/email. Applied severity levels (WARNING/CRITICAL) and duplicate suppression (snooze) logic.</li>
+          <li><strong>Delivery history/statistics APIs and audience targeting.</strong> Provided multi-condition queries (period, channel, status, recipient), manual resend, and daily/weekly/monthly aggregation APIs for volume, success rate, and top-N failure reasons. Audience targeting for data-driven communication quality.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>チャネルアダプターマルチモジュール＋gRPC SDKでベンダー依存を除去。</strong> ベンダー連携をチャネルアダプターモジュールとして分離し、gRPC/ProtobufベースのSDKをGitHub Packagesで配布してサービスコードからベンダー依存を完全除去。MQTT（EMQX）をディスパッチレイヤーとして導入しログパイプライン（Kinesis）と配信トラフィックを分離。</li>
-          <li><strong>遅延配信の自動検知および再処理フローを実装。</strong> スケジューラが閾値超過の件を自動検知し、指数バックオフで再送。最大リトライ超過時は最終失敗処理およびアラームをトリガー。DLQ流入メッセージも再処理対象に含む。</li>
-          <li><strong>CloudWatchベースのチャネル別モニタリング・アラーム体系を構築。</strong> カスタムメトリクスでチャネル別失敗率を発行し、チャネル別差等閾値超過時にSNS→Slack・メールで自動アラーム送信。深刻度区分（WARNING/CRITICAL）と重複抑制ロジックを適用。</li>
-          <li><strong>配信履歴・統計APIおよびオーディエンスターゲティングを提供。</strong> 期間・チャネル・状態等の複合条件配信履歴照会、手動再送、日次/週次/月次配信統計集計APIを提供し、オーディエンスターゲティング機能でデータ基盤の顧客コミュニケーション品質を確保。</li>
+          <li><strong>マルチモジュールチャネルアダプターでベンダー依存を除去。</strong> ベンダー連携をチャネルアダプターモジュールとして分離し、共通契約SDKをGitHub Packagesで配布してサービスコードからベンダー依存を完全除去。</li>
+          <li><strong>遅延配信検知および自動再処理。</strong> スケジューラがRECEIVED/PROCESSING状態の閾値超過件を定期検知し、retry_count基準で指数バックオフ再送または最終失敗処理。DLQ流入メッセージも再処理対象に含む。</li>
+          <li><strong>CloudWatchベースのチャネル別モニタリング・アラーム。</strong> カスタムメトリクスでチャネル別送信成功/失敗件数と失敗率を発行。チャネル別差等閾値（SMS 15%、アリムトーク10%等）超過時にCloudWatch Alarm→SNS→Slack・メールで自動アラーム送信。深刻度区分（WARNING/CRITICAL）と重複抑制（snooze）ロジックを適用。</li>
+          <li><strong>配信履歴・統計APIおよびオーディエンスターゲティング。</strong> 期間・チャネル・状態・受信者等の複合条件照会、手動再送、日次/週次/月次チャネル別送信量・成功率・失敗事由Top N集計APIを提供。オーディエンスターゲティング機能でデータ基盤の顧客コミュニケーション品質を確保。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
@@ -320,17 +311,17 @@
         </p>
         <ul class="experience__list" lang="ko">
           <li>신규 채널 추가 리드타임 <strong>3주 → 어댑터 모듈 1개 추가(3일)</strong></li>
-          <li>벤더 장애 시 타 채널 영향 <strong>있음 → 완전 격리</strong></li>
+          <li>발송 실패 수동 확인 <strong>→ 자동 감지·재처리·알람으로 전환</strong></li>
           <li>서비스별 메시징 연동 코드 <strong>~300줄 → SDK 의존성 1줄</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li>New channel addition lead time <strong>3 weeks → 1 adapter module (3 days)</strong></li>
-          <li>Vendor outage cross-channel impact <strong>present → fully isolated</strong></li>
+          <li>Delivery failure handling <strong>manual checks → automated detection, retry, and alerting</strong></li>
           <li>Per-service messaging integration code <strong>~300 lines → 1 SDK dependency</strong></li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li>新規チャネル追加リードタイム <strong>3週間 → アダプターモジュール1個追加（3日）</strong></li>
-          <li>ベンダー障害時の他チャネル影響 <strong>あり → 完全隔離</strong></li>
+          <li>配信失敗対応 <strong>手動確認 → 自動検知・再処理・アラームへ転換</strong></li>
           <li>サービス別メッセージング連携コード <strong>約300行 → SDK依存1行</strong></li>
         </ul>
       </article>
