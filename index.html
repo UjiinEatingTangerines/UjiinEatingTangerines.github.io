@@ -31,17 +31,17 @@
       <p class="header__title">Back-end Engineer</p>
 
       <div class="header__contact-info">
-        <span>
-          <span lang="ko">서울특별시 중랑구</span>
-          <span lang="en" hidden>Jungnang-gu, Seoul</span>
-          <span lang="ja" hidden>ソウル特別市 中浪区</span>
+        <span data-private data-real-ko="서울특별시 중랑구" data-real-en="Jungnang-gu, Seoul" data-real-ja="ソウル特別市 中浪区">
+          <span lang="ko">서울특별시 ***</span>
+          <span lang="en" hidden>***, Seoul</span>
+          <span lang="ja" hidden>ソウル特別市 ***</span>
         </span>
         <span class="sep" aria-hidden="true">/</span>
-        <span>+82 9625 2784</span>
+        <span data-private data-real="+82 9625 2784">+82 **** 2784</span>
         <span class="sep" aria-hidden="true">/</span>
-        <a href="mailto:kkepm012@naver.com">kkepm012@naver.com</a>
+        <span data-private data-real="kkepm012@naver.com" data-real-href="mailto:kkepm012@naver.com">k*****@naver.com</span>
         <span class="sep" aria-hidden="true">/</span>
-        <a href="mailto:1996.devjiinu@gmail.com">1996.devjiinu@gmail.com</a>
+        <span data-private data-real="1996.devjiinu@gmail.com" data-real-href="mailto:1996.devjiinu@gmail.com">1996.d*****@gmail.com</span>
       </div>
 
       <div class="header__links">
@@ -781,6 +781,38 @@
         });
       });
 
+      // Unmask private data on a cloned DOM for PDF export
+      function unmaskPrivateData(root, lang) {
+        root.querySelectorAll('[data-private]').forEach(function (el) {
+          // Multi-lang address
+          var realKo = el.getAttribute('data-real-ko');
+          if (realKo) {
+            var realEn = el.getAttribute('data-real-en') || realKo;
+            var realJa = el.getAttribute('data-real-ja') || realKo;
+            el.querySelectorAll('[lang]').forEach(function (span) {
+              var l = span.getAttribute('lang');
+              if (l === 'ko') span.textContent = realKo;
+              else if (l === 'en') span.textContent = realEn;
+              else if (l === 'ja') span.textContent = realJa;
+            });
+            return;
+          }
+          // Simple text or link
+          var realText = el.getAttribute('data-real');
+          var realHref = el.getAttribute('data-real-href');
+          if (realText) {
+            if (realHref) {
+              var a = document.createElement('a');
+              a.href = realHref;
+              a.textContent = realText;
+              el.replaceWith(a);
+            } else {
+              el.textContent = realText;
+            }
+          }
+        });
+      }
+
       window.downloadPdf = async function () {
         var sourcePage = document.querySelector('.page');
         if (!sourcePage) return;
@@ -788,6 +820,9 @@
         var exportPage = sourcePage.cloneNode(true);
         var toolbar = exportPage.querySelector('.toolbar');
         if (toolbar) toolbar.remove();
+
+        // Unmask private data in the cloned export page
+        unmaskPrivateData(exportPage, currentLang);
 
         exportPage.style.margin = '0';
         exportPage.style.boxShadow = 'none';
