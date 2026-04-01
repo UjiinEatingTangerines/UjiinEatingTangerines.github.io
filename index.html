@@ -84,67 +84,29 @@
           <span lang="ja" hidden>Back-end Engineer</span>
         </p>
 
-        <p class="experience__team">
-          <span lang="ko">크레딧·결제·정산 시스템</span>
-          <span lang="en" hidden>Credit / Payment / Settlement System</span>
-          <span lang="ja" hidden>クレジット・決済・精算システム</span>
-        </p>
         <ul class="experience__list" lang="ko">
-          <li>원장 기반 크레딧 시스템을 설계하고, 잔액 이전·수수료 취소·부분 취소 등 금액 변동 이력을 추적 가능한 구조로 구축.</li>
-          <li>B2B 제휴 고객별 정산 정책 차이를 크레딧 유형 확장으로 흡수하고, 회원 유형별 정산 정책을 격리해 정책 간 결합을 제거.</li>
-          <li>전자금융업 등록 요건에 따라 폐쇄망 이관 시 데이터 모델·API 경계를 재설계하고, 제로 다운타임으로 전환 완료.</li>
+          <li>원장 기반 크레딧 시스템을 설계하고, 잔액 불일치를 월 12건에서 0건으로 해소.</li>
+          <li>6종 결제수단 순차 차감 파이프라인을 구축해 단일 시스템에서 정합성을 보장하며 운영.</li>
+          <li>전자금융업 등록 요건에 따라 폐쇄망 이관을 제로 다운타임으로 완료.</li>
           <li>금결원 보고 기준에 맞는 크레딧 만료 처리 체계를 구축하고, 낙전수입 인식 정확도 100% 달성.</li>
-          <li>미정산·미결제 재처리 흐름을 이벤트 기반으로 재설계해 장애 발생 시 영향 범위를 축소.</li>
-        </ul>
-        <ul class="experience__list" lang="en" hidden>
-          <li>Designed a ledger-based credit system with traceable money-state history covering balance transfers, fee cancellations, and partial cancellations.</li>
-          <li>Absorbed per-partner B2B settlement policy differences through credit type expansion, isolating settlement policies by member type.</li>
-          <li>Redesigned data model and API boundaries during air-gapped migration for e-finance registration, completing the transition with zero downtime.</li>
-          <li>Built a credit expiration processing system aligned with KFTC reporting standards, achieving 100% accuracy in dormant revenue recognition.</li>
-          <li>Redesigned the unsettled/unpaid retry flow as an event-driven architecture to reduce the blast radius of failures.</li>
-        </ul>
-        <ul class="experience__list" lang="ja" hidden>
-          <li>台帳ベースのクレジットシステムを設計し、残高移転・手数料取消・部分取消など金額変動履歴を追跡可能な構造で構築。</li>
-          <li>B2B提携顧客ごとの精算ポリシー差分をクレジット種別拡張で吸収し、会員タイプ別に精算ポリシーを隔離。</li>
-          <li>電子金融業登録要件に基づく閉域網移管時にデータモデル・API境界を再設計し、ゼロダウンタイムで移行完了。</li>
-          <li>金融結済院の報告基準に適合するクレジット満了処理体系を構築し、休眠収益の認識精度100%を達成。</li>
-          <li>未精算・未決済の再処理フローをイベント駆動で再設計し、障害発生時の影響範囲を縮小。</li>
-        </ul>
-
-        <p class="experience__team">
-          <span lang="ko">통합 메시징 플랫폼</span>
-          <span lang="en" hidden>Unified Messaging Platform</span>
-          <span lang="ja" hidden>統合メッセージングプラットフォーム</span>
-        </p>
-        <ul class="experience__list" lang="ko">
-          <li>13개 서비스에 흩어져 있던 고객 커뮤니케이션 채널을 단일 플랫폼으로 통합.</li>
-          <li>지연 감지·자동 재처리·채널별 모니터링·발송 통계·오디언스 타게팅까지 운영 전반을 플랫폼 안에서 해결할 수 있는 구조를 구축.</li>
-        </ul>
-        <ul class="experience__list" lang="en" hidden>
-          <li>Consolidated customer communication channels scattered across 13 services into a single platform.</li>
-          <li>Built a structure covering delayed-delivery detection, auto-retry, per-channel monitoring, delivery statistics, and audience targeting within the platform.</li>
-        </ul>
-        <ul class="experience__list" lang="ja" hidden>
-          <li>13サービスに分散していた顧客コミュニケーションチャネルを単一プラットフォームへ統合。</li>
-          <li>遅延検知・自動再処理・チャネル別モニタリング・配信統計・オーディエンスターゲティングまで運用全般をプラットフォーム内で完結できる構造を構築。</li>
-        </ul>
-
-        <p class="experience__team">
-          <span lang="ko">운영 자동화 및 팀 워크플로우</span>
-          <span lang="en" hidden>Operations Automation & Team Workflow</span>
-          <span lang="ja" hidden>運用自動化およびチームワークフロー</span>
-        </p>
-        <ul class="experience__list" lang="ko">
+          <li>13개 서비스에 흩어져 있던 메시징 채널을 통합 플랫폼으로 일원화하고, 채널 추가 리드타임을 3주에서 3일로 단축.</li>
           <li>반복 운영 요청을 시스템으로 내재화해 담당자별 수동 처리를 <span class="highlight">95% 개선</span>.</li>
-          <li>Jira 보드 자동화와 PR 알림 봇을 개발해 팀의 개발 흐름과 진행 상황의 투명성을 확보.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Internalized repetitive operational requests into the system, achieving a <span class="highlight">95% improvement</span> in manual processing per agent.</li>
-          <li>Developed Jira board automation and a PR notification bot to improve development workflow transparency across the team.</li>
+          <li>Designed a ledger-based credit system, eliminating balance inconsistencies from 12/month to zero.</li>
+          <li>Built a 6-method sequential-deduction payment pipeline with guaranteed consistency in a single system.</li>
+          <li>Completed air-gapped migration for e-finance registration with zero downtime.</li>
+          <li>Built a credit expiration system achieving 100% accuracy in KFTC dormant revenue recognition.</li>
+          <li>Unified messaging channels across 13 services into a single platform, reducing channel addition lead time from 3 weeks to 3 days.</li>
+          <li>Internalized repetitive operational requests, achieving a <span class="highlight">95% improvement</span> in manual processing.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
+          <li>台帳ベースのクレジットシステムを設計し、残高不整合を月12件→0件に解消。</li>
+          <li>6種決済手段の順次差引パイプラインを構築し、単一システムで整合性を保証しながら運用。</li>
+          <li>電子金融業登録要件に基づく閉域網移管をゼロダウンタイムで完了。</li>
+          <li>金融結済院の報告基準に適合するクレジット満了処理体系を構築し、休眠収益の認識精度100%を達成。</li>
+          <li>13サービスに分散していたメッセージングチャネルを統合プラットフォームへ一元化し、チャネル追加リードタイムを3週間→3日に短縮。</li>
           <li>繰り返し運用依頼をシステムへ内製化し、担当者あたりの手動対応を<span class="highlight">95%改善</span>。</li>
-          <li>Jiraボード自動化とPR通知ボットを開発し、チームの開発フローと進捗の透明性を確保。</li>
         </ul>
       </article>
 
@@ -188,55 +150,6 @@
     <!-- Problem Solving -->
     <section class="section psc">
       <h2 class="section__title">Problem Solving</h2>
-
-      <article class="experience">
-        <div class="experience__header">
-          <span class="experience__company">
-            <span lang="ko">크레딧·마일리지 API 설계 및 개발</span>
-            <span lang="en" hidden>Credit & Mileage API Design and Development</span>
-            <span lang="ja" hidden>クレジット・マイレージAPI設計・開発</span>
-          </span>
-          <span class="experience__period">Spring Boot, JPA, QueryDSL</span>
-        </div>
-        <p class="profile__text" lang="ko">
-          크레딧 적립·사용·차감 처리 시 동시 요청에서 잔액 정합성이 깨지는 케이스가 간헐적으로 발생. 내부 서비스마다 크레딧 연동 방식이 제각각이라 신규 서비스 통합 시 매번 2주 이상의 연동 개발이 필요.
-        </p>
-        <p class="profile__text" lang="en" hidden>
-          Intermittent balance inconsistencies occurred when concurrent requests hit the credit earn/use/deduct flow. Each internal service integrated with the credit system differently, requiring over two weeks of custom development for every new integration.
-        </p>
-        <p class="profile__text" lang="ja" hidden>
-          クレジットの付与・使用・差引処理で同時リクエストにより残高整合性が崩れるケースが散発的に発生。内部サービスごとにクレジット連携方式がバラバラで、新規サービス統合のたびに2週間以上の連携開発が必要だった。
-        </p>
-        <ul class="experience__list" lang="ko">
-          <li><strong>비관적 락 + 트랜잭션 경계 재설계로 잔액 정합성 확보.</strong> 적립·사용·차감을 단일 트랜잭션으로 묶고 <code>SELECT FOR UPDATE</code>로 잔액 행을 잠가 동시성 문제를 근본 차단. 분산 락(Redis)은 단일 DB 내 정합성이면 충분하여 운영 복잡도 대비 이점 없음으로 판단.</li>
-          <li><strong>QueryDSL 기반 동적 조회로 이력 조회 성능 확보.</strong> 기간·유형·상태 등 복합 조건 조회가 잦은데, MyBatis 동적 SQL은 조건 조합 폭증 시 XML 유지보수가 어려워 QueryDSL로 전환. 커버링 인덱스와 조합하여 이력 조회 p95 응답속도 개선.</li>
-        </ul>
-        <ul class="experience__list" lang="en" hidden>
-          <li><strong>Pessimistic locking + transaction boundary redesign.</strong> Wrapped earn/use/deduct in a single transaction with <code>SELECT FOR UPDATE</code> to lock the balance row, eliminating concurrency issues at the root. A distributed lock (Redis) was unnecessary since single-DB consistency was sufficient.</li>
-          <li><strong>QueryDSL-based dynamic queries for history lookup performance.</strong> Migrated from MyBatis dynamic SQL (unmaintainable as condition combinations grew) to QueryDSL combined with covering indexes to improve history query p95 response time.</li>
-        </ul>
-        <ul class="experience__list" lang="ja" hidden>
-          <li><strong>悲観的ロック＋トランザクション境界再設計で残高整合性を確保。</strong> 付与・使用・差引を単一トランザクションにまとめ<code>SELECT FOR UPDATE</code>で残高行をロックし同時性問題を根本遮断。分散ロック（Redis）は単一DB内の整合性で十分であり運用複雑度に見合うメリットなしと判断。</li>
-          <li><strong>QueryDSLベースの動的クエリで履歴照会性能を確保。</strong> 期間・種別・状態など複合条件照会が頻繁で、MyBatis動的SQLは条件組み合わせ増加時にXML保守が困難になりQueryDSLへ転換。カバリングインデックスと組み合わせ履歴照会p95応答速度を改善。</li>
-        </ul>
-        <p class="psc__label">
-          <span lang="ko">결과</span>
-          <span lang="en" hidden>Results</span>
-          <span lang="ja" hidden>成果</span>
-        </p>
-        <ul class="experience__list" lang="ko">
-          <li>잔액 불일치 발생 <strong>월 12건 → 0건</strong></li>
-          <li>이력 조회 API p95 <strong>1,200ms → 180ms</strong></li>
-        </ul>
-        <ul class="experience__list" lang="en" hidden>
-          <li>Balance inconsistencies <strong>12/month → 0</strong></li>
-          <li>History query API p95 <strong>1,200 ms → 180 ms</strong></li>
-        </ul>
-        <ul class="experience__list" lang="ja" hidden>
-          <li>残高不整合発生 <strong>月12件 → 0件</strong></li>
-          <li>履歴照会API p95 <strong>1,200ms → 180ms</strong></li>
-        </ul>
-      </article>
 
       <article class="experience">
         <div class="experience__header">
