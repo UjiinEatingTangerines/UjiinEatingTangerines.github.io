@@ -387,35 +387,29 @@
         </p>
         <ul class="experience__list" lang="ko">
           <li><strong>SQS + EventBridge Scheduler로 만료 배치 트리거 구축.</strong> EventBridge Scheduler가 매일 00시에 SQS로 만료 처리 이벤트를 발행하고, 애플리케이션이 SQS 메시지를 수신해 만료 Job을 실행. 서비스 장애 시에도 SQS 메시지가 보존되어 재기동 후 자동 재처리되며, 수동 크론 관리를 완전히 제거.</li>
-          <li><strong>가상 쓰레드 기반 유형별 병렬 처리 + 배치 슬라이스 루프.</strong>
-            <br>— 플랫폼 쓰레드 풀 대비 가상 쓰레드를 선택한 이유: 유형별 I/O 대기(DB 조회·업데이트)가 대부분이고, 3개 유형만 병렬화하면 되므로 풀 사이징·스레드 반납 관리가 불필요한 가상 쓰레드가 적합.
-            <br>— B2B·무상·유상 각 유형을 가상 쓰레드로 동시에 실행해 유형 간 데이터 간섭 없이 병렬 처리.
-            <br>— 각 유형 내부는 배치 슬라이스 단위로 조회·만료 상태 전환·이력 저장을 하나의 트랜잭션으로 묶고, 슬라이스 간 0.5초 간격을 두어 DB 부하를 분산.
-            <br>— 처리할 건이 없을 때까지 루프를 반복하는 구조로, 수만 건 대량 만료도 1~2분 내에 안정적으로 완료.
-            <br>— 개별 유형 실패가 다른 유형에 전파되지 않도록 유형별 예외 처리를 격리.
-          </li>
+          <li><strong>가상 쓰레드 기반 유형별 병렬 처리 + 배치 슬라이스 루프.</strong> 플랫폼 쓰레드 풀 대비 가상 쓰레드를 선택한 이유: 유형별 I/O 대기(DB 조회·업데이트)가 대부분이고, 3개 유형만 병렬화하면 되므로 풀 사이징·스레드 반납 관리가 불필요한 가상 쓰레드가 적합.</li>
+          <li>B2B·무상·유상 각 유형을 가상 쓰레드로 동시에 실행해 유형 간 데이터 간섭 없이 병렬 처리.</li>
+          <li>각 유형 내부는 배치 슬라이스 단위로 조회·만료 상태 전환·이력 저장을 하나의 트랜잭션으로 묶고, 슬라이스 간 0.5초 간격을 두어 DB 부하를 분산.</li>
+          <li>처리할 건이 없을 때까지 루프를 반복하는 구조로, 수만 건 대량 만료도 1~2분 내에 안정적으로 완료.</li>
+          <li>개별 유형 실패가 다른 유형에 전파되지 않도록 유형별 예외 처리를 격리.</li>
           <li><strong>만료 → 낙전수입 계정 전환 로직을 회계 기준과 정합.</strong> 재무팀과 유형별 낙전수입 인식 시점을 사전 합의하고, 만료 처리와 계정 전환이 하나의 트랜잭션 안에서 원자적으로 실행되도록 설계. 건별 감사 로그를 기록해 금결원 보고 시 건별 추적 가능한 데이터 체계를 확보.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li><strong>SQS + EventBridge Scheduler for expiration batch triggers.</strong> EventBridge Scheduler publishes an expiration event to SQS daily at midnight; the application consumes the SQS message and executes the expiration job. SQS message retention ensures automatic reprocessing after service recovery, fully eliminating manual cron management.</li>
-          <li><strong>Virtual-thread-based parallel processing with batch-slice loops.</strong>
-            <br>— Why virtual threads over a platform-thread pool: most time is spent on I/O (DB queries/updates) and only 3 types need parallelization, so pool sizing and thread return management are unnecessary.
-            <br>— B2B, free, and paid types run concurrently on virtual threads with no cross-type data interference.
-            <br>— Each type loops through batch slices — query, transition, and persist history in one transaction per slice, with a 500 ms pause between slices to spread DB load.
-            <br>— The loop repeats until no records remain, completing tens of thousands of expirations reliably in 1–2 minutes.
-            <br>— Per-type exception handling is isolated so a failure in one type does not propagate.
-          </li>
+          <li><strong>Virtual-thread-based parallel processing with batch-slice loops.</strong> Why virtual threads over a platform-thread pool: most time is spent on I/O (DB queries/updates) and only 3 types need parallelization, so pool sizing and thread return management are unnecessary.</li>
+          <li>B2B, free, and paid types run concurrently on virtual threads with no cross-type data interference.</li>
+          <li>Each type loops through batch slices: query, transition, and persist history in one transaction per slice, with a 500 ms pause between slices to spread DB load.</li>
+          <li>The loop repeats until no records remain, completing tens of thousands of expirations reliably in 1–2 minutes.</li>
+          <li>Per-type exception handling is isolated so a failure in one type does not propagate.</li>
           <li><strong>Aligned expiration → windfall revenue transfer with accounting standards.</strong> Pre-agreed per-type recognition timing with the finance team and designed expiration and account transfer to execute atomically within a single transaction. Per-item audit logs ensure record-level traceability for KFTC reporting.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li><strong>SQS＋EventBridge Schedulerで満了バッチトリガーを構築。</strong> EventBridge Schedulerが毎日0時にSQSへ満了処理イベントを発行し、アプリケーションがSQSメッセージを受信して満了Jobを実行。サービス障害時もSQSメッセージが保持され再起動後に自動再処理、手動cron管理を完全排除。</li>
-          <li><strong>仮想スレッドベースのタイプ別並列処理＋バッチスライスループ。</strong>
-            <br>— プラットフォームスレッドプールではなく仮想スレッドを選択した理由：処理の大半がI/O待ち（DB照会・更新）で、並列化対象が3タイプのみのためプールサイジング・スレッド返却管理が不要。
-            <br>— B2B・無償・有償の各タイプを仮想スレッドで同時実行しタイプ間のデータ干渉を排除。
-            <br>— 各タイプ内部はバッチスライス単位で照会・満了状態遷移・履歴保存を1トランザクションにまとめ、スライス間に500ms間隔を置きDB負荷を分散。
-            <br>— 処理対象がなくなるまでループを繰り返す構造で、数万件の大量満了も1〜2分で安定完了。
-            <br>— 個別タイプの失敗が他タイプへ伝播しないようタイプ別例外処理を隔離。
-          </li>
+          <li><strong>仮想スレッドベースのタイプ別並列処理＋バッチスライスループ。</strong> プラットフォームスレッドプールではなく仮想スレッドを選択した理由：処理の大半がI/O待ち（DB照会・更新）で、並列化対象が3タイプのみのためプールサイジング・スレッド返却管理が不要。</li>
+          <li>B2B・無償・有償の各タイプを仮想スレッドで同時実行しタイプ間のデータ干渉を排除。</li>
+          <li>各タイプ内部はバッチスライス単位で照会・満了状態遷移・履歴保存を1トランザクションにまとめ、スライス間に500ms間隔を置きDB負荷を分散。</li>
+          <li>処理対象がなくなるまでループを繰り返す構造で、数万件の大量満了も1〜2分で安定完了。</li>
+          <li>個別タイプの失敗が他タイプへ伝播しないようタイプ別例外処理を隔離。</li>
           <li><strong>満了→雑収入勘定振替ロジックを会計基準と整合。</strong> 財務チームとタイプ別の雑収入認識時点を事前合意し、満了処理と勘定振替が単一トランザクション内で原子的に実行される設計。件別監査ログを記録し金決院報告時に件別追跡可能なデータ体系を確保。</li>
         </ul>
         <p class="psc__label">
