@@ -360,6 +360,86 @@
       <article class="experience">
         <div class="experience__header">
           <span class="experience__company">
+            <span lang="ko">제네시스 결제 처리 쿼리 성능 개선</span>
+            <span lang="en" hidden>Genesis Payment Query Performance Optimization</span>
+            <span lang="ja" hidden>Genesis決済処理クエリ性能改善</span>
+          </span>
+          <span class="experience__period">Java, Spring Boot, MyBatis, Oracle</span>
+        </div>
+        <p class="psc__label">
+          <span lang="ko">문제</span>
+          <span lang="en" hidden>Problem</span>
+          <span lang="ja" hidden>課題</span>
+        </p>
+        <p class="profile__text" lang="ko">
+          로밍 충전 미처리 건이 일일 처리 대상의 약 30~45%까지 누적되는 현상이 Slack 알림으로 감지됨. 두 가지 원인이 복합적으로 작용.
+        </p>
+        <p class="profile__text" lang="en" hidden>
+          Slack alerts detected unprocessed roaming charges accumulating to 30–45% of the daily target. Two compounding causes were identified.
+        </p>
+        <p class="profile__text" lang="ja" hidden>
+          ローミング充電の未処理件が日次処理対象の約30〜45%まで累積する現象がSlackアラートで検知。2つの原因が複合的に作用。
+        </p>
+        <ul class="experience__list" lang="ko">
+          <li><strong>스케줄러 구조 문제.</strong> 5초 주기 단일 스레드 스케줄러가 자사 충전 처리를 먼저 실행하고, 1건이라도 처리하면 즉시 반환하여 로밍 충전 처리를 실행하지 않는 구조. 자사 건이 지속적으로 유입되는 시간대에 로밍 건이 처리 기회를 얻지 못하고 누적.</li>
+          <li><strong>자사 충전 조회 쿼리 성능 저하.</strong> 미처리 충전완료 건을 조회하는 쿼리가 간헐적으로 12~16분 소요. 스케줄러 스레드가 블로킹되어 자사·로밍 모두 처리 불가 상태. 로그 분석 결과 하루 17회 발생하며, 오전 10시 이후 매 조회 12~16분으로 고착.</li>
+          <li><strong>직접 원인.</strong> "이미 처리된 건을 제외"하기 위한 <code>NOT IN</code> 서브쿼리가 처리완료 이력 테이블(60만 건)을 FULL TABLE SCAN. Oracle 옵티마이저가 <code>HASH JOIN RIGHT ANTI</code>를 선택해 전체를 해시 빌드하는 blocking 연산 발생. <code>ROWNUM = 1</code>로 1건만 필요하지만 해시 빌드 완료 전 리턴 불가.</li>
+        </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li><strong>Scheduler structure issue.</strong> A single-threaded scheduler running every 5 seconds always executed in-house charging first; if even one record was processed, it returned immediately without reaching roaming. During peak in-house traffic, roaming never got a turn.</li>
+          <li><strong>In-house charge query degradation.</strong> The query for unprocessed charges intermittently took 12–16 minutes, blocking the scheduler thread and halting both in-house and roaming processing. Log analysis showed 17 occurrences per day, locking up after 10 AM.</li>
+          <li><strong>Root cause.</strong> A <code>NOT IN</code> subquery to exclude already-processed records triggered a FULL TABLE SCAN on the 600K-row history table. Oracle chose <code>HASH JOIN RIGHT ANTI</code>, building the entire table into a hash — a blocking operation that could not return even a single row until the build completed.</li>
+        </ul>
+        <ul class="experience__list" lang="ja" hidden>
+          <li><strong>スケジューラ構造問題。</strong> 5秒周期の単一スレッドスケジューラが自社充電処理を先に実行し、1件でも処理すると即座にリターンしローミング処理が実行されない構造。自社件が継続的に流入する時間帯にローミング件が処理機会を得られず累積。</li>
+          <li><strong>自社充電照会クエリ性能低下。</strong> 未処理充電完了件を照会するクエリが間欠的に12〜16分を要し、スケジューラスレッドがブロッキングされ自社・ローミング共に処理不能状態。ログ分析の結果、1日17回発生し午前10時以降は毎回12〜16分で固着。</li>
+          <li><strong>直接原因。</strong> 「処理済み件を除外」するための<code>NOT IN</code>サブクエリが処理完了履歴テーブル（60万件）をFULL TABLE SCAN。Oracleオプティマイザが<code>HASH JOIN RIGHT ANTI</code>を選択し全体をハッシュビルドするblocking演算が発生。<code>ROWNUM = 1</code>で1件のみ必要だがハッシュビルド完了前にリターン不可。</li>
+        </ul>
+        <p class="psc__label">
+          <span lang="ko">해결 과정</span>
+          <span lang="en" hidden>Solution</span>
+          <span lang="ja" hidden>解決プロセス</span>
+        </p>
+        <ul class="experience__list" lang="ko">
+          <li><strong><code>NOT IN</code> → <code>NOT EXISTS</code> 전환으로 조인 전략 변경 유도.</strong> <code>NOT IN</code>은 비상관 서브쿼리로 처리완료 이력 테이블 전체를 메모리에 적재(<code>HASH JOIN RIGHT ANTI</code>)하는 반면, <code>NOT EXISTS</code>는 상관 서브쿼리로 전환되어 <code>NESTED LOOPS ANTI</code>가 선택됨. 드라이빙 테이블이 60만 건 풀스캔에서 인덱스 스캔 2건으로 역전.</li>
+          <li><strong>복합 PK 전체를 상관 조건에 포함해 필터 효율 확보.</strong> 기존 <code>NOT IN</code>은 단일 컬럼만 비교했으나, <code>NOT EXISTS</code> 전환 시 복합 PK의 선두 컬럼까지 상관 조건에 추가. PK 전체가 조건에 포함되어 anti-join 시 매칭 즉시 스킵(short-circuit) 가능.</li>
+          <li><strong>HASH JOIN 제거로 메모리 압력 해소.</strong> 60만 건 해시 빌드 시 PGA 메모리 초과로 temp tablespace 디스크 스필이 간헐적 지연의 직접 원인으로 추정. <code>NESTED LOOPS ANTI</code>는 행 단위 처리로 대량 메모리 할당이 불필요.</li>
+        </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li><strong><code>NOT IN</code> → <code>NOT EXISTS</code> to change the join strategy.</strong> <code>NOT IN</code> ran as an uncorrelated subquery, loading the entire 600K-row history table into memory (<code>HASH JOIN RIGHT ANTI</code>). <code>NOT EXISTS</code> converts it to a correlated subquery, prompting Oracle to choose <code>NESTED LOOPS ANTI</code>. The driving table flipped from a 600K full scan to a 2-row index scan.</li>
+          <li><strong>Full composite PK in the correlation condition for filter efficiency.</strong> The original <code>NOT IN</code> compared only a single column. On conversion to <code>NOT EXISTS</code>, the leading columns of the composite PK were added to the correlation, enabling short-circuit skipping on anti-join matches.</li>
+          <li><strong>Eliminated HASH JOIN to relieve memory pressure.</strong> The 600K-row hash build likely exceeded PGA memory, spilling to temp tablespace — the suspected direct cause of intermittent delays. <code>NESTED LOOPS ANTI</code> processes row-by-row with no bulk memory allocation.</li>
+        </ul>
+        <ul class="experience__list" lang="ja" hidden>
+          <li><strong><code>NOT IN</code> → <code>NOT EXISTS</code>転換で結合戦略変更を誘導。</strong> <code>NOT IN</code>は非相関サブクエリとして処理完了履歴テーブル全体をメモリに載せる（<code>HASH JOIN RIGHT ANTI</code>）一方、<code>NOT EXISTS</code>は相関サブクエリへ転換され<code>NESTED LOOPS ANTI</code>が選択。ドライビングテーブルが60万件フルスキャンからインデックススキャン2件へ逆転。</li>
+          <li><strong>複合PK全体を相関条件に含めフィルタ効率を確保。</strong> 既存<code>NOT IN</code>は単一カラムのみ比較していたが、<code>NOT EXISTS</code>転換時に複合PKの先頭カラムまで相関条件に追加。PK全体が条件に含まれanti-join時にマッチング即スキップ（short-circuit）が可能に。</li>
+          <li><strong>HASH JOIN除去でメモリ圧力を解消。</strong> 60万件ハッシュビルド時にPGAメモリ超過でtemp tablespaceディスクスピルが発生するのが間欠的遅延の直接原因と推定。<code>NESTED LOOPS ANTI</code>は行単位処理で大量メモリ割当が不要。</li>
+        </ul>
+        <p class="psc__label">
+          <span lang="ko">결과</span>
+          <span lang="en" hidden>Results</span>
+          <span lang="ja" hidden>成果</span>
+        </p>
+        <ul class="experience__list" lang="ko">
+          <li>미처리 건 조회 쿼리 실행시간 <strong>최대 936초(15.6분) → 1~2초</strong></li>
+          <li>처리완료 이력 테이블 접근 비용 <strong>7,289 → 3,643</strong> (50% 감소), HASH → NESTED LOOPS 전환으로 blocking 연산 제거</li>
+          <li>로밍 미처리 건 누적 <strong>일일 대상의 ~45% → 0%</strong></li>
+        </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>Unprocessed-record query time <strong>max 936 s (15.6 min) → 1–2 s</strong></li>
+          <li>History table access cost <strong>7,289 → 3,643</strong> (50% reduction), blocking HASH JOIN eliminated via NESTED LOOPS</li>
+          <li>Roaming backlog <strong>~45% of daily target → 0%</strong></li>
+        </ul>
+        <ul class="experience__list" lang="ja" hidden>
+          <li>未処理件照会クエリ実行時間 <strong>最大936秒（15.6分） → 1〜2秒</strong></li>
+          <li>処理完了履歴テーブルアクセスコスト <strong>7,289 → 3,643</strong>（50%削減）、HASH → NESTED LOOPS転換でblocking演算除去</li>
+          <li>ローミング未処理件累積 <strong>日次対象の約45% → 0%</strong></li>
+        </ul>
+      </article>
+
+      <article class="experience">
+        <div class="experience__header">
+          <span class="experience__company">
             <span lang="ko">금결원 보고 대응 — 크레딧 만료 처리 및 낙전수입 인식 개선</span>
             <span lang="en" hidden>KFTC Reporting — Credit Expiration & Windfall Revenue Recognition</span>
             <span lang="ja" hidden>金決院報告対応 — クレジット満了処理および雑収入認識改善</span>
