@@ -94,42 +94,29 @@
           </span>
           <span class="experience__period">Kotlin, Spring Boot, JPA, AWS CloudWatch, SNS, GitHub Packages</span>
         </div>
-        <p class="psc__label">
-          <span lang="ko">문제</span>
-          <span lang="en" hidden>Problem</span>
-          <span lang="ja" hidden>課題</span>
-        </p>
         <p class="profile__text" lang="ko">
-          13개 이상의 서비스가 각자 벤더 API를 직접 호출하는 구조로, 채널 추가·벤더 변경 시 전 서비스 수정이 필요. 발송 실패에 대한 감지·재처리 체계가 없어 누락 건을 수동으로 확인해야 했고, 발송 현황에 대한 통합 가시성도 부재.
+          13개 서비스가 벤더 API를 직접 호출하는 구조에서 채널 추가마다 전 서비스 수정이 필요했고, 발송 실패 감지·재처리 체계 부재.
         </p>
         <p class="profile__text" lang="en" hidden>
-          Over 13 services each called vendor APIs directly, requiring changes across all services whenever a channel was added or a vendor changed. There was no detection or retry mechanism for delivery failures — missed messages had to be checked manually — and no unified visibility into delivery status.
+          13 services each called vendor APIs directly — every channel addition required changes across all services, with no failure detection or retry mechanism.
         </p>
         <p class="profile__text" lang="ja" hidden>
-          13以上のサービスがそれぞれベンダーAPIを直接呼び出す構造で、チャネル追加・ベンダー変更時に全サービスの修正が必要。配信失敗の検知・再処理体制がなく漏れを手動確認する状態で、配信状況の統合的な可視性も不在。
-        </p>
-        <p class="psc__label">
-          <span lang="ko">해결 과정</span>
-          <span lang="en" hidden>Solution</span>
-          <span lang="ja" hidden>解決プロセス</span>
+          13サービスがベンダーAPIを直接呼び出す構造で、チャネル追加のたびに全サービス修正が必要。配信失敗の検知・再処理体制も不在。
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong>멀티모듈 채널 어댑터로 벤더 의존 제거.</strong> 벤더 연동을 채널 어댑터 모듈로 분리하고, 공통 계약 SDK를 GitHub Packages로 배포해 서비스 코드에서 벤더 의존성을 완전 제거.</li>
-          <li><strong>지연 발송 감지 및 자동 재처리.</strong> 스케줄러가 RECEIVED/PROCESSING 상태의 임계시간 초과 건을 주기적으로 탐지하고, retry_count 기준으로 지수 백오프 재발송 또는 최종 실패 처리. DLQ 유입 메시지도 재처리 대상에 포함.</li>
-          <li><strong>CloudWatch 기반 채널별 모니터링·알람.</strong> 커스텀 메트릭으로 채널별 발송 성공/실패 건수와 실패율을 발행. 채널별 차등 임계치(SMS 15%, 알림톡 10% 등) 초과 시 CloudWatch Alarm → SNS → Slack·이메일로 자동 알람 발송. 심각도 구분(WARNING/CRITICAL)과 중복 억제(snooze) 로직 적용.</li>
-          <li><strong>발송 이력·통계 API 및 오디언스 타게팅.</strong> 기간·채널·상태·수신자 등 복합 조건 조회, 수동 재발송, 일별/주별/월별 채널별 발송량·성공률·실패 사유 Top N 집계 API를 제공. 오디언스 타게팅 기능으로 데이터 기반 고객 커뮤니케이션 품질을 확보.</li>
+          <li>채널 어댑터 멀티모듈로 벤더 의존을 제거하고, 공통 계약 SDK를 GitHub Packages로 배포.</li>
+          <li>지수 백오프 기반 자동 재발송 + DLQ 재처리 + CloudWatch 채널별 차등 임계치 알람 체계 구축.</li>
+          <li>발송 이력·통계 집계 API 및 오디언스 타게팅 기능 제공.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong>Multi-module channel adapters to remove vendor dependency.</strong> Isolated vendor integrations into channel adapter modules and published a shared contract SDK via GitHub Packages, fully removing vendor coupling from service code.</li>
-          <li><strong>Delayed-delivery detection and auto-retry.</strong> A scheduler periodically detects RECEIVED/PROCESSING messages exceeding the threshold time, retries with exponential backoff based on retry_count, or marks final failure. DLQ messages are included in the retry scope.</li>
-          <li><strong>CloudWatch-based per-channel monitoring and alerting.</strong> Published custom metrics for per-channel success/failure counts and failure rates. Differentiated thresholds per channel (SMS 15%, AlimTalk 10%, etc.) trigger CloudWatch Alarm → SNS → Slack/email. Applied severity levels (WARNING/CRITICAL) and duplicate suppression (snooze) logic.</li>
-          <li><strong>Delivery history/statistics APIs and audience targeting.</strong> Provided multi-condition queries (period, channel, status, recipient), manual resend, and daily/weekly/monthly aggregation APIs for volume, success rate, and top-N failure reasons. Audience targeting for data-driven communication quality.</li>
+          <li>Removed vendor dependency with multi-module channel adapters; published shared contract SDK via GitHub Packages.</li>
+          <li>Built auto-retry with exponential backoff + DLQ reprocessing + CloudWatch per-channel threshold alerting.</li>
+          <li>Provided delivery history/statistics APIs and audience targeting.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>マルチモジュールチャネルアダプターでベンダー依存を除去。</strong> ベンダー連携をチャネルアダプターモジュールとして分離し、共通契約SDKをGitHub Packagesで配布してサービスコードからベンダー依存を完全除去。</li>
-          <li><strong>遅延配信検知および自動再処理。</strong> スケジューラがRECEIVED/PROCESSING状態の閾値超過件を定期検知し、retry_count基準で指数バックオフ再送または最終失敗処理。DLQ流入メッセージも再処理対象に含む。</li>
-          <li><strong>CloudWatchベースのチャネル別モニタリング・アラーム。</strong> カスタムメトリクスでチャネル別送信成功/失敗件数と失敗率を発行。チャネル別差等閾値（SMS 15%、アリムトーク10%等）超過時にCloudWatch Alarm→SNS→Slack・メールで自動アラーム送信。深刻度区分（WARNING/CRITICAL）と重複抑制（snooze）ロジックを適用。</li>
-          <li><strong>配信履歴・統計APIおよびオーディエンスターゲティング。</strong> 期間・チャネル・状態・受信者等の複合条件照会、手動再送、日次/週次/月次チャネル別送信量・成功率・失敗事由Top N集計APIを提供。オーディエンスターゲティング機能でデータ基盤の顧客コミュニケーション品質を確保。</li>
+          <li>チャネルアダプターマルチモジュールでベンダー依存を除去し、共通契約SDKをGitHub Packagesで配布。</li>
+          <li>指数バックオフ自動再送＋DLQ再処理＋CloudWatchチャネル別差等閾値アラーム体系を構築。</li>
+          <li>配信履歴・統計集計APIおよびオーディエンスターゲティング機能を提供。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
@@ -137,19 +124,13 @@
           <span lang="ja" hidden>成果</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>신규 채널 추가 리드타임 <strong>3주 → 어댑터 모듈 1개 추가(3일)</strong></li>
-          <li>발송 실패 수동 확인 <strong>→ 자동 감지·재처리·알람으로 전환</strong></li>
-          <li>서비스별 메시징 연동 코드 <strong>~300줄 → SDK 의존성 1줄</strong></li>
+          <li>채널 추가 리드타임 <strong>3주 → 3일</strong> / 연동 코드 <strong>~300줄 → SDK 1줄</strong> / 발송 실패 대응 <strong>수동 → 자동</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>New channel addition lead time <strong>3 weeks → 1 adapter module (3 days)</strong></li>
-          <li>Delivery failure handling <strong>manual checks → automated detection, retry, and alerting</strong></li>
-          <li>Per-service messaging integration code <strong>~300 lines → 1 SDK dependency</strong></li>
+          <li>Channel addition <strong>3 weeks → 3 days</strong> / integration code <strong>~300 lines → 1 SDK line</strong> / failure handling <strong>manual → automated</strong></li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>新規チャネル追加リードタイム <strong>3週間 → アダプターモジュール1個追加（3日）</strong></li>
-          <li>配信失敗対応 <strong>手動確認 → 自動検知・再処理・アラームへ転換</strong></li>
-          <li>サービス別メッセージング連携コード <strong>約300行 → SDK依存1行</strong></li>
+          <li>チャネル追加 <strong>3週間→3日</strong> / 連携コード <strong>約300行→SDK 1行</strong> / 失敗対応 <strong>手動→自動</strong></li>
         </ul>
       </article>
 
@@ -162,45 +143,29 @@
           </span>
           <span class="experience__period">Java, Spring Boot, MyBatis, Oracle, Nicepay PG</span>
         </div>
-        <p class="psc__label">
-          <span lang="ko">문제</span>
-          <span lang="en" hidden>Problem</span>
-          <span lang="ja" hidden>課題</span>
-        </p>
         <p class="profile__text" lang="ko">
-          충전 완료 트랜잭션마다 무상 크레딧·B2B 크레딧·마일리지·파트너 포인트(블루멤버스/레드멤버스)·신용카드(PG)를 순차 차감하는 다단계 결제 파이프라인에서, 회원 유형별 단가 정책·할인·쿠폰·예외 라우팅 규칙이 계속 추가되며 정합성 검증과 장애 추적이 어려워지는 상태.
+          6종 결제수단(크레딧·마일리지·파트너 포인트·PG)을 순차 차감하는 다단계 파이프라인에서 회원 유형별 단가·할인·예외 규칙이 계속 추가되며 정합성 검증이 어려워지는 상태.
         </p>
         <p class="profile__text" lang="en" hidden>
-          A multi-step payment pipeline sequentially deducts free credits, B2B credits, mileage, partner points (Blue/Red Members), and credit card (PG) per completed charge. Member-type pricing, discounts, coupons, and exception-routing rules kept accumulating, making consistency verification and failure tracing increasingly difficult.
+          A 6-method sequential-deduction pipeline (credits, mileage, partner points, PG) where member-type pricing, discounts, and exception rules kept accumulating, making consistency verification increasingly difficult.
         </p>
         <p class="profile__text" lang="ja" hidden>
-          充電完了トランザクションごとに無償クレジット・B2Bクレジット・マイレージ・パートナーポイント（Blue/Red Members）・クレジットカード（PG）を順次差引する多段決済パイプラインで、会員タイプ別単価ポリシー・割引・クーポン・例外ルーティング規則が増え続け整合性検証と障害追跡が困難な状態。
-        </p>
-        <p class="psc__label">
-          <span lang="ko">해결 과정</span>
-          <span lang="en" hidden>Solution</span>
-          <span lang="ja" hidden>解決プロセス</span>
+          6種決済手段（クレジット・マイレージ・パートナーポイント・PG）を順次差引する多段パイプラインで、会員タイプ別単価・割引・例外規則が増え続け整合性検証が困難な状態。
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong>3초 주기 단건 처리 스케줄러로 정합성 우선 설계.</strong> 충전 완료 건을 1건씩 순차 처리해 트랜잭션 간 간섭을 원천 차단. 멀티 인스턴스 환경에서 인스턴스별 처리 대상을 분리(MULTI_TYPE)해 중복 처리를 방지.</li>
-          <li><strong>상태 코드 기반 예외 라우팅.</strong> 택시·제네시스·인카페이·픽업앤차지 등 정산 규칙이 다른 거래를 상태 코드로 분류하고, 48시간 미만 보류 건 자동 감지 등 예외 케이스를 파이프라인 진입 전에 분기 처리.</li>
-          <li><strong>회원 유형별 동적 단가 조정.</strong> 가격 인상 시점에 B2B 크레딧 잔액이 있는 현대·제네시스·신한 회원에게 기존 단가를 유지하는 로직, 아파트 프로모션 충전소의 입주민/비입주민 구분 적용, 럭키패스 H 멤버십 할인 등 회원·충전소·시점 조합에 따른 단가를 처리 시점에 동적으로 결정.</li>
-          <li><strong>순차 차감 결제 파이프라인과 정산 집계.</strong> 무상 크레딧 → B2B 크레딧 → 마일리지 → 파트너 포인트 → 신용카드(Nicepay PG) → 포인트 적립 순서로 잔액이 0이 될 때까지 순차 차감. SummaryContext에 각 단계별 차감 내역을 누적해 할인·쿠폰·크레딧·포인트·카드 결제 금액을 건별로 집계.</li>
-          <li><strong>실패 재처리 및 금액 대사.</strong> 스타터 크레딧 실패 건은 최대 3회까지 100ms 간격 재시도 후 최종 실패 처리. 정산 완료 후 산출 금액과 카드 청구 금액 간 차이를 검증하는 대사 로직으로 불일치 건을 자동 분류(정상/이상/검토 필요).</li>
+          <li>3초 주기 단건 처리 + 멀티 인스턴스 파티셔닝(MULTI_TYPE)으로 트랜잭션 간 간섭과 중복 처리를 원천 차단.</li>
+          <li>상태 코드 기반 예외 라우팅으로 택시·제네시스·인카페이 등 정산 규칙이 다른 거래를 파이프라인 진입 전 분기.</li>
+          <li>회원·충전소·시점 조합에 따른 동적 단가 결정과, 정산 완료 후 카드 청구 금액 대사로 불일치 건 자동 분류.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong>3-second single-record scheduler for consistency-first design.</strong> Processes one completed charge at a time to eliminate inter-transaction interference. In a multi-instance environment, each instance processes only its assigned partition (MULTI_TYPE) to prevent duplicate processing.</li>
-          <li><strong>Status-code-based exception routing.</strong> Classifies transactions with different settlement rules — taxi, Genesis, Incarpay, Pickup & Charge — by status code, and branches exception cases such as sub-48-hour holds before pipeline entry.</li>
-          <li><strong>Dynamic unit-price adjustment by member type.</strong> Preserves previous pricing for Hyundai/Genesis/Shinhan members with remaining B2B credits at the time of a price increase, applies resident/non-resident pricing at apartment promotion stations, and determines Lucky Pass H membership discounts dynamically based on member, station, and timing.</li>
-          <li><strong>Sequential-deduction payment pipeline and settlement aggregation.</strong> Deducts in order — free credits → B2B credits → mileage → partner points → credit card (Nicepay PG) → point accumulation — until the balance reaches zero. Accumulates per-step deduction details in a SummaryContext to produce per-transaction settlement breakdowns.</li>
-          <li><strong>Failure retry and reconciliation.</strong> Starter credit failures are retried up to 3 times at 100 ms intervals before final failure. Post-settlement reconciliation compares calculated amounts against card-billed amounts and auto-classifies discrepancies (normal / abnormal / needs review).</li>
+          <li>3-second single-record processing + multi-instance partitioning (MULTI_TYPE) to eliminate inter-transaction interference and duplicate processing.</li>
+          <li>Status-code-based exception routing branches transactions with different settlement rules (taxi, Genesis, Incarpay) before pipeline entry.</li>
+          <li>Dynamic pricing by member/station/timing combination, with post-settlement reconciliation auto-classifying discrepancies.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>3秒周期の単件処理スケジューラで整合性優先設計。</strong> 充電完了件を1件ずつ順次処理しトランザクション間の干渉を根本的に遮断。マルチインスタンス環境ではインスタンス別処理対象を分離（MULTI_TYPE）し重複処理を防止。</li>
-          <li><strong>ステータスコードベースの例外ルーティング。</strong> タクシー・Genesis・Incarpay・Pickup & Chargeなど精算ルールが異なる取引をステータスコードで分類し、48時間未満保留件の自動検知等の例外ケースをパイプライン進入前に分岐処理。</li>
-          <li><strong>会員タイプ別の動的単価調整。</strong> 価格引き上げ時点でB2Bクレジット残高がある現代・Genesis・新韓会員には旧単価を維持するロジック、マンションプロモーション充電所の入居者/非入居者区分適用、Lucky Pass Hメンバーシップ割引など、会員・充電所・時点の組み合わせに応じた単価を処理時点で動的に決定。</li>
-          <li><strong>順次差引決済パイプラインと精算集計。</strong> 無償クレジット→B2Bクレジット→マイレージ→パートナーポイント→クレジットカード（Nicepay PG）→ポイント積立の順で残高が0になるまで順次差引。SummaryContextに各段階の差引明細を蓄積し、割引・クーポン・クレジット・ポイント・カード決済金額を件別に集計。</li>
-          <li><strong>失敗再処理および金額対査。</strong> スタータークレジット失敗件は最大3回まで100ms間隔でリトライ後最終失敗処理。精算完了後、算出金額とカード請求金額間の差異を検証する対査ロジックで不一致件を自動分類（正常/異常/要確認）。</li>
+          <li>3秒周期単件処理＋マルチインスタンスパーティショニング（MULTI_TYPE）でトランザクション間干渉と重複処理を根本遮断。</li>
+          <li>ステータスコードベース例外ルーティングでタクシー・Genesis・Incarpay等の精算ルールが異なる取引をパイプライン進入前に分岐。</li>
+          <li>会員・充電所・時点の組み合わせによる動的単価決定と、精算完了後のカード請求金額対査で不一致件を自動分類。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
@@ -208,19 +173,13 @@
           <span lang="ja" hidden>成果</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>6종 결제수단 순차 차감 파이프라인을 단일 시스템에서 <strong>정합성 보장하며 운영</strong></li>
-          <li>회원 유형·충전소·시점별 단가 조합을 <strong>코드 변경 없이 동적 적용</strong></li>
-          <li>정산 금액 불일치 건 <strong>자동 분류·추적 체계 확보</strong></li>
+          <li>6종 결제수단 파이프라인 <strong>정합성 보장 운영</strong> / 단가 조합 <strong>동적 적용</strong> / 불일치 건 <strong>자동 분류·추적</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Operates a 6-method sequential-deduction pipeline <strong>with guaranteed consistency in a single system</strong></li>
-          <li>Applies member-type / station / timing price combinations <strong>dynamically without code changes</strong></li>
-          <li>Established <strong>automated classification and tracking for settlement discrepancies</strong></li>
+          <li>6-method pipeline <strong>with guaranteed consistency</strong> / pricing <strong>applied dynamically</strong> / discrepancies <strong>auto-classified and tracked</strong></li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>6種決済手段の順次差引パイプラインを単一システムで<strong>整合性を保証しながら運用</strong></li>
-          <li>会員タイプ・充電所・時点別単価の組み合わせを<strong>コード変更なしに動的適用</strong></li>
-          <li>精算金額不一致件の<strong>自動分類・追跡体系を確保</strong></li>
+          <li>6種決済パイプライン<strong>整合性保証運用</strong> / 単価<strong>動的適用</strong> / 不一致件<strong>自動分類・追跡</strong></li>
         </ul>
       </article>
 
@@ -233,54 +192,26 @@
           </span>
           <span class="experience__period">Java, Spring Boot, MyBatis, Oracle</span>
         </div>
-        <p class="psc__label">
-          <span lang="ko">문제</span>
-          <span lang="en" hidden>Problem</span>
-          <span lang="ja" hidden>課題</span>
-        </p>
         <p class="profile__text" lang="ko">
-          로밍 충전 미처리 건이 일일 처리 대상의 약 30~45%까지 누적되는 현상이 Slack 알림으로 감지됨. 두 가지 원인이 복합적으로 작용.
+          로밍 충전 미처리 건이 일일 대상의 ~45%까지 누적. 원인: <code>NOT IN</code> 서브쿼리가 60만 건 이력 테이블을 FULL SCAN하며 <code>HASH JOIN RIGHT ANTI</code>로 12~16분 blocking.
         </p>
         <p class="profile__text" lang="en" hidden>
-          Slack alerts detected unprocessed roaming charges accumulating to 30–45% of the daily target. Two compounding causes were identified.
+          Roaming charge backlog reached ~45% of daily target. Root cause: a <code>NOT IN</code> subquery full-scanned the 600K-row history table, triggering a 12–16 min blocking <code>HASH JOIN RIGHT ANTI</code>.
         </p>
         <p class="profile__text" lang="ja" hidden>
-          ローミング充電の未処理件が日次処理対象の約30〜45%まで累積する現象がSlackアラートで検知。2つの原因が複合的に作用。
+          ローミング充電未処理件が日次対象の約45%まで累積。原因：<code>NOT IN</code>サブクエリが60万件履歴テーブルをFULL SCANし<code>HASH JOIN RIGHT ANTI</code>で12〜16分blocking。
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong>스케줄러 구조 문제.</strong> 5초 주기 단일 스레드 스케줄러가 자사 충전 처리를 먼저 실행하고, 1건이라도 처리하면 즉시 반환하여 로밍 충전 처리를 실행하지 않는 구조. 자사 건이 지속적으로 유입되는 시간대에 로밍 건이 처리 기회를 얻지 못하고 누적.</li>
-          <li><strong>자사 충전 조회 쿼리 성능 저하.</strong> 미처리 충전완료 건을 조회하는 쿼리가 간헐적으로 12~16분 소요. 스케줄러 스레드가 블로킹되어 자사·로밍 모두 처리 불가 상태. 로그 분석 결과 하루 17회 발생하며, 오전 10시 이후 매 조회 12~16분으로 고착.</li>
-          <li><strong>직접 원인.</strong> "이미 처리된 건을 제외"하기 위한 <code>NOT IN</code> 서브쿼리가 처리완료 이력 테이블(60만 건)을 FULL TABLE SCAN. Oracle 옵티마이저가 <code>HASH JOIN RIGHT ANTI</code>를 선택해 전체를 해시 빌드하는 blocking 연산 발생. <code>ROWNUM = 1</code>로 1건만 필요하지만 해시 빌드 완료 전 리턴 불가.</li>
+          <li><code>NOT IN</code> → <code>NOT EXISTS</code> 전환으로 <code>NESTED LOOPS ANTI</code> 유도. 드라이빙 테이블이 60만 건 풀스캔에서 인덱스 스캔 2건으로 역전.</li>
+          <li>복합 PK 전체를 상관 조건에 포함해 anti-join short-circuit 확보, HASH JOIN 제거로 PGA 메모리 압력 해소.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong>Scheduler structure issue.</strong> A single-threaded scheduler running every 5 seconds always executed in-house charging first; if even one record was processed, it returned immediately without reaching roaming. During peak in-house traffic, roaming never got a turn.</li>
-          <li><strong>In-house charge query degradation.</strong> The query for unprocessed charges intermittently took 12–16 minutes, blocking the scheduler thread and halting both in-house and roaming processing. Log analysis showed 17 occurrences per day, locking up after 10 AM.</li>
-          <li><strong>Root cause.</strong> A <code>NOT IN</code> subquery to exclude already-processed records triggered a FULL TABLE SCAN on the 600K-row history table. Oracle chose <code>HASH JOIN RIGHT ANTI</code>, building the entire table into a hash — a blocking operation that could not return even a single row until the build completed.</li>
+          <li><code>NOT IN</code> → <code>NOT EXISTS</code> to induce <code>NESTED LOOPS ANTI</code>. Driving table flipped from 600K full scan to 2-row index scan.</li>
+          <li>Full composite PK in correlation for anti-join short-circuit; eliminated HASH JOIN to relieve PGA memory pressure.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>スケジューラ構造問題。</strong> 5秒周期の単一スレッドスケジューラが自社充電処理を先に実行し、1件でも処理すると即座にリターンしローミング処理が実行されない構造。自社件が継続的に流入する時間帯にローミング件が処理機会を得られず累積。</li>
-          <li><strong>自社充電照会クエリ性能低下。</strong> 未処理充電完了件を照会するクエリが間欠的に12〜16分を要し、スケジューラスレッドがブロッキングされ自社・ローミング共に処理不能状態。ログ分析の結果、1日17回発生し午前10時以降は毎回12〜16分で固着。</li>
-          <li><strong>直接原因。</strong> 「処理済み件を除外」するための<code>NOT IN</code>サブクエリが処理完了履歴テーブル（60万件）をFULL TABLE SCAN。Oracleオプティマイザが<code>HASH JOIN RIGHT ANTI</code>を選択し全体をハッシュビルドするblocking演算が発生。<code>ROWNUM = 1</code>で1件のみ必要だがハッシュビルド完了前にリターン不可。</li>
-        </ul>
-        <p class="psc__label">
-          <span lang="ko">해결 과정</span>
-          <span lang="en" hidden>Solution</span>
-          <span lang="ja" hidden>解決プロセス</span>
-        </p>
-        <ul class="experience__list" lang="ko">
-          <li><strong><code>NOT IN</code> → <code>NOT EXISTS</code> 전환으로 조인 전략 변경 유도.</strong> <code>NOT IN</code>은 비상관 서브쿼리로 처리완료 이력 테이블 전체를 메모리에 적재(<code>HASH JOIN RIGHT ANTI</code>)하는 반면, <code>NOT EXISTS</code>는 상관 서브쿼리로 전환되어 <code>NESTED LOOPS ANTI</code>가 선택됨. 드라이빙 테이블이 60만 건 풀스캔에서 인덱스 스캔 2건으로 역전.</li>
-          <li><strong>복합 PK 전체를 상관 조건에 포함해 필터 효율 확보.</strong> 기존 <code>NOT IN</code>은 단일 컬럼만 비교했으나, <code>NOT EXISTS</code> 전환 시 복합 PK의 선두 컬럼까지 상관 조건에 추가. PK 전체가 조건에 포함되어 anti-join 시 매칭 즉시 스킵(short-circuit) 가능.</li>
-          <li><strong>HASH JOIN 제거로 메모리 압력 해소.</strong> 60만 건 해시 빌드 시 PGA 메모리 초과로 temp tablespace 디스크 스필이 간헐적 지연의 직접 원인으로 추정. <code>NESTED LOOPS ANTI</code>는 행 단위 처리로 대량 메모리 할당이 불필요.</li>
-        </ul>
-        <ul class="experience__list" lang="en" hidden>
-          <li><strong><code>NOT IN</code> → <code>NOT EXISTS</code> to change the join strategy.</strong> <code>NOT IN</code> ran as an uncorrelated subquery, loading the entire 600K-row history table into memory (<code>HASH JOIN RIGHT ANTI</code>). <code>NOT EXISTS</code> converts it to a correlated subquery, prompting Oracle to choose <code>NESTED LOOPS ANTI</code>. The driving table flipped from a 600K full scan to a 2-row index scan.</li>
-          <li><strong>Full composite PK in the correlation condition for filter efficiency.</strong> The original <code>NOT IN</code> compared only a single column. On conversion to <code>NOT EXISTS</code>, the leading columns of the composite PK were added to the correlation, enabling short-circuit skipping on anti-join matches.</li>
-          <li><strong>Eliminated HASH JOIN to relieve memory pressure.</strong> The 600K-row hash build likely exceeded PGA memory, spilling to temp tablespace — the suspected direct cause of intermittent delays. <code>NESTED LOOPS ANTI</code> processes row-by-row with no bulk memory allocation.</li>
-        </ul>
-        <ul class="experience__list" lang="ja" hidden>
-          <li><strong><code>NOT IN</code> → <code>NOT EXISTS</code>転換で結合戦略変更を誘導。</strong> <code>NOT IN</code>は非相関サブクエリとして処理完了履歴テーブル全体をメモリに載せる（<code>HASH JOIN RIGHT ANTI</code>）一方、<code>NOT EXISTS</code>は相関サブクエリへ転換され<code>NESTED LOOPS ANTI</code>が選択。ドライビングテーブルが60万件フルスキャンからインデックススキャン2件へ逆転。</li>
-          <li><strong>複合PK全体を相関条件に含めフィルタ効率を確保。</strong> 既存<code>NOT IN</code>は単一カラムのみ比較していたが、<code>NOT EXISTS</code>転換時に複合PKの先頭カラムまで相関条件に追加。PK全体が条件に含まれanti-join時にマッチング即スキップ（short-circuit）が可能に。</li>
-          <li><strong>HASH JOIN除去でメモリ圧力を解消。</strong> 60万件ハッシュビルド時にPGAメモリ超過でtemp tablespaceディスクスピルが発生するのが間欠的遅延の直接原因と推定。<code>NESTED LOOPS ANTI</code>は行単位処理で大量メモリ割当が不要。</li>
+          <li><code>NOT IN</code>→<code>NOT EXISTS</code>転換で<code>NESTED LOOPS ANTI</code>を誘導。ドライビングテーブルが60万件フルスキャンからインデックススキャン2件へ逆転。</li>
+          <li>複合PK全体を相関条件に含めanti-join short-circuitを確保、HASH JOIN除去でPGAメモリ圧力を解消。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
@@ -288,76 +219,48 @@
           <span lang="ja" hidden>成果</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>미처리 건 조회 쿼리 실행시간 <strong>최대 936초(15.6분) → 1~2초</strong></li>
-          <li>처리완료 이력 테이블 접근 비용 <strong>7,289 → 3,643</strong> (50% 감소), HASH → NESTED LOOPS 전환으로 blocking 연산 제거</li>
-          <li>로밍 미처리 건 누적 <strong>일일 대상의 ~45% → 0%</strong></li>
+          <li>쿼리 실행시간 <strong>최대 936초 → 1~2초</strong> / 접근 비용 <strong>50% 감소</strong> / 로밍 미처리 누적 <strong>~45% → 0%</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Unprocessed-record query time <strong>max 936 s (15.6 min) → 1–2 s</strong></li>
-          <li>History table access cost <strong>7,289 → 3,643</strong> (50% reduction), blocking HASH JOIN eliminated via NESTED LOOPS</li>
-          <li>Roaming backlog <strong>~45% of daily target → 0%</strong></li>
+          <li>Query time <strong>max 936 s → 1–2 s</strong> / access cost <strong>50% reduction</strong> / roaming backlog <strong>~45% → 0%</strong></li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>未処理件照会クエリ実行時間 <strong>最大936秒（15.6分） → 1〜2秒</strong></li>
-          <li>処理完了履歴テーブルアクセスコスト <strong>7,289 → 3,643</strong>（50%削減）、HASH → NESTED LOOPS転換でblocking演算除去</li>
-          <li>ローミング未処理件累積 <strong>日次対象の約45% → 0%</strong></li>
+          <li>クエリ実行時間 <strong>最大936秒→1〜2秒</strong> / アクセスコスト<strong>50%削減</strong> / ローミング未処理累積<strong>約45%→0%</strong></li>
         </ul>
       </article>
 
       <article class="experience">
         <div class="experience__header">
           <span class="experience__company">
-            <span lang="ko">금결원 보고 대응 — 크레딧 만료 처리 및 낙전수입 인식 개선</span>
-            <span lang="en" hidden>KFTC Reporting — Credit Expiration & Windfall Revenue Recognition</span>
-            <span lang="ja" hidden>金決院報告対応 — クレジット満了処理および雑収入認識改善</span>
+            <span lang="ko">금결원 보고 대응 — 크레딧 만료 및 낙전수입 인식</span>
+            <span lang="en" hidden>KFTC Reporting — Credit Expiration & Windfall Revenue</span>
+            <span lang="ja" hidden>金決院報告対応 — クレジット満了および雑収入認識</span>
           </span>
           <span class="experience__period">Spring Boot, JPA, AWS SQS, EventBridge Scheduler, Virtual Thread (Java 21)</span>
         </div>
-        <p class="psc__label">
-          <span lang="ko">문제</span>
-          <span lang="en" hidden>Problem</span>
-          <span lang="ja" hidden>課題</span>
-        </p>
         <p class="profile__text" lang="ko">
-          크레딧 만료 처리가 체계화되지 않아 만료 대상 크레딧이 잔액에 그대로 남아 있는 상태. B2B·무상·유상 크레딧이 각기 다른 유효기간과 만료 정책을 갖고 있어 단일 순차 처리로는 일일 만료 대상 수만 건을 00시 안에 완료할 수 없었고, 금결원 보고 시 낙전수입 인식 시점이 불명확하여 재무 보고 정확성에 리스크 발생.
+          만료 대상 크레딧(B2B·무상·유상)이 잔액에 그대로 잔류. 유형별 만료 정책이 달라 순차 처리로는 일일 수만 건을 00시 안에 완료 불가. 금결원 보고 시 낙전수입 인식 시점 불명확.
         </p>
         <p class="profile__text" lang="en" hidden>
-          Credit expiration was not systematized, leaving expired credits sitting in user balances. B2B, free, and paid credits each had different validity periods and expiration policies; sequential processing could not complete tens of thousands of daily expirations by midnight. The timing of windfall revenue recognition was ambiguous during KFTC reporting, creating financial reporting accuracy risk.
+          Expired credits (B2B, free, paid) remained in balances. Different expiration policies per type made sequential processing unable to complete tens of thousands of daily expirations by midnight. Windfall revenue recognition timing was ambiguous for KFTC reporting.
         </p>
         <p class="profile__text" lang="ja" hidden>
-          クレジット満了処理が体系化されておらず、満了対象クレジットが残高にそのまま残っている状態。B2B・無償・有償クレジットがそれぞれ異なる有効期間と満了ポリシーを持ち、単一順次処理では日次満了対象数万件を0時内に完了できず、金決院報告時の雑収入認識タイミングが不明確で財務報告の正確性にリスクが発生。
-        </p>
-        <p class="psc__label">
-          <span lang="ko">해결 과정</span>
-          <span lang="en" hidden>Solution</span>
-          <span lang="ja" hidden>解決プロセス</span>
+          満了対象クレジット（B2B・無償・有償）が残高にそのまま残留。タイプ別満了ポリシーが異なり順次処理では日次数万件を0時内に完了不可。金決院報告時の雑収入認識タイミングも不明確。
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong>SQS + EventBridge Scheduler로 만료 배치 트리거 구축.</strong> EventBridge Scheduler가 매일 00시에 SQS로 만료 처리 이벤트를 발행하고, 애플리케이션이 SQS 메시지를 수신해 만료 Job을 실행. 서비스 장애 시에도 SQS 메시지가 보존되어 재기동 후 자동 재처리되며, 수동 크론 관리를 완전히 제거.</li>
-          <li><strong>가상 쓰레드 기반 유형별 병렬 처리 + 배치 슬라이스 루프.</strong> 플랫폼 쓰레드 풀 대비 가상 쓰레드를 선택한 이유: 유형별 I/O 대기(DB 조회·업데이트)가 대부분이고, 3개 유형만 병렬화하면 되므로 풀 사이징·스레드 반납 관리가 불필요한 가상 쓰레드가 적합.</li>
-          <li>B2B·무상·유상 각 유형을 가상 쓰레드로 동시에 실행해 유형 간 데이터 간섭 없이 병렬 처리.</li>
-          <li>각 유형 내부는 배치 슬라이스 단위로 조회·만료 상태 전환·이력 저장을 하나의 트랜잭션으로 묶고, 슬라이스 간 0.5초 간격을 두어 DB 부하를 분산.</li>
-          <li>처리할 건이 없을 때까지 루프를 반복하는 구조로, 수만 건 대량 만료도 1~2분 내에 안정적으로 완료.</li>
-          <li>개별 유형 실패가 다른 유형에 전파되지 않도록 유형별 예외 처리를 격리.</li>
-          <li><strong>만료 → 낙전수입 계정 전환 로직을 회계 기준과 정합.</strong> 재무팀과 유형별 낙전수입 인식 시점을 사전 합의하고, 만료 처리와 계정 전환이 하나의 트랜잭션 안에서 원자적으로 실행되도록 설계. 건별 감사 로그를 기록해 금결원 보고 시 건별 추적 가능한 데이터 체계를 확보.</li>
+          <li>EventBridge Scheduler → SQS 이벤트 발행으로 만료 배치 트리거. 장애 시 SQS 메시지 보존으로 자동 재처리.</li>
+          <li>B2B·무상·유상 유형별 가상 쓰레드 병렬 실행 + 배치 슬라이스 루프(0.5초 간격 DB 부하 분산). I/O 대기 위주 + 3개 유형만 병렬화하므로 풀 사이징이 불필요한 가상 쓰레드 선택.</li>
+          <li>만료 → 낙전수입 계정 전환을 단일 트랜잭션으로 원자 실행. 건별 감사 로그로 금결원 보고 시 건별 추적 확보.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong>SQS + EventBridge Scheduler for expiration batch triggers.</strong> EventBridge Scheduler publishes an expiration event to SQS daily at midnight; the application consumes the SQS message and executes the expiration job. SQS message retention ensures automatic reprocessing after service recovery, fully eliminating manual cron management.</li>
-          <li><strong>Virtual-thread-based parallel processing with batch-slice loops.</strong> Why virtual threads over a platform-thread pool: most time is spent on I/O (DB queries/updates) and only 3 types need parallelization, so pool sizing and thread return management are unnecessary.</li>
-          <li>B2B, free, and paid types run concurrently on virtual threads with no cross-type data interference.</li>
-          <li>Each type loops through batch slices: query, transition, and persist history in one transaction per slice, with a 500 ms pause between slices to spread DB load.</li>
-          <li>The loop repeats until no records remain, completing tens of thousands of expirations reliably in 1–2 minutes.</li>
-          <li>Per-type exception handling is isolated so a failure in one type does not propagate.</li>
-          <li><strong>Aligned expiration → windfall revenue transfer with accounting standards.</strong> Pre-agreed per-type recognition timing with the finance team and designed expiration and account transfer to execute atomically within a single transaction. Per-item audit logs ensure record-level traceability for KFTC reporting.</li>
+          <li>EventBridge Scheduler → SQS event for batch trigger. SQS message retention ensures auto-retry after failures.</li>
+          <li>Virtual-thread parallel execution per B2B/free/paid type + batch-slice loop (500 ms DB load spread). Virtual threads chosen: I/O-bound workload + only 3 types, no pool sizing needed.</li>
+          <li>Expiration → windfall revenue transfer atomically in a single transaction. Per-item audit logs for KFTC record-level traceability.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>SQS＋EventBridge Schedulerで満了バッチトリガーを構築。</strong> EventBridge Schedulerが毎日0時にSQSへ満了処理イベントを発行し、アプリケーションがSQSメッセージを受信して満了Jobを実行。サービス障害時もSQSメッセージが保持され再起動後に自動再処理、手動cron管理を完全排除。</li>
-          <li><strong>仮想スレッドベースのタイプ別並列処理＋バッチスライスループ。</strong> プラットフォームスレッドプールではなく仮想スレッドを選択した理由：処理の大半がI/O待ち（DB照会・更新）で、並列化対象が3タイプのみのためプールサイジング・スレッド返却管理が不要。</li>
-          <li>B2B・無償・有償の各タイプを仮想スレッドで同時実行しタイプ間のデータ干渉を排除。</li>
-          <li>各タイプ内部はバッチスライス単位で照会・満了状態遷移・履歴保存を1トランザクションにまとめ、スライス間に500ms間隔を置きDB負荷を分散。</li>
-          <li>処理対象がなくなるまでループを繰り返す構造で、数万件の大量満了も1〜2分で安定完了。</li>
-          <li>個別タイプの失敗が他タイプへ伝播しないようタイプ別例外処理を隔離。</li>
-          <li><strong>満了→雑収入勘定振替ロジックを会計基準と整合。</strong> 財務チームとタイプ別の雑収入認識時点を事前合意し、満了処理と勘定振替が単一トランザクション内で原子的に実行される設計。件別監査ログを記録し金決院報告時に件別追跡可能なデータ体系を確保。</li>
+          <li>EventBridge Scheduler→SQSイベント発行で満了バッチトリガー。障害時はSQSメッセージ保持で自動再処理。</li>
+          <li>B2B・無償・有償タイプ別に仮想スレッド並列実行＋バッチスライスループ（500ms間隔DB負荷分散）。I/O待ち中心＋3タイプのみの並列化でプールサイジング不要な仮想スレッドを選択。</li>
+          <li>満了→雑収入勘定振替を単一トランザクションで原子実行。件別監査ログで金決院報告時の件別追跡を確保。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
@@ -365,67 +268,45 @@
           <span lang="ja" hidden>成果</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>미처리 만료 크레딧 <strong>2,400건 → 0건</strong></li>
-          <li>가상 쓰레드 병렬 + 배치 슬라이스 루프로 수만 건 만료를 <strong>1~2분 내 안정 처리</strong></li>
-          <li>금결원 보고 시 낙전수입 인식 정확도 <strong>100%</strong></li>
-          <li>SQS 메시지 보존으로 장애 후 재처리 <strong>자동화</strong></li>
+          <li>미처리 만료 <strong>2,400건 → 0건</strong> / 수만 건 만료 <strong>1~2분 내 완료</strong> / 낙전수입 인식 정확도 <strong>100%</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Unprocessed expired credits <strong>2,400 → 0</strong></li>
-          <li>Virtual-thread parallel + batch-slice loop handles tens of thousands of expirations <strong>reliably in 1–2 minutes</strong></li>
-          <li>Windfall revenue recognition accuracy for KFTC reporting <strong>100%</strong></li>
-          <li>Post-failure reprocessing <strong>automated via SQS message retention</strong></li>
+          <li>Unprocessed expirations <strong>2,400 → 0</strong> / tens of thousands completed in <strong>1–2 min</strong> / revenue recognition accuracy <strong>100%</strong></li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>未処理満了クレジット <strong>2,400件 → 0件</strong></li>
-          <li>仮想スレッド並列＋バッチスライスループで数万件満了を<strong>1〜2分で安定処理</strong></li>
-          <li>金決院報告時の雑収入認識精度 <strong>100%</strong></li>
-          <li>SQSメッセージ保持により障害後再処理を<strong>自動化</strong></li>
+          <li>未処理満了 <strong>2,400件→0件</strong> / 数万件満了 <strong>1〜2分で完了</strong> / 雑収入認識精度 <strong>100%</strong></li>
         </ul>
       </article>
 
       <article class="experience">
         <div class="experience__header">
           <span class="experience__company">
-            <span lang="ko">전자금융업 자격 취득을 위한 폐쇄망 이관 및 API 최적화</span>
-            <span lang="en" hidden>Air-Gapped Migration & API Optimization for E-Finance Registration</span>
-            <span lang="ja" hidden>電子金融業資格取得のための閉域網移行およびAPI最適化</span>
+            <span lang="ko">폐쇄망 이관 및 API 최적화</span>
+            <span lang="en" hidden>Air-Gapped Migration & API Optimization</span>
+            <span lang="ja" hidden>閉域網移行およびAPI最適化</span>
           </span>
           <span class="experience__period">Spring Boot, JPA, QueryDSL, MyBatis</span>
         </div>
-        <p class="psc__label">
-          <span lang="ko">문제</span>
-          <span lang="en" hidden>Problem</span>
-          <span lang="ja" hidden>課題</span>
-        </p>
         <p class="profile__text" lang="ko">
-          전자금융업 등록 요건상 크레딧·마일리지 시스템을 폐쇄망(망분리)으로 이관해야 하는데, 레거시 API에 N+1 쿼리와 비효율 인덱스가 다수 존재하여 이관 후 제한된 인프라 자원에서 SLO 달성이 불가능한 상태.
+          전자금융업 등록 요건으로 폐쇄망 이관이 필요하나, 레거시 API의 N+1 쿼리·비효율 인덱스로 제한된 인프라에서 SLO 달성 불가.
         </p>
         <p class="profile__text" lang="en" hidden>
-          The credit and mileage systems had to be migrated to an air-gapped (network-segregated) environment to meet e-finance registration requirements. However, the legacy API had widespread N+1 queries and inefficient indexes, making SLO compliance impossible on the constrained infrastructure after migration.
+          E-finance registration required air-gapped migration, but legacy N+1 queries and inefficient indexes made SLO compliance impossible on constrained infrastructure.
         </p>
         <p class="profile__text" lang="ja" hidden>
-          電子金融業登録要件によりクレジット・マイレージシステムを閉域網（ネットワーク分離）へ移行する必要があったが、レガシーAPIにN+1クエリと非効率インデックスが多数存在し、移行後の制限されたインフラ資源ではSLO達成が不可能な状態だった。
-        </p>
-        <p class="psc__label">
-          <span lang="ko">해결 과정</span>
-          <span lang="en" hidden>Solution</span>
-          <span lang="ja" hidden>解決プロセス</span>
+          電子金融業登録要件で閉域網移行が必要だが、レガシーAPIのN+1クエリ・非効率インデックスで制限インフラでのSLO達成が不可能。
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong>N+1 쿼리 제거 및 Fetch Join 전환.</strong> JPA 엔티티 연관관계 로딩 전략을 재설계하여 주요 조회 API의 쿼리 수를 대폭 감소. LAZY 로딩 후 루프 내 추가 쿼리가 발생하던 패턴을 Fetch Join 또는 <code>@EntityGraph</code>로 일괄 전환.</li>
-          <li><strong>QueryDSL 기반 동적 쿼리 리팩터링 및 인덱스 재설계.</strong> MyBatis XML로 관리되던 복합 조건 쿼리를 QueryDSL로 마이그레이션하면서, 실행 계획 분석 기반으로 복합 인덱스를 재구성.</li>
-          <li><strong>무중단 DB 마이그레이션 전략 설계·실행.</strong> 데이터 정합성 검증 스크립트를 사전 작성하고, 단계적 트래픽 스위칭(읽기 전환 → 쓰기 전환)으로 다운타임 없이 전환 완료. 롤백 시나리오별 절차서를 사전 수립.</li>
+          <li>N+1 쿼리를 Fetch Join/<code>@EntityGraph</code>로 전환하고, MyBatis XML → QueryDSL 마이그레이션 + 복합 인덱스 재설계.</li>
+          <li>단계적 트래픽 스위칭(읽기 → 쓰기)으로 무중단 DB 마이그레이션 완료. 롤백 시나리오별 절차서 사전 수립.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong>Eliminated N+1 queries and switched to Fetch Join.</strong> Redesigned JPA entity association loading strategies to drastically reduce query counts on key lookup APIs. Converted patterns where LAZY loading triggered additional queries inside loops to Fetch Join or <code>@EntityGraph</code>.</li>
-          <li><strong>QueryDSL-based dynamic query refactoring and index redesign.</strong> Migrated complex-condition queries from MyBatis XML to QueryDSL, and rebuilt composite indexes based on execution plan analysis.</li>
-          <li><strong>Designed and executed a zero-downtime DB migration strategy.</strong> Pre-built data consistency verification scripts and completed the migration via phased traffic switching (read switchover → write switchover) with zero downtime. Prepared rollback runbooks for each failure scenario.</li>
+          <li>Converted N+1 queries to Fetch Join/<code>@EntityGraph</code>; migrated MyBatis XML → QueryDSL with composite index redesign.</li>
+          <li>Completed zero-downtime DB migration via phased traffic switching (read → write). Pre-built rollback runbooks per scenario.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>N+1クエリ除去およびFetch Joinへの転換。</strong> JPAエンティティの関連関係ローディング戦略を再設計し主要照会APIのクエリ数を大幅削減。LAZY ローディング後ループ内で追加クエリが発生するパターンをFetch Joinまたは<code>@EntityGraph</code>へ一括転換。</li>
-          <li><strong>QueryDSLベースの動的クエリリファクタリングおよびインデックス再設計。</strong> MyBatis XMLで管理されていた複合条件クエリをQueryDSLへ移行しながら、実行計画分析に基づき複合インデックスを再構成。</li>
-          <li><strong>無停止DBマイグレーション戦略の設計・実行。</strong> データ整合性検証スクリプトを事前作成し、段階的トラフィックスイッチング（読み取り転換→書き込み転換）でダウンタイムゼロで移行完了。ロールバックシナリオ別手順書を事前策定。</li>
+          <li>N+1クエリをFetch Join/<code>@EntityGraph</code>へ転換し、MyBatis XML→QueryDSL移行＋複合インデックス再設計。</li>
+          <li>段階的トラフィックスイッチング（読取→書込）で無停止DBマイグレーション完了。ロールバックシナリオ別手順書を事前策定。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
@@ -433,22 +314,13 @@
           <span lang="ja" hidden>成果</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>주요 조회 API 쿼리 수 <strong>47회 → 4회</strong> (N+1 제거)</li>
-          <li>조회 API 평균 응답속도 <strong>960ms → 120ms</strong></li>
-          <li>DB 마이그레이션 다운타임 <strong>0분</strong></li>
-          <li>전자금융업 등록 인프라 요건 충족 완료</li>
+          <li>쿼리 수 <strong>47회 → 4회</strong> / 응답속도 <strong>960ms → 120ms</strong> / 다운타임 <strong>0분</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Key lookup API query count <strong>47 → 4</strong> (N+1 eliminated)</li>
-          <li>Lookup API avg response time <strong>960 ms → 120 ms</strong></li>
-          <li>DB migration downtime <strong>0 minutes</strong></li>
-          <li>E-finance registration infrastructure requirements met</li>
+          <li>Queries <strong>47 → 4</strong> / response time <strong>960 ms → 120 ms</strong> / downtime <strong>0 min</strong></li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>主要照会APIクエリ数 <strong>47回 → 4回</strong>（N+1除去）</li>
-          <li>照会API平均応答速度 <strong>960ms → 120ms</strong></li>
-          <li>DBマイグレーションダウンタイム <strong>0分</strong></li>
-          <li>電子金融業登録インフラ要件充足完了</li>
+          <li>クエリ数 <strong>47回→4回</strong> / 応答速度 <strong>960ms→120ms</strong> / ダウンタイム <strong>0分</strong></li>
         </ul>
       </article>
 
@@ -461,36 +333,26 @@
           </span>
           <span class="experience__period">Spring Boot, JPA, QueryDSL</span>
         </div>
-        <p class="psc__label">
-          <span lang="ko">문제</span>
-          <span lang="en" hidden>Problem</span>
-          <span lang="ja" hidden>課題</span>
-        </p>
         <p class="profile__text" lang="ko">
-          크레딧 적립·사용·차감 처리 시 동시 요청에서 잔액 정합성이 깨지는 케이스가 간헐적으로 발생. 기간·유형·상태 등 복합 조건 이력 조회의 응답 속도가 느려 운영 효율에 병목.
+          동시 요청에서 잔액 정합성이 간헐적으로 깨지고, 복합 조건 이력 조회 응답이 느려 운영 병목 발생.
         </p>
         <p class="profile__text" lang="en" hidden>
-          Intermittent balance inconsistencies occurred when concurrent requests hit the credit earn/use/deduct flow. History lookups with complex conditions (period, type, status) were slow, creating an operational bottleneck.
+          Intermittent balance inconsistencies under concurrent requests, and slow complex-condition history lookups creating operational bottlenecks.
         </p>
         <p class="profile__text" lang="ja" hidden>
-          クレジットの付与・使用・差引処理で同時リクエストにより残高整合性が崩れるケースが散発的に発生。期間・種別・状態等の複合条件履歴照会の応答速度が遅く運用効率にボトルネック。
-        </p>
-        <p class="psc__label">
-          <span lang="ko">해결 과정</span>
-          <span lang="en" hidden>Solution</span>
-          <span lang="ja" hidden>解決プロセス</span>
+          同時リクエストで残高整合性が間欠的に崩れ、複合条件履歴照会の応答が遅く運用ボトルネックが発生。
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong>비관적 락 + 트랜잭션 경계 재설계로 잔액 정합성 확보.</strong> 기존 낙관적 락은 충돌 시 재시도 로직이 누락된 상태에서 잔액 불일치를 유발. 적립·사용·차감을 단일 트랜잭션으로 묶고 <code>SELECT FOR UPDATE</code>로 잔액 행을 잠가 동시성 문제를 근본 차단. 분산 락(Redis)은 크레딧 특성상 단일 DB 내 정합성이면 충분하여 운영 복잡도 대비 이점 없음.</li>
-          <li><strong>QueryDSL 기반 동적 조회로 이력 조회 성능 확보.</strong> 기간·유형·상태 등 복합 조건 조회가 잦은데, MyBatis 동적 SQL은 조건 조합 폭증 시 XML 유지보수가 어려워 QueryDSL로 전환. 커버링 인덱스와 조합하여 이력 조회 p95 응답속도 개선.</li>
+          <li>비관적 락(<code>SELECT FOR UPDATE</code>) + 트랜잭션 경계 재설계로 동시성 문제 근본 차단. 단일 DB 정합성이면 충분하여 분산 락(Redis) 도입 불필요로 판단.</li>
+          <li>MyBatis → QueryDSL 전환 + 커버링 인덱스로 이력 조회 성능 확보.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong>Pessimistic locking + transaction boundary redesign to ensure balance consistency.</strong> The existing optimistic lock was causing balance mismatches because retry logic was missing on conflict. Wrapped earn/use/deduct in a single transaction with <code>SELECT FOR UPDATE</code> to lock the balance row, eliminating concurrency issues at the root. A distributed lock (Redis) was unnecessary since single-DB consistency was sufficient for credit operations, and would only add operational complexity.</li>
-          <li><strong>QueryDSL-based dynamic queries to improve history lookup performance.</strong> Complex condition queries combining period, type, and status were frequent; MyBatis dynamic SQL became unmaintainable as condition combinations grew. Switched to QueryDSL and combined with covering indexes to improve history query p95 response time.</li>
+          <li>Pessimistic locking (<code>SELECT FOR UPDATE</code>) + transaction boundary redesign to eliminate concurrency issues. Single-DB consistency was sufficient — no need for distributed locks (Redis).</li>
+          <li>MyBatis → QueryDSL migration + covering indexes for history lookup performance.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>悲観的ロック＋トランザクション境界再設計で残高整合性を確保。</strong> 既存の楽観的ロックは衝突時のリトライロジックが欠落しており残高不整合を誘発。付与・使用・差引を単一トランザクションにまとめ<code>SELECT FOR UPDATE</code>で残高行をロックし同時性問題を根本的に遮断。分散ロック（Redis）はクレジット特性上、単一DB内の整合性で十分であり運用複雑度に見合うメリットなし。</li>
-          <li><strong>QueryDSLベースの動的クエリで履歴照会性能を確保。</strong> 期間・種別・状態など複合条件照会が頻繁で、MyBatis動的SQLは条件組み合わせ増加時にXMLの保守が困難になりQueryDSLへ移行。カバリングインデックスと組み合わせ履歴照会p95応答速度を改善。</li>
+          <li>悲観的ロック（<code>SELECT FOR UPDATE</code>）＋トランザクション境界再設計で同時性問題を根本遮断。単一DB整合性で十分なため分散ロック（Redis）導入は不要と判断。</li>
+          <li>MyBatis→QueryDSL転換＋カバリングインデックスで履歴照会性能を確保。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
@@ -498,16 +360,13 @@
           <span lang="ja" hidden>成果</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>잔액 불일치 발생 <strong>월 12건 → 0건</strong></li>
-          <li>이력 조회 API p95 <strong>1,200ms → 180ms</strong></li>
+          <li>잔액 불일치 <strong>월 12건 → 0건</strong> / 이력 조회 p95 <strong>1,200ms → 180ms</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Balance inconsistencies <strong>12/month → 0</strong></li>
-          <li>History query API p95 <strong>1,200 ms → 180 ms</strong></li>
+          <li>Balance inconsistencies <strong>12/month → 0</strong> / history query p95 <strong>1,200 ms → 180 ms</strong></li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>残高不整合発生 <strong>月12件 → 0件</strong></li>
-          <li>履歴照会API p95 <strong>1,200ms → 180ms</strong></li>
+          <li>残高不整合 <strong>月12件→0件</strong> / 履歴照会p95 <strong>1,200ms→180ms</strong></li>
         </ul>
       </article>
 
