@@ -90,125 +90,90 @@
     <section class="section">
       <h2 class="section__title">Professional Experience</h2>
 
-      <!-- SK Eleclink -->
+      <!-- S-Traffic → SK Eleclink (merged) -->
       <article class="experience">
         <div class="experience__header">
           <span class="experience__company">
-            <span lang="ko">SK일렉링크</span>
-            <span lang="en" hidden>SK Eleclink</span>
-            <span lang="ja" hidden>SK Eleclink</span>
+            <span lang="ko">에스트래픽 → SK일렉링크</span>
+            <span lang="en" hidden>S-Traffic → SK Eleclink</span>
+            <span lang="ja" hidden>S-Traffic → SK Eleclink</span>
           </span>
           <span class="experience__period">
-            <span lang="ko">2023.01 — 현재</span>
-            <span lang="en" hidden>Jan 2023 — Present</span>
-            <span lang="ja" hidden>2023年1月 — 現在</span>
+            <span lang="ko">2022.05 — 현재</span>
+            <span lang="en" hidden>May 2022 — Present</span>
+            <span lang="ja" hidden>2022年5月 — 現在</span>
           </span>
         </div>
-        <p class="experience__company-desc">
-          <span lang="ko">전기차 충전 인프라를 기반으로 충전 슈퍼앱, 차량 진단 O2O, 데이터 기반 핀테크 등 대용량 트래픽을 처리하는 모빌리티 생태계를 구축하는 그린 모빌리티 플랫폼 기업.</span>
-          <span lang="en" hidden>Green mobility platform company building a mobility ecosystem on EV charging infrastructure, including a charging super app, O2O vehicle diagnostics, and data-driven fintech services designed for high-traffic workloads.</span>
-          <span lang="ja" hidden>EV充電インフラを基盤に、充電スーパーアプリ、車両診断O2O、データ基盤フィンテックなど、大容量トラフィックを処理するモビリティエコシステムを構築するグリーンモビリティプラットフォーム企業。</span>
-        </p>
         <p class="experience__role">
-          <span lang="ko">Back-end Engineer · 서울 송파구</span>
-          <span lang="en" hidden>Back-end Engineer · Songpa-gu, Seoul</span>
-          <span lang="ja" hidden>Back-end Engineer · ソウル市 松坡区</span>
+          <span lang="ko">Back-end Engineer</span>
+          <span lang="en" hidden>Back-end Engineer</span>
+          <span lang="ja" hidden>Back-end Engineer</span>
         </p>
 
-        <!-- Platform Cell -->
+        <!-- Project: Credit/Payment/Settlement -->
         <p class="experience__team">
-          <span lang="ko">테크팀 — 플랫폼 셀 (2026.03 — 현재)</span>
-          <span lang="en" hidden>Tech Team — Platform Cell (Mar 2026 — Present)</span>
-          <span lang="ja" hidden>テックチーム — プラットフォームセル（2026年3月 — 現在）</span>
+          <span lang="ko">크레딧·결제·정산 시스템</span>
+          <span lang="en" hidden>Credit / Payment / Settlement System</span>
+          <span lang="ja" hidden>クレジット・決済・精算システム</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>13개 서비스에 흩어져 있던 고객 커뮤니케이션 채널을 통합 메시징 플랫폼으로 일원화하고, 지연 감지·자동 재처리·채널별 모니터링·발송 통계·오디언스 타게팅까지 운영 전반을 플랫폼 안에서 해결할 수 있는 구조를 구축.</li>
-          <li>회원 유형별로 얽혀 있던 정산 정책을 격리해, 한 유형의 정책 변경이 다른 유형에 영향을 주지 않는 구조로 전환.</li>
+          <li>원장 기반 크레딧 시스템을 설계하고, 잔액 이전·수수료 취소·부분 취소 등 금액 변동 이력을 추적 가능한 구조로 구축.</li>
+          <li>B2B 제휴 고객별 정산 정책 차이를 크레딧 유형 확장으로 흡수하고, 회원 유형별 정산 정책을 격리해 정책 간 결합을 제거.</li>
+          <li>전자금융업 등록 요건에 따라 <span class="highlight">폐쇄망</span> 이관 시 데이터 모델·API 경계를 재설계하고, 제로 다운타임으로 전환 완료.</li>
+          <li>금결원 보고 기준에 맞는 크레딧 만료 처리 체계를 구축하고, 낙전수입 인식 정확도 100% 달성.</li>
           <li>미정산·미결제 재처리 흐름을 <span class="highlight">이벤트 기반</span>으로 재설계해 장애 발생 시 영향 범위를 축소.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Consolidated customer communication channels scattered across 13 services into a unified messaging platform, covering delayed-delivery detection, auto-retry, per-channel monitoring, delivery statistics, and audience targeting within a single operational structure.</li>
-          <li>Isolated settlement policies that had been entangled across member types, so a policy change in one type no longer affects others.</li>
+          <li>Designed a ledger-based credit system with traceable money-state history covering balance transfers, fee cancellations, and partial cancellations.</li>
+          <li>Absorbed per-partner B2B settlement policy differences through credit type expansion, and isolated settlement policies by member type to eliminate cross-policy coupling.</li>
+          <li>Redesigned data model and API boundaries during <span class="highlight">air-gapped network</span> migration for e-finance registration, completing the transition with zero downtime.</li>
+          <li>Built a credit expiration processing system aligned with KFTC reporting standards, achieving 100% accuracy in dormant revenue recognition.</li>
           <li>Redesigned the unsettled/unpaid retry flow as an <span class="highlight">event-driven architecture</span> to reduce the blast radius of failures.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>13サービスに分散していた顧客コミュニケーションチャネルを統合メッセージングプラットフォームに一元化し、遅延検知・自動再処理・チャネル別モニタリング・配信統計・オーディエンスターゲティングまで運用全般をプラットフォーム内で完結できる構造を構築。</li>
-          <li>会員タイプ別に絡み合っていた精算ポリシーを隔離し、あるタイプのポリシー変更が他タイプに影響しない構造へ転換。</li>
+          <li>台帳ベースのクレジットシステムを設計し、残高移転・手数料取消・部分取消など金額変動履歴を追跡可能な構造で構築。</li>
+          <li>B2B提携顧客ごとの精算ポリシー差分をクレジット種別拡張で吸収し、会員タイプ別に精算ポリシーを隔離してポリシー間の結合を除去。</li>
+          <li>電子金融業登録要件に基づく<span class="highlight">クローズドネットワーク</span>移管時にデータモデル・API境界を再設計し、ゼロダウンタイムで移行完了。</li>
+          <li>金融結済院の報告基準に適合するクレジット満了処理体系を構築し、休眠収益の認識精度100%を達成。</li>
           <li>未精算・未決済の再処理フローを<span class="highlight">イベント駆動</span>で再設計し、障害発生時の影響範囲を縮小。</li>
         </ul>
 
-        <!-- Platform Dev Team -->
+        <!-- Project: Messaging Platform -->
         <p class="experience__team">
-          <span lang="ko">플랫폼 개발팀 (2023.01 — 2026.02)</span>
-          <span lang="en" hidden>Platform Dev Team (Jan 2023 — Feb 2026)</span>
-          <span lang="ja" hidden>プラットフォーム開発チーム（2023年1月 — 2026年2月）</span>
+          <span lang="ko">통합 메시징 플랫폼</span>
+          <span lang="en" hidden>Unified Messaging Platform</span>
+          <span lang="ja" hidden>統合メッセージングプラットフォーム</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>전자금융업 등록 요건에 따라 크레딧·마일리지 시스템을 <span class="highlight">폐쇄망</span>으로 이관하며 데이터 모델과 API 경계를 재설계하고, 제로 다운타임으로 전환 완료.</li>
-          <li>금결원 보고 기준에 맞는 크레딧 만료 처리 체계를 구축하고, 낙전수입 인식 정확도 100%를 달성.</li>
-          <li>B2B 제휴 고객별 정산 정책 차이를 기존 정산 규칙과 충돌 없이 흡수할 수 있도록 크레딧 유형을 확장.</li>
+          <li>13개 서비스에 흩어져 있던 고객 커뮤니케이션 채널을 단일 플랫폼으로 통합.</li>
+          <li>지연 감지·자동 재처리·채널별 모니터링·발송 통계·오디언스 타게팅까지 운영 전반을 플랫폼 안에서 해결할 수 있는 구조를 구축.</li>
+        </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>Consolidated customer communication channels scattered across 13 services into a single platform.</li>
+          <li>Built a structure covering delayed-delivery detection, auto-retry, per-channel monitoring, delivery statistics, and audience targeting within the platform.</li>
+        </ul>
+        <ul class="experience__list" lang="ja" hidden>
+          <li>13サービスに分散していた顧客コミュニケーションチャネルを単一プラットフォームへ統合。</li>
+          <li>遅延検知・自動再処理・チャネル別モニタリング・配信統計・オーディエンスターゲティングまで運用全般をプラットフォーム内で完結できる構造を構築。</li>
+        </ul>
+
+        <!-- Project: Operations Automation -->
+        <p class="experience__team">
+          <span lang="ko">운영 자동화 및 팀 워크플로우</span>
+          <span lang="en" hidden>Operations Automation & Team Workflow</span>
+          <span lang="ja" hidden>運用自動化およびチームワークフロー</span>
+        </p>
+        <ul class="experience__list" lang="ko">
           <li>반복 운영 요청을 시스템으로 내재화해 담당자별 일 60건의 수동 처리를 <span class="highlight">0~3건으로 자동화(95% 감소)</span>.</li>
           <li>Jira 보드 자동화와 PR 알림 봇을 개발해 팀의 개발 흐름과 진행 상황의 투명성을 확보.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Migrated credit and mileage systems to an <span class="highlight">air-gapped network</span> to meet e-finance registration requirements, redesigning the data model and API boundaries with zero downtime.</li>
-          <li>Built a credit expiration processing system aligned with FSS reporting standards, achieving 100% accuracy in dormant revenue recognition.</li>
-          <li>Expanded credit types to absorb per-partner B2B settlement policy differences without conflicting with existing settlement rules.</li>
           <li>Internalized repetitive operational requests into the system, <span class="highlight">automating 60 daily manual tasks per agent down to 0–3 (95% reduction)</span>.</li>
           <li>Developed Jira board automation and a PR notification bot to improve development workflow transparency across the team.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>電子金融業登録要件に基づきクレジット・マイレージシステムを<span class="highlight">クローズドネットワーク</span>へ移管し、データモデルとAPI境界を再設計してゼロダウンタイムで移行完了。</li>
-          <li>金融結済院の報告基準に適合するクレジット満了処理体系を構築し、休眠収益の認識精度100%を達成。</li>
-          <li>B2B提携顧客ごとの精算ポリシー差分を既存ルールと競合なく吸収できるようクレジット種別を拡張。</li>
           <li>繰り返し運用依頼をシステムへ内製化し、担当者あたり1日60件の手動対応を<span class="highlight">0〜3件に自動化（95%削減）</span>。</li>
           <li>Jiraボード自動化とPR通知ボットを開発し、チームの開発フローと進捗の透明性を確保。</li>
-        </ul>
-      </article>
-
-      <!-- S-Traffic -->
-      <article class="experience">
-        <div class="experience__header">
-          <span class="experience__company">
-            <span lang="ko">에스트래픽</span>
-            <span lang="en" hidden>S-Traffic</span>
-            <span lang="ja" hidden>S-Traffic</span>
-          </span>
-          <span class="experience__period">
-            <span lang="ko">2022.05 — 2022.12</span>
-            <span lang="en" hidden>May 2022 — Dec 2022</span>
-            <span lang="ja" hidden>2022年5月 — 2022年12月</span>
-          </span>
-        </div>
-        <p class="experience__company-desc">
-          <span lang="ko">전기차 충전 서비스를 개발·운영하던 조직.</span>
-          <span lang="en" hidden>Organization that developed and operated EV charging operation systems and credit services.</span>
-          <span lang="ja" hidden>EV充電の運用システムとクレジットサービスを開発・運営していた組織。</span>
-        </p>
-        <p class="experience__role">
-          <span lang="ko">Back-end Engineer · 경기 성남시</span>
-          <span lang="en" hidden>Back-end Engineer · Seongnam, Gyeonggi</span>
-          <span lang="ja" hidden>Back-end Engineer · 京畿道 城南市</span>
-        </p>
-        <p class="experience__team">
-          <span lang="ko">DT추진실</span>
-          <span lang="en" hidden>DT Promotion Office</span>
-          <span lang="ja" hidden>DT推進室</span>
-        </p>
-        <ul class="experience__list" lang="ko">
-          <li>원장 기반 크레딧 시스템을 구축해 잔액 이전·수수료 취소·부분 취소 등 금액 변동 이력을 추적 가능한 구조로 설계.</li>
-          <li>B2B 고객별 운영 정책 차이를 동일 시스템 안에서 흡수할 수 있도록 크레딧 유형·유효기간·일괄 충전 기능을 확장.</li>
-          <li>2023년 SK일렉링크 인수합병 이후 동일 도메인에서 크레딧·결제·정산 시스템 확장을 이어감.</li>
-        </ul>
-        <ul class="experience__list" lang="en" hidden>
-          <li>Built a ledger-based credit system with traceable money-state history covering balance transfers, fee cancellations, and partial cancellations.</li>
-          <li>Expanded credit types, expiration policies, and bulk top-up capabilities to absorb per-customer B2B operational policy differences within a single system.</li>
-          <li>Continued expanding credit, payment, and settlement systems in the same domain after the organization was acquired by SK Eleclink in 2023.</li>
-        </ul>
-        <ul class="experience__list" lang="ja" hidden>
-          <li>台帳ベースのクレジットシステムを構築し、残高移転・手数料取消・部分取消など金額変動履歴を追跡可能な構造で設計。</li>
-          <li>B2B顧客ごとの運用ポリシー差分を同一システム内で吸収できるよう、クレジット種別・有効期限・一括チャージ機能を拡張。</li>
-          <li>2023年のSK Eleclink買収合併後も同じドメインでクレジット・決済・精算システムの拡張を継続。</li>
         </ul>
       </article>
 
@@ -226,15 +191,10 @@
             <span lang="ja" hidden>2019年4月 — 2022年4月</span>
           </span>
         </div>
-        <p class="experience__company-desc">
-          <span lang="ko">20년 전문성을 보유한 도시가스·상하수도 특화 솔루션 기업으로, AI 원격검침·GIS·RPA 등 고객 맞춤형 시스템 공급 및 안정적 운영 서비스를 제공.</span>
-          <span lang="en" hidden>City gas and waterworks-focused solution company with 20 years of expertise, providing tailored systems such as AI remote metering, GIS, and RPA along with stable operation services.</span>
-          <span lang="ja" hidden>20年の専門性を持つ都市ガス・上下水道特化ソリューション企業で、AI遠隔検針、GIS、RPAなどの顧客別システム提供と安定した運用サービスを行う会社。</span>
-        </p>
         <p class="experience__role">
-          <span lang="ko">Back-end Engineer · 서울 마포구</span>
-          <span lang="en" hidden>Back-end Engineer · Mapo-gu, Seoul</span>
-          <span lang="ja" hidden>Back-end Engineer · ソウル市 麻浦区</span>
+          <span lang="ko">Back-end Engineer</span>
+          <span lang="en" hidden>Back-end Engineer</span>
+          <span lang="ja" hidden>Back-end Engineer</span>
         </p>
         <ul class="experience__list" lang="ko">
           <li>고객사마다 달랐던 자산·공사 운영 기준을 시스템으로 표준화해 복수 고객사에 일관된 ERP 서비스를 제공.</li>
@@ -427,17 +387,35 @@
         </p>
         <ul class="experience__list" lang="ko">
           <li><strong>SQS + EventBridge Scheduler로 만료 배치 트리거 구축.</strong> EventBridge Scheduler가 매일 00시에 SQS로 만료 처리 이벤트를 발행하고, 애플리케이션이 SQS 메시지를 수신해 만료 Job을 실행. 서비스 장애 시에도 SQS 메시지가 보존되어 재기동 후 자동 재처리되며, 수동 크론 관리를 완전히 제거.</li>
-          <li><strong>가상 쓰레드 기반 유형별 병렬 처리 + 배치 슬라이스 루프.</strong> B2B·무상·유상 각 유형을 가상 쓰레드(Virtual Thread)로 동시에 실행해 유형 간 데이터 간섭 없이 병렬 처리. 각 유형 내부는 배치 슬라이스 단위로 조회·만료 상태 전환·이력 저장을 하나의 트랜잭션으로 묶고, 슬라이스 간 0.5초 간격을 두어 DB 부하를 분산. 처리할 건이 없을 때까지 루프를 반복하는 구조로, 수만 건 대량 만료도 1~2분 내에 안정적으로 완료. 개별 유형 실패가 다른 유형에 전파되지 않도록 유형별 예외 처리를 격리.</li>
+          <li><strong>가상 쓰레드 기반 유형별 병렬 처리 + 배치 슬라이스 루프.</strong>
+            <br>— 플랫폼 쓰레드 풀 대비 가상 쓰레드를 선택한 이유: 유형별 I/O 대기(DB 조회·업데이트)가 대부분이고, 3개 유형만 병렬화하면 되므로 풀 사이징·스레드 반납 관리가 불필요한 가상 쓰레드가 적합.
+            <br>— B2B·무상·유상 각 유형을 가상 쓰레드로 동시에 실행해 유형 간 데이터 간섭 없이 병렬 처리.
+            <br>— 각 유형 내부는 배치 슬라이스 단위로 조회·만료 상태 전환·이력 저장을 하나의 트랜잭션으로 묶고, 슬라이스 간 0.5초 간격을 두어 DB 부하를 분산.
+            <br>— 처리할 건이 없을 때까지 루프를 반복하는 구조로, 수만 건 대량 만료도 1~2분 내에 안정적으로 완료.
+            <br>— 개별 유형 실패가 다른 유형에 전파되지 않도록 유형별 예외 처리를 격리.
+          </li>
           <li><strong>만료 → 낙전수입 계정 전환 로직을 회계 기준과 정합.</strong> 재무팀과 유형별 낙전수입 인식 시점을 사전 합의하고, 만료 처리와 계정 전환이 하나의 트랜잭션 안에서 원자적으로 실행되도록 설계. 건별 감사 로그를 기록해 금결원 보고 시 건별 추적 가능한 데이터 체계를 확보.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li><strong>SQS + EventBridge Scheduler for expiration batch triggers.</strong> EventBridge Scheduler publishes an expiration event to SQS daily at midnight; the application consumes the SQS message and executes the expiration job. SQS message retention ensures automatic reprocessing after service recovery, fully eliminating manual cron management.</li>
-          <li><strong>Virtual-thread-based parallel processing with batch-slice loops.</strong> B2B, free, and paid types run concurrently on virtual threads (Java 21) with no cross-type data interference. Within each type, a loop queries, transitions, and persists history in one transaction per slice, with a 500 ms pause between slices to spread DB load. The loop repeats until no records remain, completing tens of thousands of expirations reliably in 1–2 minutes. Per-type exception handling is isolated so a failure in one type does not propagate.</li>
+          <li><strong>Virtual-thread-based parallel processing with batch-slice loops.</strong>
+            <br>— Why virtual threads over a platform-thread pool: most time is spent on I/O (DB queries/updates) and only 3 types need parallelization, so pool sizing and thread return management are unnecessary.
+            <br>— B2B, free, and paid types run concurrently on virtual threads with no cross-type data interference.
+            <br>— Each type loops through batch slices — query, transition, and persist history in one transaction per slice, with a 500 ms pause between slices to spread DB load.
+            <br>— The loop repeats until no records remain, completing tens of thousands of expirations reliably in 1–2 minutes.
+            <br>— Per-type exception handling is isolated so a failure in one type does not propagate.
+          </li>
           <li><strong>Aligned expiration → windfall revenue transfer with accounting standards.</strong> Pre-agreed per-type recognition timing with the finance team and designed expiration and account transfer to execute atomically within a single transaction. Per-item audit logs ensure record-level traceability for KFTC reporting.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li><strong>SQS＋EventBridge Schedulerで満了バッチトリガーを構築。</strong> EventBridge Schedulerが毎日0時にSQSへ満了処理イベントを発行し、アプリケーションがSQSメッセージを受信して満了Jobを実行。サービス障害時もSQSメッセージが保持され再起動後に自動再処理、手動cron管理を完全排除。</li>
-          <li><strong>仮想スレッドベースのタイプ別並列処理＋バッチスライスループ。</strong> B2B・無償・有償の各タイプを仮想スレッド（Virtual Thread、Java 21）で同時実行しタイプ間のデータ干渉を排除。各タイプ内部はバッチスライス単位で照会・満了状態遷移・履歴保存を1トランザクションにまとめ、スライス間に500ms間隔を置きDB負荷を分散。処理対象がなくなるまでループを繰り返す構造で、数万件の大量満了も1〜2分で安定完了。個別タイプの失敗が他タイプへ伝播しないようタイプ別例外処理を隔離。</li>
+          <li><strong>仮想スレッドベースのタイプ別並列処理＋バッチスライスループ。</strong>
+            <br>— プラットフォームスレッドプールではなく仮想スレッドを選択した理由：処理の大半がI/O待ち（DB照会・更新）で、並列化対象が3タイプのみのためプールサイジング・スレッド返却管理が不要。
+            <br>— B2B・無償・有償の各タイプを仮想スレッドで同時実行しタイプ間のデータ干渉を排除。
+            <br>— 各タイプ内部はバッチスライス単位で照会・満了状態遷移・履歴保存を1トランザクションにまとめ、スライス間に500ms間隔を置きDB負荷を分散。
+            <br>— 処理対象がなくなるまでループを繰り返す構造で、数万件の大量満了も1〜2分で安定完了。
+            <br>— 個別タイプの失敗が他タイプへ伝播しないようタイプ別例外処理を隔離。
+          </li>
           <li><strong>満了→雑収入勘定振替ロジックを会計基準と整合。</strong> 財務チームとタイプ別の雑収入認識時点を事前合意し、満了処理と勘定振替が単一トランザクション内で原子的に実行される設計。件別監査ログを記録し金決院報告時に件別追跡可能なデータ体系を確保。</li>
         </ul>
         <p class="psc__label">
