@@ -60,11 +60,11 @@
       </p>
     </section>
 
-    <!-- Experience -->
+    <!-- Professional Experience -->
     <section class="section">
-      <h2 class="section__title">Experience</h2>
+      <h2 class="section__title">Professional Experience</h2>
 
-      <!-- S-Traffic → SK Eleclink (merged) -->
+      <!-- SK Eleclink -->
       <article class="experience">
         <div class="experience__header">
           <span class="experience__company">
@@ -83,7 +83,111 @@
           <span lang="en" hidden>Back-end Engineer</span>
           <span lang="ja" hidden>Back-end Engineer</span>
         </p>
+
+        <p class="experience__team">
+          <span lang="ko">크레딧·결제·정산 시스템</span>
+          <span lang="en" hidden>Credit / Payment / Settlement System</span>
+          <span lang="ja" hidden>クレジット・決済・精算システム</span>
+        </p>
+        <ul class="experience__list" lang="ko">
+          <li>원장 기반 크레딧 시스템을 설계하고, 잔액 이전·수수료 취소·부분 취소 등 금액 변동 이력을 추적 가능한 구조로 구축.</li>
+          <li>B2B 제휴 고객별 정산 정책 차이를 크레딧 유형 확장으로 흡수하고, 회원 유형별 정산 정책을 격리해 정책 간 결합을 제거.</li>
+          <li>전자금융업 등록 요건에 따라 폐쇄망 이관 시 데이터 모델·API 경계를 재설계하고, 제로 다운타임으로 전환 완료.</li>
+          <li>금결원 보고 기준에 맞는 크레딧 만료 처리 체계를 구축하고, 낙전수입 인식 정확도 100% 달성.</li>
+          <li>미정산·미결제 재처리 흐름을 이벤트 기반으로 재설계해 장애 발생 시 영향 범위를 축소.</li>
+        </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>Designed a ledger-based credit system with traceable money-state history covering balance transfers, fee cancellations, and partial cancellations.</li>
+          <li>Absorbed per-partner B2B settlement policy differences through credit type expansion, isolating settlement policies by member type.</li>
+          <li>Redesigned data model and API boundaries during air-gapped migration for e-finance registration, completing the transition with zero downtime.</li>
+          <li>Built a credit expiration processing system aligned with KFTC reporting standards, achieving 100% accuracy in dormant revenue recognition.</li>
+          <li>Redesigned the unsettled/unpaid retry flow as an event-driven architecture to reduce the blast radius of failures.</li>
+        </ul>
+        <ul class="experience__list" lang="ja" hidden>
+          <li>台帳ベースのクレジットシステムを設計し、残高移転・手数料取消・部分取消など金額変動履歴を追跡可能な構造で構築。</li>
+          <li>B2B提携顧客ごとの精算ポリシー差分をクレジット種別拡張で吸収し、会員タイプ別に精算ポリシーを隔離。</li>
+          <li>電子金融業登録要件に基づく閉域網移管時にデータモデル・API境界を再設計し、ゼロダウンタイムで移行完了。</li>
+          <li>金融結済院の報告基準に適合するクレジット満了処理体系を構築し、休眠収益の認識精度100%を達成。</li>
+          <li>未精算・未決済の再処理フローをイベント駆動で再設計し、障害発生時の影響範囲を縮小。</li>
+        </ul>
+
+        <p class="experience__team">
+          <span lang="ko">통합 메시징 플랫폼</span>
+          <span lang="en" hidden>Unified Messaging Platform</span>
+          <span lang="ja" hidden>統合メッセージングプラットフォーム</span>
+        </p>
+        <ul class="experience__list" lang="ko">
+          <li>13개 서비스에 흩어져 있던 고객 커뮤니케이션 채널을 단일 플랫폼으로 통합.</li>
+          <li>지연 감지·자동 재처리·채널별 모니터링·발송 통계·오디언스 타게팅까지 운영 전반을 플랫폼 안에서 해결할 수 있는 구조를 구축.</li>
+        </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>Consolidated customer communication channels scattered across 13 services into a single platform.</li>
+          <li>Built a structure covering delayed-delivery detection, auto-retry, per-channel monitoring, delivery statistics, and audience targeting within the platform.</li>
+        </ul>
+        <ul class="experience__list" lang="ja" hidden>
+          <li>13サービスに分散していた顧客コミュニケーションチャネルを単一プラットフォームへ統合。</li>
+          <li>遅延検知・自動再処理・チャネル別モニタリング・配信統計・オーディエンスターゲティングまで運用全般をプラットフォーム内で完結できる構造を構築。</li>
+        </ul>
+
+        <p class="experience__team">
+          <span lang="ko">운영 자동화 및 팀 워크플로우</span>
+          <span lang="en" hidden>Operations Automation & Team Workflow</span>
+          <span lang="ja" hidden>運用自動化およびチームワークフロー</span>
+        </p>
+        <ul class="experience__list" lang="ko">
+          <li>반복 운영 요청을 시스템으로 내재화해 담당자별 수동 처리를 <span class="highlight">95% 개선</span>.</li>
+          <li>Jira 보드 자동화와 PR 알림 봇을 개발해 팀의 개발 흐름과 진행 상황의 투명성을 확보.</li>
+        </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>Internalized repetitive operational requests into the system, achieving a <span class="highlight">95% improvement</span> in manual processing per agent.</li>
+          <li>Developed Jira board automation and a PR notification bot to improve development workflow transparency across the team.</li>
+        </ul>
+        <ul class="experience__list" lang="ja" hidden>
+          <li>繰り返し運用依頼をシステムへ内製化し、担当者あたりの手動対応を<span class="highlight">95%改善</span>。</li>
+          <li>Jiraボード自動化とPR通知ボットを開発し、チームの開発フローと進捗の透明性を確保。</li>
+        </ul>
       </article>
+
+      <!-- Mobile Entropy -->
+      <article class="experience">
+        <div class="experience__header">
+          <span class="experience__company">
+            <span lang="ko">모바일엔트로피</span>
+            <span lang="en" hidden>Mobile Entropy</span>
+            <span lang="ja" hidden>Mobile Entropy</span>
+          </span>
+          <span class="experience__period">
+            <span lang="ko">2019.04 — 2022.04</span>
+            <span lang="en" hidden>Apr 2019 — Apr 2022</span>
+            <span lang="ja" hidden>2019年4月 — 2022年4月</span>
+          </span>
+        </div>
+        <p class="experience__role">
+          <span lang="ko">Back-end Engineer</span>
+          <span lang="en" hidden>Back-end Engineer</span>
+          <span lang="ja" hidden>Back-end Engineer</span>
+        </p>
+        <ul class="experience__list" lang="ko">
+          <li>고객사마다 달랐던 자산·공사 운영 기준을 시스템으로 표준화해 복수 고객사에 일관된 ERP 서비스를 제공.</li>
+          <li>카카오톡 알림톡 기반 인터랙티브 플랫폼을 개발해 고객사–사용자 간 커뮤니케이션 병목을 해소.</li>
+          <li>현장 검침·점검 데이터를 PDA 웹앱으로 즉시 기록할 수 있도록 개발해 데이터 입력 지연을 제거.</li>
+        </ul>
+        <ul class="experience__list" lang="en" hidden>
+          <li>Standardized asset and construction operation rules that varied across clients, delivering a consistent ERP service to multiple city gas companies.</li>
+          <li>Built an interactive KakaoTalk AlimTalk platform to eliminate communication bottlenecks between client companies and end users.</li>
+          <li>Developed a PDA-based web app for real-time field meter readings and inspections, removing data-entry delays.</li>
+        </ul>
+        <ul class="experience__list" lang="ja" hidden>
+          <li>顧客ごとに異なっていた資産・工事運用基準をシステムで標準化し、複数顧客へ一貫したERPサービスを提供。</li>
+          <li>KakaoTalkアリムトーク基盤のインタラクティブプラットフォームを開発し、顧客企業–利用者間のコミュニケーションボトルネックを解消。</li>
+          <li>現場検針・点検データをPDAウェブアプリで即時記録できるよう開発し、データ入力の遅延を除去。</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- Selected Problem Solving Cases -->
+    <section class="section psc">
+      <h2 class="section__title">Selected Problem Solving Cases</h2>
 
       <article class="experience">
         <div class="experience__header">
@@ -423,44 +527,7 @@
           <li>サービス別メッセージング連携コード <strong>約300行 → SDK依存1行</strong></li>
         </ul>
       </article>
-
-      <!-- Mobile Entropy -->
-      <article class="experience">
-        <div class="experience__header">
-          <span class="experience__company">
-            <span lang="ko">모바일엔트로피</span>
-            <span lang="en" hidden>Mobile Entropy</span>
-            <span lang="ja" hidden>Mobile Entropy</span>
-          </span>
-          <span class="experience__period">
-            <span lang="ko">2019.04 — 2022.04</span>
-            <span lang="en" hidden>Apr 2019 — Apr 2022</span>
-            <span lang="ja" hidden>2019年4月 — 2022年4月</span>
-          </span>
-        </div>
-        <p class="experience__role">
-          <span lang="ko">Back-end Engineer</span>
-          <span lang="en" hidden>Back-end Engineer</span>
-          <span lang="ja" hidden>Back-end Engineer</span>
-        </p>
-        <ul class="experience__list" lang="ko">
-          <li>고객사마다 달랐던 자산·공사 운영 기준을 시스템으로 표준화해 복수 고객사에 일관된 ERP 서비스를 제공.</li>
-          <li>카카오톡 알림톡 기반 인터랙티브 플랫폼을 개발해 고객사–사용자 간 커뮤니케이션 병목을 해소.</li>
-          <li>현장 검침·점검 데이터를 PDA 웹앱으로 즉시 기록할 수 있도록 개발해 데이터 입력 지연을 제거.</li>
-        </ul>
-        <ul class="experience__list" lang="en" hidden>
-          <li>Standardized asset and construction operation rules that varied across clients, delivering a consistent ERP service to multiple city gas companies.</li>
-          <li>Built an interactive KakaoTalk AlimTalk platform to eliminate communication bottlenecks between client companies and end users.</li>
-          <li>Developed a PDA-based web app for real-time field meter readings and inspections, removing data-entry delays.</li>
-        </ul>
-        <ul class="experience__list" lang="ja" hidden>
-          <li>顧客ごとに異なっていた資産・工事運用基準をシステムで標準化し、複数顧客へ一貫したERPサービスを提供。</li>
-          <li>KakaoTalkアリムトーク基盤のインタラクティブプラットフォームを開発し、顧客企業–利用者間のコミュニケーションボトルネックを解消。</li>
-          <li>現場検針・点検データをPDAウェブアプリで即時記録できるよう開発し、データ入力の遅延を除去。</li>
-        </ul>
-      </article>
     </section>
-
 
     <!-- Technical Skills -->
     <section class="section">
