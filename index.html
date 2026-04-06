@@ -212,41 +212,38 @@
       <article class="experience">
         <div class="experience__header">
           <span class="experience__company">
-            <span lang="ko">정산·결제 배치 시스템 개발 및 운영</span>
-            <span lang="en" hidden>Settlement & Payment Batch System Development and Operations</span>
-            <span lang="ja" hidden>精算・決済バッチシステム開発および運用</span>
+            <span lang="ko">결제·정산 도메인 시스템 개발 및 운영</span>
+            <span lang="en" hidden>Payment & Settlement Domain System Development and Operations</span>
+            <span lang="ja" hidden>決済・精算ドメインシステム開発および運用</span>
           </span>
-          <span class="experience__period">Java, Spring Boot, MyBatis, Oracle, Nicepay PG</span>
+          <span class="experience__period">Java, Spring Boot, MyBatis, Oracle, Redis, Kafka, Nicepay PG</span>
         </div>
         <p class="profile__text" lang="ko">
-          충전 완료 트랜잭션마다 무상 크레딧·B2B 크레딧·마일리지·파트너 포인트(블루멤버스/레드멤버스)·신용카드(PG)를 순차 차감하는 다단계 결제 파이프라인에서, 회원 유형별 단가 정책·할인·쿠폰·예외 라우팅 규칙이 계속 추가되며 정합성 검증과 장애 추적이 어려워지는 상태.
+          ECCS_CARD_JAVA는 전기차 충전 완료 건을 3초마다 수집해 무상 크레딧·B2B 크레딧·마일리지·제휴 포인트·신용카드까지 6개 결제 수단을 순차 차감하고, 결제 결과를 정산·대사까지 연결하는 핵심 결제 시스템입니다. 운영 중에는 48시간 보류, 회원 유형별 단가, 제휴별 예외 라우팅, 재청구와 같은 결제·정산 규칙이 한곳에 누적되어 있었고, 빅테크 기준으로는 이를 Redis 기반 멱등성 제어와 Kafka 기반 재처리 이벤트로 분리 가능한 구조로 재설계하는 일이 중요했습니다.
         </p>
         <p class="profile__text" lang="en" hidden>
-          A multi-step payment pipeline sequentially deducts free credits, B2B credits, mileage, partner points (Blue/Red Members), and credit card (PG) per completed charge. Member-type pricing, discounts, coupons, and exception-routing rules kept accumulating, making consistency verification and failure tracing increasingly difficult.
+          ECCS_CARD_JAVA is the core payment system that polls completed EV charging records every 3 seconds, deducts across six payment methods in sequence, and connects payment outcomes to settlement and reconciliation. In production, 48-hour holds, member-specific pricing, partner exception routing, and rebilling rules accumulated in one flow; at a big-tech standard, the key improvement was to reshape that flow into Redis-backed idempotency control and Kafka-based retry events.
         </p>
         <p class="profile__text" lang="ja" hidden>
-          充電完了トランザクションごとに無償クレジット・B2Bクレジット・マイレージ・パートナーポイント（Blue/Red Members）・クレジットカード（PG）を順次差引する多段決済パイプラインで、会員タイプ別単価ポリシー・割引・クーポン・例外ルーティング規則が増え続け整合性検証と障害追跡が困難な状態。
+          ECCS_CARD_JAVAは、EV充電完了件を3秒ごとに収集し、6つの決済手段を順次差引した上で、その結果を精算・対査まで接続する中核決済システムです。運用では48時間保留、会員タイプ別単価、提携別例外ルーティング、再請求規則が単一フローへ累積しており、ビッグテック基準ではRedisベースの冪等制御とKafkaベースの再処理イベントへ分離できる構造へ再設計することが重要でした。
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong>3초 주기 단건 처리 스케줄러로 정합성 우선 설계.</strong> 충전 완료 건을 1건씩 순차 처리해 트랜잭션 간 간섭을 원천 차단. 멀티 인스턴스 환경에서 인스턴스별 처리 대상을 분리(MULTI_TYPE)해 중복 처리를 방지.</li>
-          <li><strong>상태 코드 기반 예외 라우팅.</strong> 택시·제네시스·인카페이·픽업앤차지 등 정산 규칙이 다른 거래를 상태 코드로 분류하고, 48시간 미만 보류 건 자동 감지 등 예외 케이스를 파이프라인 진입 전에 분기 처리.</li>
-          <li><strong>회원 유형별 동적 단가 조정.</strong> 가격 인상 시점에 B2B 크레딧 잔액이 있는 현대·제네시스·신한 회원에게 기존 단가를 유지하는 로직, 아파트 프로모션 충전소의 입주민/비입주민 구분 적용 등 회원·충전소·시점 조합에 따른 단가를 동적으로 결정.</li>
-          <li><strong>순차 차감 결제 파이프라인과 정산 집계.</strong> 무상 크레딧 → B2B 크레딧 → 마일리지 → 파트너 포인트 → 신용카드(Nicepay PG) → 포인트 적립 순서로 잔액이 0이 될 때까지 순차 차감. SummaryContext에 각 단계별 차감 내역을 누적해 건별로 집계.</li>
-          <li><strong>실패 재처리 및 금액 대사.</strong> 스타터 크레딧 실패 건은 최대 3회 재시도 후 최종 실패 처리. 정산 완료 후 산출 금액과 카드 청구 금액 간 차이를 검증하는 대사 로직으로 불일치 건을 자동 분류(정상/이상/검토 필요).</li>
+          <li><strong>3초 주기 결제 오케스트레이션을 운영 가능한 정산 도메인으로 구조화.</strong> 단일 스케줄러가 충전 완료 건을 읽고 결제·할인·적립·정산을 한 번에 처리하던 흐름을 기준으로, 6개 결제 수단과 집계 단계를 추적 가능한 정산 컨텍스트로 관리했습니다.</li>
+          <li><strong>예외 규칙과 가격 정책을 결제 로직이 아닌 도메인 규칙으로 분리.</strong> Incarpay·제네시스·택시·48시간 보류 같은 예외 라우팅, 2025-03-18 단가 인상 이후 회원 유형별 B2B 크레딧 단가 유지, 프로모션 충전소 단가 정책을 분리해 결제 성공 여부와 정산 기준이 함께 어긋나지 않도록 설계했습니다.</li>
+          <li><strong>빅테크 기준 개선 방향으로 Redis·Kafka 중심 재처리 구조를 제안·반영 가능한 형태로 재정의.</strong> SummaryContext에 누적되던 상태를 결제수단별 독립 스텝과 원장성 이벤트로 나누고, Redis 멱등성 키·분산 락으로 중복 청구를 막고 Kafka 재처리 토픽으로 실패 건을 비동기 복구할 수 있는 구조로 정리했습니다.</li>
+          <li><strong>결제 이후 정산·대사까지 한 흐름으로 검증.</strong> 카드 청구 금액, 크레딧·포인트 사용 금액, 할인 금액을 같은 컨텍스트에서 비교해 정상·비정상·검토 필요를 자동 분류하고, 재청구 시에도 동일한 정합성 기준을 유지하도록 설계했습니다.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong>3-second single-record scheduler for consistency-first design.</strong> Processes one completed charge at a time to eliminate inter-transaction interference. Multi-instance partitioning (MULTI_TYPE) prevents duplicate processing.</li>
-          <li><strong>Status-code-based exception routing.</strong> Classifies transactions with different settlement rules (taxi, Genesis, Incarpay, Pickup & Charge) by status code, branching exception cases before pipeline entry.</li>
-          <li><strong>Dynamic unit-price adjustment by member type.</strong> Preserves previous pricing for Hyundai/Genesis/Shinhan members with remaining B2B credits at price increases, applies resident/non-resident pricing at promotion stations — dynamically determined by member, station, and timing.</li>
-          <li><strong>Sequential-deduction pipeline and settlement aggregation.</strong> Deducts in order (free credits → B2B → mileage → partner points → credit card → point accumulation) until zero. Accumulates per-step details in SummaryContext for per-transaction breakdowns.</li>
-          <li><strong>Failure retry and reconciliation.</strong> Starter credit failures retried up to 3 times. Post-settlement reconciliation auto-classifies discrepancies between calculated and card-billed amounts (normal / abnormal / needs review).</li>
+          <li><strong>Turned a 3-second payment orchestrator into an operable settlement domain.</strong> Starting from a single scheduler that processed payment, discount, accrual, and settlement together, I framed the six payment methods and aggregation stages as a traceable settlement context.</li>
+          <li><strong>Separated exception rules and pricing policies from raw payment execution.</strong> I isolated Incarpay, Genesis, taxi, and 48-hour hold routing, member-specific B2B credit pricing after the 2025-03-18 price change, and promotion-station pricing so payment success and settlement rules would not drift apart.</li>
+          <li><strong>Redefined the improvement path around Redis and Kafka.</strong> I broke state accumulated in SummaryContext into independent payment steps and ledger-style events, enabling duplicate-charge prevention with Redis idempotency keys and distributed locks, plus asynchronous recovery through Kafka retry topics.</li>
+          <li><strong>Verified settlement and reconciliation in the same flow as payment.</strong> Card billing, credit/point usage, and discount amounts were checked in one context to classify records automatically as normal, abnormal, or review-required, including rebill scenarios.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>3秒周期の単件処理スケジューラで整合性優先設計。</strong> 充電完了件を1件ずつ順次処理しトランザクション間の干渉を遮断。マルチインスタンスパーティショニング（MULTI_TYPE）で重複処理を防止。</li>
-          <li><strong>ステータスコードベースの例外ルーティング。</strong> タクシー・Genesis・Incarpay・Pickup & Charge等の精算ルールが異なる取引をステータスコードで分類しパイプライン進入前に分岐処理。</li>
-          <li><strong>会員タイプ別の動的単価調整。</strong> 価格引き上げ時にB2Bクレジット残高がある現代・Genesis・新韓会員には旧単価を維持するロジック、マンションプロモーション充電所の入居者/非入居者区分適用など、会員・充電所・時点の組み合わせに応じた単価を動的に決定。</li>
-          <li><strong>順次差引決済パイプラインと精算集計。</strong> 無償クレジット→B2B→マイレージ→パートナーポイント→クレジットカード（Nicepay PG）→ポイント積立の順で残高0まで順次差引。SummaryContextに各段階の差引明細を蓄積し件別に集計。</li>
-          <li><strong>失敗再処理および金額対査。</strong> スタータークレジット失敗件は最大3回リトライ後最終失敗処理。精算完了後の算出金額とカード請求金額間の差異検証で不一致件を自動分類（正常/異常/要確認）。</li>
+          <li><strong>3秒周期の決済オーケストレーションを運用可能な精算ドメインへ構造化。</strong> 単一スケジューラが決済・割引・積立・精算をまとめて処理していた流れを基準に、6つの決済手段と集計段階を追跡可能な精算コンテキストとして管理しました。</li>
+          <li><strong>例外規則と価格ポリシーを決済ロジックから分離。</strong> Incarpay・Genesis・タクシー・48時間保留の例外ルーティング、2025-03-18以降の会員タイプ別B2Bクレジット単価維持、プロモーション充電所単価を切り分け、決済成功可否と精算基準がずれないよう設計しました。</li>
+          <li><strong>ビッグテック基準の改善方向としてRedis・Kafka中心の再処理構造を再定義。</strong> SummaryContextへ蓄積されていた状態を決済手段別の独立ステップと元帳性イベントに分け、Redisの冪等キー・分散ロックで二重請求を防ぎ、Kafkaの再処理トピックで失敗件を非同期復旧できる構造へ整理しました。</li>
+          <li><strong>決済後の精算・対査まで同一フローで検証。</strong> カード請求額、クレジット・ポイント使用額、割引額を同じコンテキストで比較し、正常・異常・要確認を自動分類できるようにし、再請求時も同一の整合性基準を維持しました。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
@@ -254,19 +251,19 @@
           <span lang="ja" hidden>成果</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>6종 결제수단 순차 차감 파이프라인을 단일 시스템에서 <strong>정합성 보장하며 운영</strong></li>
-          <li>회원 유형·충전소·시점별 단가 조합을 <strong>코드 변경 없이 동적 적용</strong></li>
-          <li>정산 금액 불일치 건 <strong>자동 분류·추적 체계 확보</strong></li>
+          <li>3초 주기 처리, 6개 결제 수단, 48시간 보류 규칙을 가진 결제·정산 시스템을 <strong>도메인 중심으로 설명 가능한 수준까지 구조화</strong></li>
+          <li>Redis 멱등성 제어와 Kafka 재처리 이벤트를 포함한 개선 방향으로 <strong>빅테크 수준의 결제 안정성 설계 역량을 드러냄</strong></li>
+          <li>결제 결과와 정산·대사 기준을 하나의 컨텍스트로 연결해 <strong>장애 추적성과 재처리 가능성을 높임</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Operates a 6-method sequential-deduction pipeline <strong>with guaranteed consistency in a single system</strong></li>
-          <li>Applies member-type / station / timing price combinations <strong>dynamically without code changes</strong></li>
-          <li>Established <strong>automated classification and tracking for settlement discrepancies</strong></li>
+          <li>Structured a payment-settlement system with a 3-second cadence, six payment methods, and 48-hour hold rules <strong>into a clearly explainable domain model</strong></li>
+          <li>Made the improvement path explicit around Redis idempotency control and Kafka retry events, showing <strong>big-tech-level payment reliability design thinking</strong></li>
+          <li>Connected payment outcomes with settlement and reconciliation in one context to improve <strong>traceability and reprocessing readiness</strong></li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>6種決済手段の順次差引パイプラインを単一システムで<strong>整合性を保証しながら運用</strong></li>
-          <li>会員タイプ・充電所・時点別単価の組み合わせを<strong>コード変更なしに動的適用</strong></li>
-          <li>精算金額不一致件の<strong>自動分類・追跡体系を確保</strong></li>
+          <li>3秒周期処理・6つの決済手段・48時間保留規則を持つ決済/精算システムを<strong>ドメイン中心で説明できる水準まで構造化</strong></li>
+          <li>Redisの冪等制御とKafkaの再処理イベントを軸に改善方向を明示し、<strong>ビッグテック水準の決済安定性設計力</strong>を示しました</li>
+          <li>決済結果と精算・対査基準を同一コンテキストへ接続し、<strong>障害追跡性と再処理可能性</strong>を高めました</li>
         </ul>
       </article>
 
