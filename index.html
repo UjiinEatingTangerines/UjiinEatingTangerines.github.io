@@ -219,30 +219,30 @@
           <span class="experience__period">Java, Spring Boot, MyBatis, Oracle, Redis, Kafka, Nicepay PG</span>
         </div>
         <p class="profile__text" lang="ko">
-          ECCS_CARD_JAVA는 전기차 충전 완료 건을 3초마다 수집해 무상 크레딧·B2B 크레딧·마일리지·제휴 포인트·신용카드까지 6개 결제 수단을 순차 차감하고, 결제 결과를 정산·대사까지 연결하는 핵심 결제 시스템입니다. 운영 중에는 48시간 보류, 회원 유형별 단가, 제휴별 예외 라우팅, 재청구와 같은 결제·정산 규칙이 한곳에 누적되어 있었고, 빅테크 기준으로는 이를 Redis 기반 멱등성 제어와 Kafka 기반 재처리 이벤트로 분리 가능한 구조로 재설계하는 일이 중요했습니다.
+          전기차 충전 완료 건을 3초마다 수집해 무상 크레딧·B2B 크레딧·마일리지·제휴 포인트·신용카드까지 6개 결제 수단을 순차 차감하고, 결제 결과를 정산·대사까지 연결하는 결제 시스템을 개발·운영했습니다. 운영 중에는 48시간 보류, 회원 유형별 단가, 제휴별 예외 라우팅, 재청구와 같은 규칙이 한 흐름에 누적되어 있었고, 이를 결제 단계·정산 컨텍스트·재처리 흐름으로 분리해 운영 복잡도와 장애 추적 난도를 낮췄습니다.
         </p>
         <p class="profile__text" lang="en" hidden>
-          ECCS_CARD_JAVA is the core payment system that polls completed EV charging records every 3 seconds, deducts across six payment methods in sequence, and connects payment outcomes to settlement and reconciliation. In production, 48-hour holds, member-specific pricing, partner exception routing, and rebilling rules accumulated in one flow; at a big-tech standard, the key improvement was to reshape that flow into Redis-backed idempotency control and Kafka-based retry events.
+          I developed and operated a payment system that polls completed EV charging records every 3 seconds, deducts across six payment methods in sequence, and connects payment outcomes to settlement and reconciliation. In production, 48-hour holds, member-specific pricing, partner exception routing, and rebilling rules had accumulated in one flow, so I separated them into payment steps, settlement context, and retry flows to reduce operational complexity and improve failure traceability.
         </p>
         <p class="profile__text" lang="ja" hidden>
-          ECCS_CARD_JAVAは、EV充電完了件を3秒ごとに収集し、6つの決済手段を順次差引した上で、その結果を精算・対査まで接続する中核決済システムです。運用では48時間保留、会員タイプ別単価、提携別例外ルーティング、再請求規則が単一フローへ累積しており、ビッグテック基準ではRedisベースの冪等制御とKafkaベースの再処理イベントへ分離できる構造へ再設計することが重要でした。
+          EV充電完了件を3秒ごとに収集し、6つの決済手段を順次差引した上で、その結果を精算・対査まで接続する決済システムを開発・運用しました。運用では48時間保留、会員タイプ別単価、提携別例外ルーティング、再請求規則が単一フローへ累積していたため、これを決済段階・精算コンテキスト・再処理フローへ分離し、運用複雑度と障害追跡難度を下げました。
         </p>
         <ul class="experience__list" lang="ko">
           <li><strong>3초 주기 결제 오케스트레이션을 운영 가능한 정산 도메인으로 구조화.</strong> 단일 스케줄러가 충전 완료 건을 읽고 결제·할인·적립·정산을 한 번에 처리하던 흐름을 기준으로, 6개 결제 수단과 집계 단계를 추적 가능한 정산 컨텍스트로 관리했습니다.</li>
           <li><strong>예외 규칙과 가격 정책을 결제 로직이 아닌 도메인 규칙으로 분리.</strong> Incarpay·제네시스·택시·48시간 보류 같은 예외 라우팅, 2025-03-18 단가 인상 이후 회원 유형별 B2B 크레딧 단가 유지, 프로모션 충전소 단가 정책을 분리해 결제 성공 여부와 정산 기준이 함께 어긋나지 않도록 설계했습니다.</li>
-          <li><strong>빅테크 기준 개선 방향으로 Redis·Kafka 중심 재처리 구조를 제안·반영 가능한 형태로 재정의.</strong> SummaryContext에 누적되던 상태를 결제수단별 독립 스텝과 원장성 이벤트로 나누고, Redis 멱등성 키·분산 락으로 중복 청구를 막고 Kafka 재처리 토픽으로 실패 건을 비동기 복구할 수 있는 구조로 정리했습니다.</li>
+          <li><strong>Redis·Kafka 기반 재처리 흐름으로 중복 청구 방지와 복구 절차를 개선.</strong> SummaryContext에 누적되던 상태를 결제수단별 독립 스텝과 원장성 이벤트로 나누고, Redis 멱등성 키·분산 락으로 중복 청구를 막고 Kafka 재처리 이벤트 기준으로 실패 건 복구 흐름을 정리했습니다.</li>
           <li><strong>결제 이후 정산·대사까지 한 흐름으로 검증.</strong> 카드 청구 금액, 크레딧·포인트 사용 금액, 할인 금액을 같은 컨텍스트에서 비교해 정상·비정상·검토 필요를 자동 분류하고, 재청구 시에도 동일한 정합성 기준을 유지하도록 설계했습니다.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li><strong>Turned a 3-second payment orchestrator into an operable settlement domain.</strong> Starting from a single scheduler that processed payment, discount, accrual, and settlement together, I framed the six payment methods and aggregation stages as a traceable settlement context.</li>
           <li><strong>Separated exception rules and pricing policies from raw payment execution.</strong> I isolated Incarpay, Genesis, taxi, and 48-hour hold routing, member-specific B2B credit pricing after the 2025-03-18 price change, and promotion-station pricing so payment success and settlement rules would not drift apart.</li>
-          <li><strong>Redefined the improvement path around Redis and Kafka.</strong> I broke state accumulated in SummaryContext into independent payment steps and ledger-style events, enabling duplicate-charge prevention with Redis idempotency keys and distributed locks, plus asynchronous recovery through Kafka retry topics.</li>
+          <li><strong>Improved duplicate-charge prevention and recovery flows with Redis and Kafka.</strong> I broke state accumulated in SummaryContext into independent payment steps and ledger-style events, using Redis idempotency keys and distributed locks to prevent duplicate billing and organizing failure recovery around Kafka retry events.</li>
           <li><strong>Verified settlement and reconciliation in the same flow as payment.</strong> Card billing, credit/point usage, and discount amounts were checked in one context to classify records automatically as normal, abnormal, or review-required, including rebill scenarios.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li><strong>3秒周期の決済オーケストレーションを運用可能な精算ドメインへ構造化。</strong> 単一スケジューラが決済・割引・積立・精算をまとめて処理していた流れを基準に、6つの決済手段と集計段階を追跡可能な精算コンテキストとして管理しました。</li>
           <li><strong>例外規則と価格ポリシーを決済ロジックから分離。</strong> Incarpay・Genesis・タクシー・48時間保留の例外ルーティング、2025-03-18以降の会員タイプ別B2Bクレジット単価維持、プロモーション充電所単価を切り分け、決済成功可否と精算基準がずれないよう設計しました。</li>
-          <li><strong>ビッグテック基準の改善方向としてRedis・Kafka中心の再処理構造を再定義。</strong> SummaryContextへ蓄積されていた状態を決済手段別の独立ステップと元帳性イベントに分け、Redisの冪等キー・分散ロックで二重請求を防ぎ、Kafkaの再処理トピックで失敗件を非同期復旧できる構造へ整理しました。</li>
+          <li><strong>Redis・Kafka基盤の再処理フローで二重請求防止と復旧手順を改善。</strong> SummaryContextへ蓄積されていた状態を決済手段別の独立ステップと元帳性イベントに分け、Redisの冪等キー・分散ロックで二重請求を防ぎ、Kafka再処理イベント基準で失敗件の復旧フローを整理しました。</li>
           <li><strong>決済後の精算・対査まで同一フローで検証。</strong> カード請求額、クレジット・ポイント使用額、割引額を同じコンテキストで比較し、正常・異常・要確認を自動分類できるようにし、再請求時も同一の整合性基準を維持しました。</li>
         </ul>
         <p class="psc__label">
@@ -251,19 +251,19 @@
           <span lang="ja" hidden>成果</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>3초 주기 처리, 6개 결제 수단, 48시간 보류 규칙을 가진 결제·정산 시스템을 <strong>도메인 중심으로 설명 가능한 수준까지 구조화</strong></li>
-          <li>Redis 멱등성 제어와 Kafka 재처리 이벤트를 포함한 개선 방향으로 <strong>빅테크 수준의 결제 안정성 설계 역량을 드러냄</strong></li>
-          <li>결제 결과와 정산·대사 기준을 하나의 컨텍스트로 연결해 <strong>장애 추적성과 재처리 가능성을 높임</strong></li>
+          <li>3초 주기 처리, 6개 결제 수단, 48시간 보류 규칙을 가진 결제·정산 흐름을 <strong>운영 가능한 구조로 분리·정리</strong></li>
+          <li>Redis 멱등성 제어와 Kafka 재처리 이벤트 기준을 반영해 <strong>중복 청구 방지와 실패 복구 절차를 명확히 정리</strong></li>
+          <li>결제 결과와 정산·대사 기준을 하나의 컨텍스트로 연결해 <strong>장애 추적성과 재청구 정합성을 높임</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Structured a payment-settlement system with a 3-second cadence, six payment methods, and 48-hour hold rules <strong>into a clearly explainable domain model</strong></li>
-          <li>Made the improvement path explicit around Redis idempotency control and Kafka retry events, showing <strong>big-tech-level payment reliability design thinking</strong></li>
-          <li>Connected payment outcomes with settlement and reconciliation in one context to improve <strong>traceability and reprocessing readiness</strong></li>
+          <li>Separated a payment-settlement flow with a 3-second cadence, six payment methods, and 48-hour hold rules into an <strong>operable structure</strong></li>
+          <li>Applied Redis idempotency control and Kafka retry-event criteria to <strong>clarify duplicate-charge prevention and failure recovery procedures</strong></li>
+          <li>Connected payment outcomes with settlement and reconciliation in one context to improve <strong>failure traceability and rebill consistency</strong></li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>3秒周期処理・6つの決済手段・48時間保留規則を持つ決済/精算システムを<strong>ドメイン中心で説明できる水準まで構造化</strong></li>
-          <li>Redisの冪等制御とKafkaの再処理イベントを軸に改善方向を明示し、<strong>ビッグテック水準の決済安定性設計力</strong>を示しました</li>
-          <li>決済結果と精算・対査基準を同一コンテキストへ接続し、<strong>障害追跡性と再処理可能性</strong>を高めました</li>
+          <li>3秒周期処理・6つの決済手段・48時間保留規則を持つ決済/精算フローを<strong>運用可能な構造へ分離・整理</strong></li>
+          <li>Redisの冪等制御とKafka再処理イベント基準を反映し、<strong>二重請求防止と失敗復旧手順を明確化</strong>しました</li>
+          <li>決済結果と精算・対査基準を同一コンテキストへ接続し、<strong>障害追跡性と再請求整合性</strong>を高めました</li>
         </ul>
       </article>
 
