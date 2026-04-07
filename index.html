@@ -47,13 +47,22 @@
     <section class="section">
       <h2 class="section__title">Profile</h2>
       <p class="profile__text" lang="ko">
-        6년간 결제·정산 시스템을 개발·운영해 온 백엔드 엔지니어입니다. 월 60만 건 이상의 충전 결제에서 잔액 불일치를 100% 해소하고, 13개 서비스에 파편화된 월 220만 건 이상의 고객 알림을 통합 플랫폼으로 일원화했으며, 전자금융업 등록을 위한 무중단 시스템 이관을 완료했습니다.
+        문제가 발생하면 빠르게 응급 처치를 하되, 그것만으로 끝내지 않습니다. 빠른 대응이 근본 해결을 대체할 수 없기 때문입니다. 결제 처리 쿼리가 15분간 시스템을 블로킹하는 장애에서 쿼리 튜닝으로 즉시 1~2초로 개선한 뒤에도, 데이터 증가 시 실행 계획이 다시 회귀할 수 있다고 판단해 캐시 아키텍처로 근본 전환을 진행했습니다.
+      </p>
+      <p class="profile__text" lang="ko">
+        운영 중인 시스템을 바꿀 때, 새로 만드는 것보다 기존 서비스를 어떻게 전환하는지가 더 어렵다고 생각합니다. 월 220만 건의 메시지를 발송하던 13개 서비스를 통합 플랫폼으로 전환할 때, 듀얼 발송으로 결과를 비교 검증하고 발송량이 가장 적은 서비스부터 순차 온보딩하는 방식으로 한 건의 누락 없이 마이그레이션을 완료했습니다.
       </p>
       <p class="profile__text" lang="en" hidden>
-        Backend engineer with 6 years of experience building and operating payment and settlement systems. Eliminated 100% of balance discrepancies in a 600K+ monthly payment system, unified 2.2M+ monthly customer notifications across 13 services into a single platform, and completed zero-downtime system migration for e-finance registration.
+        When problems arise, I apply an emergency fix fast, but never stop there. A quick response cannot replace a root-cause solution. When a payment query blocked the system for 15 minutes, I tuned it down to 1–2 seconds immediately, then recognized that execution-plan regression on data growth was still a risk and proceeded with a cache-architecture overhaul as a fundamental fix.
+      </p>
+      <p class="profile__text" lang="en" hidden>
+        When changing live systems, I believe the migration process is harder than building something new. Migrating 13 services sending 2.2M+ messages/month to a unified platform, I applied dual-send result verification and sequential onboarding starting from the lowest-volume service, completing the migration with zero message loss.
       </p>
       <p class="profile__text" lang="ja" hidden>
-        6年間、決済・精算システムを開発・運用してきたバックエンドエンジニアです。月60万件以上の充電決済で残高不一致を100%解消し、13サービスに分散していた月220万件以上の顧客通知を統合プラットフォームへ一元化、電子金融業登録のための無停止システム移行を完了しました。
+        問題が発生したらまず応急処置を行いますが、それだけで終わらせません。迅速な対応が根本解決の代わりにはならないためです。決済処理クエリが15分間システムをブロッキングする障害で即座に1〜2秒へ改善した後も、データ増加時に実行計画が回帰するリスクを判断しキャッシュアーキテクチャへの根本転換を進めました。
+      </p>
+      <p class="profile__text" lang="ja" hidden>
+        稼働中のシステムを変える際、新しく作るよりも既存サービスをどう移行するかが難しいと考えています。月220万件のメッセージを配信していた13サービスを統合プラットフォームへ移行する際、デュアル配信で結果を比較検証し配信量最少サービスから順次オンボーディングする方式で1件の漏れなくマイグレーションを完了しました。
       </p>
     </section>
 
