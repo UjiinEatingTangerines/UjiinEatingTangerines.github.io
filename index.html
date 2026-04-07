@@ -85,25 +85,25 @@
         </p>
 
         <ul class="experience__list" lang="ko">
-          <li><strong>Kafka</strong> 이벤트 소싱과 <strong>Saga 패턴</strong> 기반 6단계 결제 오케스트레이션, <strong>Transactional Outbox</strong>를 적용해 충전 요금 적립·사용·환불 전 과정의 금액 불일치를 <span class="highlight">100% 해소</span>.</li>
-          <li><strong>Redis Streams</strong> 재처리 우선순위 큐와 <strong>Kafka Streams</strong> 준실시간 정합성 검증을 구축해 정산 불일치 감지 지연을 <span class="highlight">수 시간에서 수 초로 단축</span>.</li>
-          <li><strong>Kafka</strong> 토픽 기반 채널 라우팅과 <strong>Schema Registry(Avro)</strong>, <strong>Kafka Streams</strong> 실시간 분석으로 월 220만 건+ 규모 13개 서비스의 메시징을 통합하고 신규 채널 추가를 <span class="highlight">3주에서 3일로 단축</span>.</li>
-          <li><strong>Redis 멀티 티어 캐시</strong>(L1 Caffeine + L2 Redis)와 <strong>JPA Fetch Join·QueryDSL</strong> 최적화로 API 응답속도를 87% 개선하고 무중단 폐쇄망 이관을 완료.</li>
-          <li><strong>Redis TTL + Keyspace Notification</strong> 기반 실시간 만료 감지와 <strong>Kafka exactly-once</strong> 파이프라인으로 금결원 보고 기준 재무 보고 정확도 100%를 달성.</li>
+          <li>충전 결제 시 6개 결제수단(크레딧·마일리지·포인트·카드 등)의 순차 차감 과정에서 발생하던 금액 불일치를 이벤트 기반 결제 파이프라인 재설계로 <span class="highlight">100% 해소</span>.</li>
+          <li>결제 실패와 정산 오류를 수동으로 추적하던 방식을 자동화된 우선순위 기반 재처리와 준실시간 정합성 검증으로 전환해 감지 지연을 <span class="highlight">수 시간에서 수 초로 단축</span>.</li>
+          <li>13개 서비스에 파편화된 고객 알림(SMS·푸시·알림톡·이메일)을 월 220만 건+ 규모의 통합 메시징 플랫폼으로 일원화하고, 신규 채널 추가 소요를 <span class="highlight">3주에서 3일로 단축</span>.</li>
+          <li>전자금융업 등록을 위한 폐쇄망 이관 시 레거시 API 성능 개선과 캐시 계층화를 선행해 API 응답속도를 87% 개선하고, 서비스 무중단으로 DB 마이그레이션을 완료.</li>
+          <li>금융감독원 보고 기준에 맞는 크레딧 만료 처리와 수익 인식 체계를 구축해 재무 보고 정확도 <span class="highlight">100%</span>를 달성.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Applied <strong>Kafka</strong> event sourcing with <strong>Saga pattern</strong> 6-step orchestration and <strong>Transactional Outbox</strong> to achieve <span class="highlight">100% elimination</span> of payment discrepancies across the full earn/use/refund lifecycle.</li>
-          <li>Built <strong>Redis Streams</strong> priority retry queue and <strong>Kafka Streams</strong> near-real-time reconciliation, reducing settlement mismatch detection from <span class="highlight">hours to seconds</span>.</li>
-          <li>Unified 2.2M+ messages/month across 13 services with <strong>Kafka</strong> topic-based routing, <strong>Schema Registry (Avro)</strong>, and <strong>Kafka Streams</strong> real-time analytics, cutting new channel onboarding from <span class="highlight">3 weeks to 3 days</span>.</li>
-          <li>Improved API response time by 87% and completed zero-downtime air-gapped migration using <strong>Redis multi-tier cache</strong> (L1 Caffeine + L2 Redis) and <strong>JPA Fetch Join/QueryDSL</strong> optimization.</li>
-          <li>Achieved 100% financial reporting accuracy for KFTC compliance through <strong>Redis TTL + Keyspace Notification</strong> real-time expiration detection and <strong>Kafka exactly-once</strong> pipeline.</li>
+          <li>Eliminated <span class="highlight">100%</span> of payment discrepancies that occurred during sequential deduction across 6 payment methods (credits, mileage, points, credit card) by redesigning the charging payment pipeline as an event-driven architecture.</li>
+          <li>Replaced manual tracking of payment failures and settlement errors with automated priority-based retry and near-real-time reconciliation, reducing detection latency from <span class="highlight">hours to seconds</span>.</li>
+          <li>Consolidated fragmented customer notifications (SMS, push, AlimTalk, email) across 13 services into a unified messaging platform handling 2.2M+ messages/month, cutting new channel onboarding from <span class="highlight">3 weeks to 3 days</span>.</li>
+          <li>Improved API response time by 87% through cache tiering and query optimization as prerequisites for e-finance registration, completing zero-downtime DB migration to air-gapped infrastructure.</li>
+          <li>Built credit expiration and revenue recognition system aligned with financial regulatory reporting standards, achieving <span class="highlight">100%</span> financial reporting accuracy.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>Kafka</strong>イベントソーシングと<strong>Sagaパターン</strong>基盤6段階オーケストレーション、<strong>Transactional Outbox</strong>を適用し充電料金の積立・使用・返金全過程の金額不一致を<span class="highlight">100%解消</span>。</li>
-          <li><strong>Redis Streams</strong>再処理優先度キューと<strong>Kafka Streams</strong>準リアルタイム整合性検証を構築し精算不一致検知遅延を<span class="highlight">数時間から数秒に短縮</span>。</li>
-          <li><strong>Kafka</strong>トピック基盤ルーティングと<strong>Schema Registry（Avro）</strong>、<strong>Kafka Streams</strong>リアルタイム分析で月220万件以上の13サービスメッセージングを統合し新規チャネル追加を<span class="highlight">3週間から3日に短縮</span>。</li>
-          <li><strong>Redisマルチティアキャッシュ</strong>（L1 Caffeine＋L2 Redis）と<strong>JPA Fetch Join・QueryDSL</strong>最適化でAPI応答速度を87%改善し無停止閉域網移行を完了。</li>
-          <li><strong>Redis TTL＋Keyspace Notification</strong>基盤リアルタイム満了検知と<strong>Kafka exactly-once</strong>パイプラインで金決院報告基準の財務報告正確度100%を達成。</li>
+          <li>充電決済時に6種決済手段（クレジット·マイレージ·ポイント·カード等）の順次差引過程で発生していた金額不一致を、イベント駆動決済パイプラインの再設計により<span class="highlight">100%解消</span>。</li>
+          <li>決済失敗と精算エラーの手動追跡を、自動化された優先度基盤再処理と準リアルタイム整合性検証に転換し、検知遅延を<span class="highlight">数時間から数秒に短縮</span>。</li>
+          <li>13サービスに分散していた顧客通知（SMS·プッシュ·アリムトーク·メール）を月220万件以上の統合メッセージングプラットフォームへ一元化し、新規チャネル追加所要を<span class="highlight">3週間から3日に短縮</span>。</li>
+          <li>電子金融業登録のための閉域網移行に先行してレガシーAPI性能改善とキャッシュ階層化を実施しAPI応答速度を87%改善、サービス無停止でDBマイグレーションを完了。</li>
+          <li>金融監督院報告基準に適合するクレジット満了処理と収益認識体系を構築し、財務報告正確度<span class="highlight">100%</span>を達成。</li>
         </ul>
       </article>
 
