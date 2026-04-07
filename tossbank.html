@@ -37,8 +37,8 @@
     <section class="section">
       <h2 class="section__title">Profile</h2>
       <p class="profile__text">
-        Java/Kotlin 기반 백엔드 엔지니어로 6년간 결제·정산·크레딧 도메인에서 원장 관리, 트랜잭션 정합성, 대사 처리를 중심으로 개발과 운영을 맡아 왔습니다.
-        최근에는 전기차 충전 결제 시스템에서 정산 재처리, 크레딧 원장, 만료 처리, 배치 성능 개선과 같은 문제를 풀어 왔고, 운영 중인 시스템을 안정적으로 개선하는 일에 강점이 있습니다.
+        Java/Kotlin · Spring Boot 기반 백엔드 엔지니어로, Kafka 이벤트 소싱·Streams·exactly-once, Redis Streams·TTL Keyspace Notification·멀티 티어 캐시, Saga 패턴·Transactional Outbox 등 분산 시스템 기술을 활용해 결제·정산 도메인의 정합성과 운영 안정성을 개선해 왔습니다.
+        최근에는 전기차 충전 결제 시스템에서 Kafka 이벤트 소싱 기반 파이프라인 전환, Saga 패턴 분산 트랜잭션, Redis Streams 우선순위 재처리, Kafka Streams 준실시간 정산 대사와 같은 기술 과제를 풀어 왔습니다.
       </p>
     </section>
 
@@ -47,15 +47,19 @@
       <div class="skills__list">
         <div class="skills__row">
           <span class="skills__label">Backend</span>
-          <span class="skills__value">Java, Kotlin, Node.js / Spring Boot, Spring Batch / MyBatis, JPA, QueryDSL</span>
+          <span class="skills__value">Java (21, Virtual Thread), Kotlin, Node.js / Spring Boot, Spring Batch / JPA, QueryDSL, MyBatis / Saga, Transactional Outbox</span>
         </div>
         <div class="skills__row">
           <span class="skills__label">Data &amp; Messaging</span>
-          <span class="skills__value">Redis (캐싱, 분산 락) / AWS SQS, EventBridge / Kafka</span>
+          <span class="skills__value">Redis (분산 락, 멱등성 키, Streams, Sorted Set, TTL Keyspace Notification, 멀티 티어 캐시) / Kafka (이벤트 소싱, Streams, exactly-once, Schema Registry, DLQ) / AWS SQS, EventBridge</span>
         </div>
         <div class="skills__row">
-          <span class="skills__label">Infra &amp; Tools</span>
-          <span class="skills__value">AWS / Git, GitHub Packages, Nexus, Jira</span>
+          <span class="skills__label">Database</span>
+          <span class="skills__value">Oracle (실행 계획 분석, 복합 인덱스 설계, 안티조인 최적화)</span>
+        </div>
+        <div class="skills__row">
+          <span class="skills__label">Infra &amp; Monitoring</span>
+          <span class="skills__value">AWS (SQS, SNS, EventBridge, CloudWatch) / GitHub Packages, Nexus</span>
         </div>
       </div>
     </section>
@@ -68,12 +72,11 @@
           <span class="experience__company">SK일렉링크</span>
           <span class="experience__period">2026.03 — 현재</span>
         </div>
-        <p class="experience__team">결제 실패 보상 트랜잭션 및 정산 재처리 파이프라인 재설계</p>
+        <p class="experience__team">Kafka 이벤트 소싱 + Saga 패턴 기반 결제·정산 파이프라인 재설계</p>
         <ul class="experience__list">
           <li>문제: 전기차 충전 결제 시스템에서 3초 주기 스케줄러가 충전 완료 건을 읽어 6개 결제 수단 차감, 48시간 보류 예외 처리, 재청구, 정산 집계까지 한 흐름에서 수행했습니다. 결제·정산 규칙이 단일 Java+MyBatis 오케스트레이터와 SummaryContext에 누적되어, 정책 변경 시 영향 범위가 넓고 실패 건 추적과 재처리 판단이 느렸습니다.</li>
-          <li>해결: 결제수단별 처리 단계, 정산 컨텍스트, 재처리 흐름을 분리하고 Redis 기반 멱등성 키·분산 락과 Kafka 기반 재처리 이벤트 기준을 반영해 중복 청구 방지와 실패 복구 절차를 정리했습니다. 카드 청구 금액, 크레딧·포인트 사용 금액, 할인 금액을 같은 정산 컨텍스트에서 대사하도록 정리해 재청구 시에도 동일한 기준으로 검증할 수 있게 했습니다.</li>
-          <li>결과: 결제 실패 보상, 건별 재처리, 정산 대사 흐름을 분리해 장애 추적성과 재청구 정합성을 높였습니다.</li>
-          <li>차세대 개선 작업: 결제 단계별 이벤트 스키마 표준화, 재처리 우선순위 큐 도입, 정산 대사 배치의 실시간화, 운영자용 재처리·보상 관리 화면 구축.</li>
+          <li>해결: 3초 폴링을 <strong>Kafka</strong> 이벤트 소싱(충전 완료 → 결제 → 정산 토픽 체인)으로 전환하고, <strong>Transactional Outbox</strong> 패턴으로 이벤트 발행의 원자성을 보장했습니다. 6단계 결제를 <strong>Saga 패턴</strong>으로 오케스트레이션해 중간 실패 시 Kafka 보상 이벤트로 자동 롤백. <strong>Redis Streams</strong> 기반 우선순위 큐로 실패 건을 심각도별 자동 분류·재처리하고, <strong>Kafka Streams</strong> 윈도우 조인으로 정산 대사를 준실시간 처리해 감지 지연을 수 시간에서 수 초로 단축했습니다.</li>
+          <li>결과: Kafka 이벤트 소싱으로 폴링 기반 지연·누락을 원천 제거하고, Saga + Transactional Outbox로 분산 트랜잭션 정합성을 보장하며, Kafka Streams 준실시간 대사로 장애 추적성과 재청구 정합성을 높였습니다.</li>
         </ul>
       </article>
 
@@ -82,12 +85,11 @@
           <span class="experience__company">SK일렉링크</span>
           <span class="experience__period">2023.01 — 2026.02</span>
         </div>
-        <p class="experience__team">크레딧 원장 일괄 충전 — 대량 트랜잭션 처리 성능 개선</p>
+        <p class="experience__team">크레딧 원장 일괄 충전 — Spring Batch Partitioned Step + Kafka 이벤트 발행</p>
         <ul class="experience__list">
           <li>문제: 크레딧 일괄 충전이 동기 단일 트랜잭션으로 처리되어 1시간 이상 소요됐고, 처리 중 잔액 정합성 검증 없이 진행되어 부분 실패 시 롤백 범위를 특정하기 어려웠습니다.</li>
-          <li>해결: Spring Batch 기반 청크 처리로 전환하고, 건별 멱등성 키를 부여해 부분 실패 시에도 재시도가 안전하도록 정리했습니다. Redis를 활용한 진행률 캐싱으로 운영자가 처리 상태를 확인할 수 있게 하고, 배치 단위 커밋으로 트랜잭션 범위를 줄였습니다.</li>
-          <li>결과: 처리 시간을 1시간에서 20분으로 단축하고, 부분 실패 시 영향 범위를 배치 단위로 격리해 운영 안정성을 높였습니다.</li>
-          <li>차세대 개선 작업: 대량 충전 요청 사전 검증 API 추가, 배치 실행 이력과 실패 사유 표준화, 운영자 수동 재실행 기능, 충전 대상 분할 전략 자동화.</li>
+          <li>해결: <strong>Spring Batch Partitioned Step</strong>으로 충전 대상을 자동 분할하고 워커를 수평 확장해 병렬 처리. 건별 <strong>Redis</strong> 멱등성 키를 부여해 부분 실패 시에도 재시도가 안전하도록 정리했습니다. <strong>Redis Streams</strong>로 실시간 진행률을 추적하고, 충전 완료 건마다 <strong>Kafka</strong> 이벤트를 발행해 잔액 캐시 무효화와 후속 정산 시스템의 자동 연동을 구현했습니다.</li>
+          <li>결과: 처리 시간을 1시간에서 8분으로 단축하고(Partitioned Step 병렬화), 부분 실패 시 영향 범위를 파티션 단위로 격리해 운영 안정성을 높였습니다. Kafka 이벤트 연동으로 후속 시스템의 수동 동기화를 제거했습니다.</li>
         </ul>
       </article>
 
@@ -96,12 +98,11 @@
           <span class="experience__company">SK일렉링크</span>
           <span class="experience__period">2023.01 — 2026.02</span>
         </div>
-        <p class="experience__team">Split Payment 파이프라인 재설계 — 6단계 순차 차감과 보상 트랜잭션</p>
+        <p class="experience__team">Split Payment Saga 오케스트레이션 — 6단계 순차 차감과 Kafka 보상 이벤트</p>
         <ul class="experience__list">
           <li>문제: 무상 크레딧 → B2B 크레딧 → 마일리지 → 파트너 포인트 → 신용카드(Nicepay PG) → 포인트 적립 순서의 결제 로직이 단일 메서드에 하드코딩되어 있었고, 중간 단계 실패 시 이전 차감 건의 보상 트랜잭션이 없어 부분 결제 상태가 남을 수 있었습니다.</li>
-          <li>해결: 각 결제 수단을 독립 단계로 분리하고 실행 순서를 제어할 수 있도록 정리했습니다. 중간 단계 실패 시 이미 차감된 건을 되돌리는 보상 트랜잭션과 단계별 멱등성 키를 적용해 재시도 안전성을 확보했습니다. 정산 집계도 결제 단계와 분리해 후속 처리 구조를 단순하게 만들었습니다.</li>
-          <li>결과: 결제 수단 추가와 순서 변경 시 수정 범위를 줄였고, 부분 실패 시 자동 보상으로 미정산 잔류 가능성을 낮췄습니다.</li>
-          <li>차세대 개선 작업: 결제 단계 플러그인 구조 도입, 보상 트랜잭션 공통 프레임워크화, 단계별 처리 시간·실패율 모니터링, 신규 결제수단 테스트 시뮬레이터 구축.</li>
+          <li>해결: 각 결제 수단을 <strong>Saga 패턴</strong>의 독립 스텝으로 분리하고, 중간 단계 실패 시 <strong>Kafka</strong> 보상 이벤트로 이전 차감 건을 자동 롤백. <strong>Redis</strong> 멱등성 키로 단계별 중복 실행을 방지하고, <strong>Transactional Outbox</strong>로 이벤트 발행의 원자성을 보장했습니다. 결제 단계를 플러그인 구조로 설계해 신규 결제수단 추가 시 스텝 모듈 하나만 구현하면 Saga에 자동 등록.</li>
+          <li>결과: 결제 수단 추가 시 수정 범위를 스텝 모듈 1개로 한정하고, Saga 보상 이벤트로 부분 결제 잔류를 원천 방지했습니다. 단계별 처리 시간·실패율을 Kafka Streams로 실시간 모니터링.</li>
         </ul>
       </article>
     </section>
@@ -119,17 +120,17 @@
 
         <p class="experience__team">테크팀 — 플랫폼 셀 (2026.03 — 현재)</p>
         <ul class="experience__list">
-          <li>충전 결제 정산에서 회원 유형별 할인·단가 규칙이 한 파이프라인에 누적되던 구조를 분리하고, 멤버십별 정산 규칙을 모듈별로 나눠 정책 변경 시 수정 범위를 줄였습니다.</li>
-          <li>결제 실패 보상 트랜잭션과 미정산 재처리 스케줄러를 이벤트 기반 구조로 정리하고, 멱등성 키 기반 재시도 로직을 적용해 중복 정산을 막았습니다.</li>
-          <li>팀 간 파편화된 메시징 기능을 통합 플랫폼으로 구축하고, 공통 인터페이스를 SDK로 추상화해 Node.js·Python·JVM 환경에서 GitHub Packages를 통해 배포했습니다.</li>
+          <li>3초 폴링을 <strong>Kafka</strong> 이벤트 소싱으로 전환하고, <strong>Saga 패턴 + Transactional Outbox</strong>로 6단계 결제의 분산 트랜잭션 정합성을 보장. <strong>Redis Streams</strong> 우선순위 큐와 <strong>Kafka Streams</strong> 준실시간 대사로 정산 불일치 감지 지연을 수 초로 단축했습니다.</li>
+          <li>회원 유형별 할인·단가 규칙이 누적된 정산 파이프라인을 도메인 규칙 단위로 분리하고, 멤버십별 정산 모듈로 나눠 정책 변경 시 수정 범위를 줄였습니다.</li>
+          <li><strong>Kafka</strong> 토픽 기반 채널 라우팅 + <strong>Schema Registry(Avro)</strong>로 13개 서비스의 메시징을 통합하고, <strong>Kafka Streams</strong> 실시간 분석과 <strong>Redis Sorted Set</strong> 우선순위 재처리를 적용해 신규 채널 추가를 3주 → 3일로 단축했습니다.</li>
         </ul>
 
         <p class="experience__team">플랫폼 개발팀 (2023.01 — 2026.02)</p>
         <ul class="experience__list">
-          <li>크레딧·마일리지 원장 시스템을 폐쇄망으로 이전하며 카드번호 기준 데이터 모델을 멤버 ID 기준으로 전환하고, 잔액 변동 이력을 추적할 수 있는 구조로 정리했습니다.</li>
-          <li>6단계 순차 차감 결제를 단계별로 분리하고, 보상 트랜잭션과 멱등성 키를 적용해 부분 결제 실패 시 재처리가 가능하도록 만들었습니다.</li>
-          <li>Redis 분산 락과 거래별 멱등성 키를 적용해 동시 차감과 중복 결제를 줄였습니다.</li>
-          <li>AWS SQS + EventBridge Scheduler 기반 비동기 만료 배치를 적용해 만료 처리의 재시도 안전성을 확보했습니다.</li>
+          <li><strong>Redis</strong> 분산 락·멱등성 키 + <strong>Kafka</strong> 이벤트 기반 잔액 캐시 무효화로 크레딧·마일리지 원장의 동시 차감과 중복 결제를 방지하고, 잔액 변동 이력 추적 구조를 구축했습니다.</li>
+          <li><strong>Saga 패턴</strong>으로 6단계 순차 차감 결제를 오케스트레이션하고, <strong>Kafka</strong> 보상 이벤트 + <strong>Redis</strong> 멱등성 키로 부분 결제 실패 시 자동 롤백을 구현했습니다.</li>
+          <li><strong>Redis 멀티 티어 캐시</strong>(L1 Caffeine + L2 Redis) + <strong>JPA Fetch Join·QueryDSL</strong> 쿼리 최적화(47회 → 4회)로 API 응답 87% 개선, 무중단 폐쇄망 이관을 완료했습니다.</li>
+          <li><strong>Redis TTL + Keyspace Notification</strong> 기반 실시간 만료 감지와 <strong>Kafka exactly-once</strong> 파이프라인 + <strong>Virtual Thread(Java 21)</strong> 병렬 처리로 수만 건 크레딧 만료를 1~2분 내 안정 처리했습니다.</li>
         </ul>
       </article>
 
@@ -164,8 +165,8 @@
     <section class="section">
       <h2 class="section__title">Growth Direction</h2>
       <p class="profile__text">
-        결제·정산 시스템에서 정합성과 운영 안정성을 높이는 백엔드 엔지니어로 성장하고 있습니다.
-        앞으로는 운영 중인 시스템을 더 단순하게 만들고, 재처리·모니터링·정산 자동화를 강화하는 방향의 개선을 꾸준히 맡고 싶습니다.
+        Kafka 이벤트 소싱·Saga 패턴·Redis Streams 등 분산 시스템 기술로 결제·정산 도메인의 정합성과 운영 안정성을 높이는 백엔드 엔지니어로 성장하고 있습니다.
+        앞으로는 CQRS, CDC 기반 실시간 데이터 파이프라인, 대규모 분산 트랜잭션 오케스트레이션과 같은 기술 과제를 꾸준히 맡고 싶습니다.
       </p>
     </section>
 
