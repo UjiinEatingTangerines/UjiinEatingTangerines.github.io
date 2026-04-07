@@ -87,21 +87,21 @@
         <ul class="experience__list" lang="ko">
           <li>충전 요금 적립·사용·환불 전 과정의 금액 불일치 <span class="highlight">100% 해소</span> — <strong>Kafka</strong> 이벤트 소싱 + <strong>Saga 패턴</strong> 6단계 결제 오케스트레이션, <strong>Transactional Outbox</strong>로 이벤트 발행 보장.</li>
           <li>정산 불일치 감지 지연 <span class="highlight">수 시간 → 수 초</span> — <strong>Redis Streams</strong> 재처리 우선순위 큐 + <strong>Kafka Streams</strong> 준실시간 정합성 검증.</li>
-          <li>13개 서비스 메시징 통합, 신규 채널 추가 <span class="highlight">3주 → 3일</span> — <strong>Kafka</strong> 토픽 기반 채널 라우팅 + <strong>Schema Registry(Avro)</strong> + <strong>Kafka Streams</strong> 실시간 분석.</li>
+          <li>월 220만 건+ 규모 13개 서비스 메시징 통합, 신규 채널 추가 <span class="highlight">3주 → 3일</span> — <strong>Kafka</strong> 토픽 기반 채널 라우팅 + <strong>Schema Registry(Avro)</strong> + <strong>Kafka Streams</strong> 실시간 분석.</li>
           <li>API 응답속도 87% 개선, 무중단 폐쇄망 이관 완료 — <strong>Redis 멀티 티어 캐시</strong>(L1 Caffeine + L2 Redis) + <strong>JPA Fetch Join·QueryDSL</strong> 최적화.</li>
           <li>금결원 보고 기준 재무 보고 정확도 100% — <strong>Redis TTL + Keyspace Notification</strong> 실시간 만료 감지 + <strong>Kafka exactly-once</strong> 파이프라인.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li><span class="highlight">100% elimination</span> of payment discrepancies across earn/use/refund lifecycle — <strong>Kafka</strong> event sourcing + <strong>Saga pattern</strong> 6-step orchestration, <strong>Transactional Outbox</strong> for event publishing guarantee.</li>
           <li>Settlement mismatch detection <span class="highlight">hours → seconds</span> — <strong>Redis Streams</strong> priority retry queue + <strong>Kafka Streams</strong> near-real-time reconciliation.</li>
-          <li>13 services' messaging unified, new channel onboarding <span class="highlight">3 weeks → 3 days</span> — <strong>Kafka</strong> topic-based routing + <strong>Schema Registry (Avro)</strong> + <strong>Kafka Streams</strong> real-time analytics.</li>
+          <li>2.2M+ msg/month across 13 services unified, new channel onboarding <span class="highlight">3 weeks → 3 days</span> — <strong>Kafka</strong> topic-based routing + <strong>Schema Registry (Avro)</strong> + <strong>Kafka Streams</strong> real-time analytics.</li>
           <li>API response 87% faster, zero-downtime air-gapped migration — <strong>Redis multi-tier cache</strong> (L1 Caffeine + L2 Redis) + <strong>JPA Fetch Join/QueryDSL</strong> optimization.</li>
           <li>100% financial reporting accuracy for KFTC compliance — <strong>Redis TTL + Keyspace Notification</strong> real-time expiration + <strong>Kafka exactly-once</strong> pipeline.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li>充電料金の積立・使用・返金全過程の金額不一致を<span class="highlight">100%解消</span> — <strong>Kafka</strong>イベントソーシング＋<strong>Sagaパターン</strong>6段階オーケストレーション、<strong>Transactional Outbox</strong>でイベント発行保証。</li>
           <li>精算不一致検知遅延<span class="highlight">数時間→数秒</span> — <strong>Redis Streams</strong>再処理優先度キュー＋<strong>Kafka Streams</strong>準リアルタイム整合性検証。</li>
-          <li>13サービスメッセージング統合、新規チャネル追加<span class="highlight">3週間→3日</span> — <strong>Kafka</strong>トピック基盤ルーティング＋<strong>Schema Registry（Avro）</strong>＋<strong>Kafka Streams</strong>リアルタイム分析。</li>
+          <li>月220万件以上の13サービスメッセージング統合、新規チャネル追加<span class="highlight">3週間→3日</span> — <strong>Kafka</strong>トピック基盤ルーティング＋<strong>Schema Registry（Avro）</strong>＋<strong>Kafka Streams</strong>リアルタイム分析。</li>
           <li>API応答速度87%改善、無停止閉域網移行完了 — <strong>Redisマルチティアキャッシュ</strong>（L1 Caffeine＋L2 Redis）＋<strong>JPA Fetch Join・QueryDSL</strong>最適化。</li>
           <li>金決院報告基準の財務報告正確度100% — <strong>Redis TTL＋Keyspace Notification</strong>リアルタイム満了検知＋<strong>Kafka exactly-once</strong>パイプライン。</li>
         </ul>
@@ -155,13 +155,13 @@
           <span class="experience__period">Kotlin, Spring Boot, JPA, Kafka, Redis, Schema Registry, AWS CloudWatch, SNS, GitHub Packages</span>
         </div>
         <p class="profile__text" lang="ko">
-          13개 이상의 서비스가 각자 벤더 API를 직접 호출하는 구조로, 채널 추가·벤더 변경 시 전 서비스 수정이 필요. 발송 실패에 대한 감지·재처리 체계가 없어 누락 건을 수동으로 확인해야 했고, 발송 현황에 대한 통합 가시성도 부재.
+          월 220만 건 이상의 메시지를 발송하는 13개 서비스가 각자 벤더 API를 직접 호출하는 구조로, 채널 추가·벤더 변경 시 전 서비스 수정이 필요. 발송 실패에 대한 감지·재처리 체계가 없어 누락 건을 수동으로 확인해야 했고, 발송 현황에 대한 통합 가시성도 부재.
         </p>
         <p class="profile__text" lang="en" hidden>
-          Over 13 services each called vendor APIs directly, requiring changes across all services whenever a channel was added or vendor changed. There was no failure detection or retry mechanism — missed messages had to be checked manually — and no unified visibility into delivery status.
+          Over 13 services sending 2.2M+ messages/month each called vendor APIs directly, requiring changes across all services whenever a channel was added or vendor changed. There was no failure detection or retry mechanism — missed messages had to be checked manually — and no unified visibility into delivery status.
         </p>
         <p class="profile__text" lang="ja" hidden>
-          13以上のサービスがそれぞれベンダーAPIを直接呼び出す構造で、チャネル追加・ベンダー変更時に全サービスの修正が必要。配信失敗の検知・再処理体制がなく漏れを手動確認する状態で、配信状況の統合的な可視性も不在。
+          月220万件以上のメッセージを配信する13以上のサービスがそれぞれベンダーAPIを直接呼び出す構造で、チャネル追加・ベンダー変更時に全サービスの修正が必要。配信失敗の検知・再処理体制がなく漏れを手動確認する状態で、配信状況の統合的な可視性も不在。
         </p>
         <ul class="experience__list" lang="ko">
           <li><strong>Kafka 토픽 기반 채널 라우팅으로 벤더 의존 제거.</strong> REST gateway는 벤더 장애 시 호출 서비스까지 블로킹되고, SQS fan-out은 채널별 독립 스케일링이 불가해 Kafka 토픽 기반 라우팅을 선택. 채널별 consumer group으로 벤더 어댑터를 분리해 채널 독립적 스케일 아웃을 구현. 공통 계약 SDK를 Schema Registry(Avro) 기반 스키마 버전 관리와 함께 GitHub Packages로 배포해 서비스 코드에서 벤더 의존성을 완전 제거.</li>
@@ -187,16 +187,19 @@
           <span lang="ja" hidden>成果</span>
         </p>
         <ul class="experience__list" lang="ko">
+          <li>월 <strong>220만 건+</strong> 발송 규모의 13개 서비스 메시징을 단일 플랫폼으로 통합</li>
           <li>신규 채널 추가 리드타임 <strong>3주 → 어댑터 모듈 1개 추가(3일)</strong></li>
           <li>발송 실패 수동 확인 <strong>→ 자동 감지·재처리·알람으로 전환</strong></li>
           <li>서비스별 메시징 연동 코드 <strong>~300줄 → SDK 의존성 1줄</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
+          <li>Unified <strong>2.2M+ messages/month</strong> across 13 services into a single platform</li>
           <li>New channel addition lead time <strong>3 weeks → 1 adapter module (3 days)</strong></li>
           <li>Delivery failure handling <strong>manual checks → automated detection, retry, and alerting</strong></li>
           <li>Per-service messaging integration code <strong>~300 lines → 1 SDK dependency</strong></li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
+          <li>月<strong>220万件以上</strong>配信規模の13サービスメッセージングを単一プラットフォームへ統合</li>
           <li>新規チャネル追加リードタイム <strong>3週間 → アダプターモジュール1個追加（3日）</strong></li>
           <li>配信失敗対応 <strong>手動確認 → 自動検知・再処理・アラームへ転換</strong></li>
           <li>サービス別メッセージング連携コード <strong>約300行 → SDK依存1行</strong></li>
@@ -213,13 +216,13 @@
           <span class="experience__period">Java, Spring Boot, MyBatis, Oracle, Redis, Kafka, Kafka Streams, Nicepay PG</span>
         </div>
         <p class="profile__text" lang="ko">
-          전기차 충전 완료 건을 3초마다 폴링하던 단일 스케줄러 기반 결제 시스템을 Kafka 이벤트 소싱 아키텍처로 전환. 6개 결제 수단의 순차 차감을 Saga 패턴으로 오케스트레이션하고, Transactional Outbox로 이벤트 발행을 보장하며, Redis Streams 기반 재처리 우선순위 큐와 Kafka Streams 준실시간 정산 정합성 검증(reconciliation)를 구축해 운영 복잡도와 장애 추적 난도를 낮췄습니다.
+          월 100만 건 이상의 충전 완료 건을 3초마다 폴링하던 단일 스케줄러 기반 결제 시스템을 Kafka 이벤트 소싱 아키텍처로 전환. 6개 결제 수단의 순차 차감을 Saga 패턴으로 오케스트레이션하고, Transactional Outbox로 이벤트 발행을 보장하며, Redis Streams 기반 재처리 우선순위 큐와 Kafka Streams 준실시간 정산 정합성 검증(reconciliation)를 구축해 운영 복잡도와 장애 추적 난도를 낮췄습니다.
         </p>
         <p class="profile__text" lang="en" hidden>
-          Migrated a single-scheduler payment system that polled every 3 seconds to a Kafka event-sourcing architecture. Orchestrated 6-step sequential deduction via the Saga pattern, guaranteed event publishing with Transactional Outbox, and built Redis Streams priority retry queues and Kafka Streams near-real-time settlement reconciliation to reduce operational complexity and improve failure traceability.
+          Migrated a single-scheduler payment system handling 1M+ charging completions/month from 3-second polling to a Kafka event-sourcing architecture. Orchestrated 6-step sequential deduction via the Saga pattern, guaranteed event publishing with Transactional Outbox, and built Redis Streams priority retry queues and Kafka Streams near-real-time settlement reconciliation to reduce operational complexity and improve failure traceability.
         </p>
         <p class="profile__text" lang="ja" hidden>
-          3秒ポーリングの単一スケジューラ基盤決済システムをKafkaイベントソーシングアーキテクチャへ移行。6つの決済手段の順次差引をSagaパターンでオーケストレーションし、Transactional Outboxでイベント発行を保証、Redis Streams基盤再処理優先度キューとKafka Streams準リアルタイム精算対査を構築して運用複雑度と障害追跡難度を下げました。
+          月100万件以上の充電完了件を3秒ポーリングしていた単一スケジューラ基盤決済システムをKafkaイベントソーシングアーキテクチャへ移行。6つの決済手段の順次差引をSagaパターンでオーケストレーションし、Transactional Outboxでイベント発行を保証、Redis Streams基盤再処理優先度キューとKafka Streams準リアルタイム精算整合性検証を構築して運用複雑度と障害追跡難度を下げました。
         </p>
         <ul class="experience__list" lang="ko">
           <li><strong>Kafka 이벤트 소싱으로 3초 폴링 제거.</strong> 충전 완료 이벤트 → 결제 → 정산 순서의 Kafka 토픽 체인으로 전환. CDC(Debezium)는 DB 변경 로그 의존으로 스키마 변경에 취약하고 운영 복잡도가 높아, 애플리케이션 레벨에서 제어 가능한 Transactional Outbox 패턴을 선택해 DB 트랜잭션과 이벤트 발행의 원자성을 보장. 폴링 기반 지연과 누락을 원천 제거.</li>
@@ -237,7 +240,7 @@
           <li><strong>Kafkaイベントソーシングで3秒ポーリングを除去。</strong> 充電完了イベント→決済→精算の順にKafkaトピックチェーンへ移行。CDC（Debezium）はDB変更ログ依存でスキーマ変更に脆弱かつ運用複雑度が高いため、アプリケーションレベルで制御可能なTransactional Outboxパターンを選択しDBトランザクションとイベント発行の原子性を保証。ポーリング基盤の遅延と漏れを根本排除。</li>
           <li><strong>Sagaパターン基盤6段階決済オーケストレーション。</strong> 各決済手段を独立Sagaステップとして分離し、中間段階失敗時に差引済み件の補償トランザクションをKafka補償イベントで自動実行。Redis冪等キーで段階別の重複実行を防止。</li>
           <li><strong>Redis Streams基盤再処理優先度キュー。</strong> 失敗件を深刻度（決済失敗・精算不一致・タイムアウト）別に自動分類しRedis Streamsに優先度スコアを付与、consumer group基盤で再処理ワーカーが競合なく消費。</li>
-          <li><strong>Kafka Streams基盤準リアルタイム精算対査。</strong> カード請求額、クレジット・ポイント使用額、割引額をKafka Streamsウィンドウ結合で準リアルタイム比較し正常・異常・要確認を自動分類。バッチ対査比で検知遅延を数時間→数秒に短縮。</li>
+          <li><strong>Kafka Streams基盤準リアルタイム精算整合性検証。</strong> カード請求額、クレジット・ポイント使用額、割引額をKafka Streamsウィンドウ結合で準リアルタイム比較し正常・異常・要確認を自動分類。バッチ検証比で検知遅延を数時間→数秒に短縮。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
@@ -260,7 +263,7 @@
           <li>3秒ポーリング→<strong>Kafkaイベントソーシングへ移行</strong>し遅延・漏れを根本排除</li>
           <li>Sagaパターン＋Transactional Outboxで6段階決済の<strong>分散トランザクション整合性を保証</strong></li>
           <li>Redis Streams優先度キューで失敗件の<strong>深刻度別自動再処理</strong></li>
-          <li>Kafka Streams準リアルタイム対査で精算不一致<strong>検知遅延を数時間→数秒に短縮</strong></li>
+          <li>Kafka Streams準リアルタイム整合性検証で精算不一致<strong>検知遅延を数時間→数秒に短縮</strong></li>
         </ul>
       </article>
 
@@ -387,7 +390,7 @@
         <div class="experience__header">
           <span class="experience__company">
             <span lang="ko">금결원 보고 대응 — 크레딧 만료 처리 및 만료 크레딧 수익 전환(낙전수입 인식)</span>
-            <span lang="en" hidden>KFTC Reporting — Credit Expiration & Credit Expiration &amp; Revenue Transfer (Windfall Recognition)</span>
+            <span lang="en" hidden>KFTC Reporting — Credit Expiration &amp; Revenue Transfer (Windfall Recognition)</span>
             <span lang="ja" hidden>金決院報告対応 — クレジット満了処理および満了クレジット収益転換（雑収入認識）</span>
           </span>
           <span class="experience__period">Spring Boot, JPA, Kafka, Redis, Virtual Thread (Java 21), AWS SQS, EventBridge Scheduler</span>
@@ -404,19 +407,19 @@
         <ul class="experience__list" lang="ko">
           <li><strong>Redis TTL + Keyspace Notification 기반 만료 자동 감지.</strong> 크레딧 등록 시 유효기간을 Redis TTL로 설정하고, Keyspace Notification의 expired 이벤트로 만료 시점을 자동 감지해 Kafka 만료 이벤트를 발행. SQS 배치 단독은 만료 시점 정밀도가 부족하고, Redis TTL 단독은 pub/sub 기반이라 consumer 다운 시 이벤트 유실 위험이 있어 듀얼 트리거 구조를 채택.</li>
           <li><strong>Kafka exactly-once 기반 만료 이벤트 파이프라인.</strong> Redis 만료 감지 → Kafka 만료 토픽 발행 → 만료 처리 consumer의 파이프라인을 Kafka exactly-once 시맨틱으로 구성해 중복 만료·누락을 원천 방지. SQS 폴백을 병행해 Redis 장애 시에도 배치 트리거 보장.</li>
-          <li><strong>Virtual Thread 기반 유형별 병렬 처리 + 배치 슬라이스 루프.</strong> B2B·무상·유상 각 유형을 Virtual Thread로 동시에 실행해 유형 간 데이터 간섭 없이 병렬 처리. 각 유형 내부는 chunk 단위로 조회·만료 상태 전환·이력 저장을 하나의 트랜잭션으로 묶고, chunk 간 0.5초 간격으로 DB 부하를 분산.</li>
+          <li><strong>Virtual Thread 기반 유형별 병렬 처리 + chunk 단위 트랜잭션 루프.</strong> B2B·무상·유상 각 유형을 Virtual Thread로 동시에 실행해 유형 간 데이터 간섭 없이 병렬 처리. 각 유형 내부는 chunk 단위로 조회·만료 상태 전환·이력 저장을 하나의 트랜잭션으로 묶고, chunk 간 0.5초 간격으로 DB 부하를 분산.</li>
           <li><strong>만료 → 낙전수입 계정 전환 로직을 회계 기준과 정합.</strong> 재무팀과 유형별 만료 크레딧 수익 전환(낙전수입 인식) 시점을 사전 합의하고, 만료 처리와 계정 전환이 하나의 트랜잭션 안에서 원자적으로 실행되도록 설계. 건별 감사 로그를 Kafka 감사 토픽에 발행해 금결원 보고 시 건별 추적 가능.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li><strong>Redis TTL + Keyspace Notification for automatic expiration detection.</strong> Credit validity set as Redis TTL on registration; Keyspace Notification expired events automatically detect expiration and publish Kafka expiration events. SQS batch alone lacked expiration-timing precision; Redis TTL alone risked event loss on consumer downtime (pub/sub-based) — adopted a dual-trigger architecture.</li>
           <li><strong>Kafka exactly-once expiration event pipeline.</strong> Redis expiration detection → Kafka expiration topic → expiration consumer pipeline with Kafka exactly-once semantics, preventing duplicate expirations and missed records. SQS fallback maintains batch trigger guarantee during Redis outages.</li>
-          <li><strong>Virtual Thread parallel processing with batch-slice loops.</strong> B2B, free, and paid types run concurrently on Virtual Threads with no cross-type interference. Each type processes in chunk-based transaction loops (query, transition, persist per chunk, 500 ms pause for DB load spread).</li>
+          <li><strong>Virtual Thread parallel processing with chunk-based transaction loops.</strong> B2B, free, and paid types run concurrently on Virtual Threads with no cross-type interference. Each type processes in chunk-based transaction loops (query, transition, persist per chunk, 500 ms pause for DB load spread).</li>
           <li><strong>Aligned expiration → windfall revenue transfer with accounting standards.</strong> Pre-agreed per-type recognition timing with the finance team. Expiration and account transfer execute atomically within a single transaction. Per-item audit logs published to Kafka audit topic for KFTC record-level traceability.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li><strong>Redis TTL＋Keyspace Notification基盤満了自動検知。</strong> クレジット登録時に有効期間をRedis TTLとして設定し、Keyspace Notificationのexpiredイベントで満了時点を自動検知してKafka満了イベントを発行。SQSバッチ単独は満了タイミング精度が不足し、Redis TTL単独はpub/sub基盤のためconsumerダウン時にイベント流失リスクがあり、デュアルトリガー構造を採用。</li>
           <li><strong>Kafka exactly-once基盤満了イベントパイプライン。</strong> Redis満了検知→Kafka満了トピック発行→満了処理consumerのパイプラインをKafka exactly-onceセマンティクスで構成し重複満了・漏れを根本防止。SQSフォールバックを併行しRedis障害時もバッチトリガーを保証。</li>
-          <li><strong>Virtual Threadベースタイプ別並列処理＋バッチスライスループ。</strong> B2B・無償・有償の各タイプをVirtual Threadで同時実行しタイプ間のデータ干渉を排除。各タイプ内部はchunk単位で照会・満了状態遷移・履歴保存を1トランザクションにまとめ、chunk間500ms間隔でDB負荷を分散。</li>
+          <li><strong>Virtual Threadベースタイプ別並列処理＋chunk単位トランザクションループ。</strong> B2B・無償・有償の各タイプをVirtual Threadで同時実行しタイプ間のデータ干渉を排除。各タイプ内部はchunk単位で照会・満了状態遷移・履歴保存を1トランザクションにまとめ、chunk間500ms間隔でDB負荷を分散。</li>
           <li><strong>満了→雑収入勘定振替ロジックを会計基準と整合。</strong> 財務チームとタイプ別の満了クレジット収益転換（雑収入認識）時点を事前合意し、満了処理と勘定振替が単一トランザクション内で原子的に実行される設計。件別監査ログをKafka監査トピックに発行し金決院報告時に件別追跡可能。</li>
         </ul>
         <p class="psc__label">
