@@ -104,25 +104,25 @@
     </section>
 
     <section class="section">
-      <h2 class="section__title">Professional Experience</h2>
+      <h2 class="section__title">Experience</h2>
 
       <article class="experience">
         <div class="experience__header">
           <span class="experience__company">SK일렉링크</span>
-          <span class="experience__period">2023.01 — 현재</span>
+          <span class="experience__period">2022.05 — 현재</span>
         </div>
-        <p class="experience__company-desc">전기차 충전 인프라를 기반으로 충전·결제·데이터 서비스를 운영하는 그린 모빌리티 플랫폼 기업.</p>
-        <p class="experience__role">백엔드 엔지니어 · 서울 송파구</p>
+        <p class="experience__role">백엔드 엔지니어</p>
 
-        <p class="experience__team">테크팀 · 플랫폼 셀 (2026.03 — 현재)</p>
+        <p class="experience__team">결제·정산 파이프라인 재설계 및 메시징 플랫폼 구축 (2026.03 — 현재)</p>
         <ul class="experience__list">
-          <li>폴링 기반 결제 시스템을 <strong>Kafka</strong> 이벤트 소싱 아키텍처로 전환하고, <strong>Saga 패턴 + Transactional Outbox</strong>로 6단계 결제의 분산 트랜잭션 정합성을 보장. <strong>Redis Streams</strong> 우선순위 큐와 <strong>Kafka Streams</strong> 준실시간 정합성 검증로 정산 불일치 감지 지연을 수 초로 단축했습니다.</li>
+          <li>폴링 기반 결제 시스템을 <strong>Kafka</strong> 이벤트 소싱 아키텍처로 전환하고, <strong>Saga 패턴 + Transactional Outbox</strong>로 6단계 결제의 분산 트랜잭션 정합성을 보장. <strong>Redis Streams</strong> 우선순위 큐와 <strong>Kafka Streams</strong> 준실시간 정합성 검증으로 정산 불일치 감지 지연을 수 초로 단축했습니다.</li>
           <li>회원 유형별 할인·단가 규칙이 누적된 정산 파이프라인을 도메인 규칙 단위로 분리하고, 멤버십별 정산 모듈로 나눠 정책 변경 시 수정 범위를 줄였습니다.</li>
           <li>월 220만 건+ 규모의 13개 서비스 메시징을 <strong>Kafka</strong> 토픽 기반 채널 라우팅 + <strong>Schema Registry(Avro)</strong>로 통합하고, <strong>Kafka Streams</strong> 실시간 분석과 <strong>Redis Sorted Set</strong> 우선순위 재처리를 적용해 신규 채널 추가를 3주 → 3일로 단축했습니다.</li>
         </ul>
 
-        <p class="experience__team">플랫폼 개발팀 (2023.01 — 2026.02)</p>
+        <p class="experience__team">크레딧·마일리지 원장 시스템 및 폐쇄망 이관 (2022.05 — 2026.02)</p>
         <ul class="experience__list">
+          <li>크레딧 원장 시스템을 구축해 충전·차감·취소·잔액 이전을 하나의 거래 흐름으로 관리하고, B2B 고객별 정산 정책 차이를 크레딧 유형 분리와 전용 API로 나누었습니다.</li>
           <li><strong>Redis</strong> 분산 락·멱등성 키 + <strong>Kafka</strong> 이벤트 기반 잔액 캐시 무효화로 크레딧·마일리지 원장의 동시 차감과 중복 결제를 방지하고, 잔액 변동 이력 추적 구조를 구축했습니다.</li>
           <li><strong>Saga 패턴</strong>으로 6단계 순차 차감 결제를 오케스트레이션하고, <strong>Kafka</strong> 보상 이벤트 + <strong>Redis</strong> 멱등성 키로 부분 결제 실패 시 자동 롤백을 구현했습니다.</li>
           <li>레거시 API 성능 정상화(47회 → 4회) 후 <strong>Redis 멀티 티어 캐시</strong>(L1 Caffeine + L2 Redis)를 도입하고, 듀얼 라이트 + 건별 해시 비교 + 자동 롤백 트리거 기반 <strong>무중단 폐쇄망 이관</strong>을 완료했습니다.</li>
@@ -132,27 +132,12 @@
 
       <article class="experience">
         <div class="experience__header">
-          <span class="experience__company">에스트래픽</span>
-          <span class="experience__period">2022.05 — 2022.12</span>
-        </div>
-        <p class="experience__company-desc">전기차 충전 운영 시스템과 크레딧 서비스를 개발·운영하던 조직.</p>
-        <p class="experience__role">백엔드 엔지니어 · 경기 성남시</p>
-        <p class="experience__team">DT추진실</p>
-        <ul class="experience__list">
-          <li>크레딧 원장 시스템을 구축해 충전·차감·취소·잔액 이전을 하나의 거래 흐름으로 관리할 수 있게 했습니다.</li>
-          <li>B2B 고객별 정산 정책 차이를 크레딧 유형 분리와 전용 API로 나누고, 유효기간 연장·일괄 충전을 Spring Batch로 구현했습니다.</li>
-        </ul>
-      </article>
-
-      <article class="experience">
-        <div class="experience__header">
           <span class="experience__company">모바일엔트로피</span>
           <span class="experience__period">2019.04 — 2022.04</span>
         </div>
-        <p class="experience__company-desc">도시가스 고객사의 자산·현장 업무 시스템을 개발·운영하던 소프트웨어 기업.</p>
-        <p class="experience__role">백엔드 엔지니어 · 서울 마포구</p>
+        <p class="experience__role">백엔드 엔지니어</p>
         <ul class="experience__list">
-          <li>도시가스 고객사마다 달랐던 자산·공사 운영 기준을 시스템으로 표준화하는 ERP 기능과 데이터 처리 로직을 개발·유지보수했습니다.</li>
+          <li>고객사마다 달랐던 자산·공사 운영 기준을 시스템으로 표준화하는 ERP 기능과 데이터 처리 로직을 개발·유지보수했습니다.</li>
           <li>알림톡 기반 인터랙티브 기능을 개발해 고객사와 사용자 간 안내 흐름을 개선했습니다.</li>
         </ul>
       </article>
