@@ -167,18 +167,21 @@
           <li><strong>Kafka 토픽 기반 채널 라우팅으로 벤더 의존 제거.</strong> REST gateway는 벤더 장애 시 호출 서비스까지 블로킹되고, SQS fan-out은 채널별 독립 스케일링이 불가해 Kafka 토픽 기반 라우팅을 선택. 채널별 consumer group으로 벤더 어댑터를 분리해 채널 독립적 스케일 아웃을 구현. 공통 계약 SDK를 Schema Registry(Avro) 기반 스키마 버전 관리와 함께 GitHub Packages로 배포해 서비스 코드에서 벤더 의존성을 완전 제거.</li>
           <li><strong>Kafka DLQ + Redis Sorted Set 기반 우선순위 재처리.</strong> 발송 실패 건을 Kafka DLQ로 격리한 뒤 Redis Sorted Set에 실패 심각도·재시도 횟수 기반 우선순위 스코어를 부여해 지수 백오프 재처리. 최종 실패 건은 별도 토픽으로 분리해 운영자 확인 대상으로 라우팅.</li>
           <li><strong>Kafka Streams 실시간 발송 분석 + CloudWatch 알람.</strong> 배치 집계 대신 Kafka Streams로 채널별 실패율을 실시간 윈도우 집계하고, 채널별 차등 임계치(SMS 15%, 알림톡 10%) 초과 시 CloudWatch Alarm → SNS → Slack·이메일로 자동 알람 발송. 심각도 구분(WARNING/CRITICAL)과 중복 억제(snooze) 로직 적용.</li>
+          <li><strong>13개 서비스의 무중단 점진적 마이그레이션.</strong> 기존 서비스에 영향을 주지 않기 위해 서비스별 순차 온보딩 전략을 채택. 전환 대상 서비스에 듀얼 발송(레거시 경로 + 새 플랫폼 동시 발송)을 적용해 발송 결과를 비교 검증한 후, 일치율 100% 확인 시점에 레거시 경로를 제거. 발송량이 가장 적은 서비스부터 전환을 시작해 위험을 최소화하고, 전환 실패 시 SDK 버전 롤백만으로 즉시 레거시 복원이 가능하도록 설계.</li>
           <li><strong>발송 이력·통계 API 및 오디언스 타게팅.</strong> 기간·채널·상태·수신자 등 복합 조건 조회, 수동 재발송, Kafka Streams 기반 실시간 채널별 발송량·성공률·실패 사유 Top N 집계 API를 제공. 오디언스 타게팅 기능으로 데이터 기반 고객 커뮤니케이션 품질을 확보.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li><strong>Kafka topic-based channel routing to remove vendor dependency.</strong> REST gateway would block callers on vendor failures; SQS fan-out couldn't scale channels independently, so Kafka topic-based routing was chosen. Isolated vendor adapters into per-channel consumer groups for independent horizontal scaling. Published a shared contract SDK with Schema Registry (Avro) schema versioning via GitHub Packages, fully removing vendor coupling from service code.</li>
           <li><strong>Kafka DLQ + Redis Sorted Set for priority-based retry.</strong> Failed messages are isolated in Kafka DLQ, scored by severity and retry count in a Redis Sorted Set for exponential backoff retry. Terminal failures are routed to a separate topic for operator review.</li>
           <li><strong>Kafka Streams real-time delivery analytics + CloudWatch alerting.</strong> Replaced batch aggregation with Kafka Streams windowed aggregation for per-channel failure rates. Differentiated thresholds (SMS 15%, AlimTalk 10%) trigger CloudWatch Alarm → SNS → Slack/email with severity levels (WARNING/CRITICAL) and duplicate suppression (snooze).</li>
+          <li><strong>Zero-downtime incremental migration of 13 services.</strong> Adopted per-service sequential onboarding to avoid disruption. Applied dual-send (legacy path + new platform simultaneously) on each target service, comparing delivery results and removing the legacy path only after confirming 100% match. Started with lowest-volume services to minimize risk; designed instant legacy restoration via SDK version rollback on migration failure.</li>
           <li><strong>Delivery history/statistics APIs and audience targeting.</strong> Provided multi-condition queries, manual resend, and Kafka Streams-based real-time aggregation APIs for volume, success rate, and top-N failure reasons. Audience targeting for data-driven communication quality.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li><strong>Kafkaトピック基盤チャネルルーティングでベンダー依存を除去。</strong> REST gatewayはベンダー障害時に呼出元までブロッキングされ、SQS fan-outはチャネル別独立スケーリングが不可能なためKafkaトピック基盤ルーティングを選択。チャネル別consumer groupでベンダーアダプターを分離しチャネル独立スケールアウトを実現。共通契約SDKをSchema Registry（Avro）基盤スキーマバージョン管理と共にGitHub Packagesで配布しサービスコードからベンダー依存を完全除去。</li>
           <li><strong>Kafka DLQ＋Redis Sorted Set基盤優先度再処理。</strong> 配信失敗件をKafka DLQへ隔離後、Redis Sorted Setに失敗深刻度・再試行回数基盤の優先度スコアを付与し指数バックオフ再処理。最終失敗件は別トピックへ分離し運用者確認対象へルーティング。</li>
           <li><strong>Kafka Streamsリアルタイム配信分析＋CloudWatchアラーム。</strong> バッチ集計の代わりにKafka Streamsでチャネル別失敗率をリアルタイムウィンドウ集計し、チャネル別差等閾値（SMS 15%、アリムトーク10%）超過時にCloudWatch Alarm→SNS→Slack・メールで自動アラーム。深刻度区分（WARNING/CRITICAL）と重複抑制（snooze）ロジックを適用。</li>
+          <li><strong>13サービスの無停止段階的マイグレーション。</strong> 既存サービスへの影響回避のためサービス別順次オンボーディング戦略を採用。移行対象サービスにデュアル配信（レガシー経路＋新プラットフォーム同時配信）を適用し配信結果を比較検証、一致率100%確認時点でレガシー経路を撤去。配信量最少サービスから移行を開始しリスクを最小化、移行失敗時はSDKバージョンロールバックのみで即時レガシー復元可能な設計。</li>
           <li><strong>配信履歴・統計APIおよびオーディエンスターゲティング。</strong> 期間・チャネル・状態・受信者等の複合条件照会、手動再送、Kafka Streams基盤リアルタイムチャネル別送信量・成功率・失敗事由Top N集計APIを提供。オーディエンスターゲティング機能でデータ基盤の顧客コミュニケーション品質を確保。</li>
         </ul>
         <p class="psc__label">
@@ -401,19 +404,19 @@
         <ul class="experience__list" lang="ko">
           <li><strong>Redis TTL + Keyspace Notification 기반 만료 자동 감지.</strong> 크레딧 등록 시 유효기간을 Redis TTL로 설정하고, Keyspace Notification의 expired 이벤트로 만료 시점을 자동 감지해 Kafka 만료 이벤트를 발행. SQS 배치 단독은 만료 시점 정밀도가 부족하고, Redis TTL 단독은 pub/sub 기반이라 consumer 다운 시 이벤트 유실 위험이 있어 듀얼 트리거 구조를 채택.</li>
           <li><strong>Kafka exactly-once 기반 만료 이벤트 파이프라인.</strong> Redis 만료 감지 → Kafka 만료 토픽 발행 → 만료 처리 consumer의 파이프라인을 Kafka exactly-once 시맨틱으로 구성해 중복 만료·누락을 원천 방지. SQS 폴백을 병행해 Redis 장애 시에도 배치 트리거 보장.</li>
-          <li><strong>Virtual Thread 기반 유형별 병렬 처리 + chunk 단위 트랜잭션 루프.</strong> B2B·무상·유상 각 유형을 Virtual Thread로 동시에 실행해 유형 간 데이터 간섭 없이 병렬 처리. 각 유형 내부는 chunk 단위로 조회·만료 상태 전환·이력 저장을 하나의 트랜잭션으로 묶고, chunk 간 0.5초 간격으로 DB 부하를 분산.</li>
+          <li><strong>Virtual Thread 기반 유형별 병렬 처리로 00시 마감 시간 내 완료 보장.</strong> 금결원 보고 기준상 만료 처리가 자정까지 완료되어야 하므로, B2B·무상·유상 각 유형을 Virtual Thread로 동시에 실행해 유형 간 데이터 간섭 없이 병렬 처리. 각 유형 내부는 chunk 단위로 조회·만료 상태 전환·이력 저장을 하나의 트랜잭션으로 묶고, chunk 간 0.5초 간격으로 DB 부하를 분산해 수만 건을 1~2분 내에 안정적으로 완료.</li>
           <li><strong>만료 → 낙전수입 계정 전환 로직을 회계 기준과 정합.</strong> 재무팀과 유형별 만료 크레딧 수익 전환(낙전수입 인식) 시점을 사전 합의하고, 만료 처리와 계정 전환이 하나의 트랜잭션 안에서 원자적으로 실행되도록 설계. 건별 감사 로그를 Kafka 감사 토픽에 발행해 금결원 보고 시 건별 추적 가능.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
           <li><strong>Redis TTL + Keyspace Notification for automatic expiration detection.</strong> Credit validity set as Redis TTL on registration; Keyspace Notification expired events automatically detect expiration and publish Kafka expiration events. SQS batch alone lacked expiration-timing precision and Redis TTL alone risked event loss on consumer downtime due to its pub/sub nature, so a dual-trigger architecture was adopted.</li>
           <li><strong>Kafka exactly-once expiration event pipeline.</strong> Redis expiration detection → Kafka expiration topic → expiration consumer pipeline with Kafka exactly-once semantics, preventing duplicate expirations and missed records. SQS fallback maintains batch trigger guarantee during Redis outages.</li>
-          <li><strong>Virtual Thread parallel processing with chunk-based transaction loops.</strong> B2B, free, and paid types run concurrently on Virtual Threads with no cross-type interference. Each type processes in chunk-based transaction loops (query, transition, persist per chunk, 500 ms pause for DB load spread).</li>
+          <li><strong>Virtual Thread parallel processing to meet midnight deadline.</strong> KFTC reporting requires all expirations to complete by midnight. B2B, free, and paid types run concurrently on Virtual Threads with no cross-type interference. Each type processes in chunk-based transaction loops (query, transition, persist per chunk, 500 ms pause for DB load spread), completing tens of thousands of records reliably within 1–2 minutes.</li>
           <li><strong>Aligned expiration → windfall revenue transfer with accounting standards.</strong> Pre-agreed per-type recognition timing with the finance team. Expiration and account transfer execute atomically within a single transaction. Per-item audit logs published to Kafka audit topic for KFTC record-level traceability.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
           <li><strong>Redis TTL＋Keyspace Notification基盤満了自動検知。</strong> クレジット登録時に有効期間をRedis TTLとして設定し、Keyspace Notificationのexpiredイベントで満了時点を自動検知してKafka満了イベントを発行。SQSバッチ単独は満了タイミング精度が不足し、Redis TTL単独はpub/sub基盤のためconsumerダウン時にイベント流失リスクがあり、デュアルトリガー構造を採用。</li>
           <li><strong>Kafka exactly-once基盤満了イベントパイプライン。</strong> Redis満了検知→Kafka満了トピック発行→満了処理consumerのパイプラインをKafka exactly-onceセマンティクスで構成し重複満了・漏れを根本防止。SQSフォールバックを併行しRedis障害時もバッチトリガーを保証。</li>
-          <li><strong>Virtual Threadベースタイプ別並列処理＋chunk単位トランザクションループ。</strong> B2B・無償・有償の各タイプをVirtual Threadで同時実行しタイプ間のデータ干渉を排除。各タイプ内部はchunk単位で照会・満了状態遷移・履歴保存を1トランザクションにまとめ、chunk間500ms間隔でDB負荷を分散。</li>
+          <li><strong>Virtual Threadベースタイプ別並列処理で0時締切内完了を保証。</strong> 金決院報告基準上、満了処理は深夜0時までに完了する必要があるため、B2B・無償・有償の各タイプをVirtual Threadで同時実行しタイプ間のデータ干渉を排除。各タイプ内部はchunk単位で照会・満了状態遷移・履歴保存を1トランザクションにまとめ、chunk間500ms間隔でDB負荷を分散し数万件を1〜2分で安定完了。</li>
           <li><strong>満了→雑収入勘定振替ロジックを会計基準と整合。</strong> 財務チームとタイプ別の満了クレジット収益転換（雑収入認識）時点を事前合意し、満了処理と勘定振替が単一トランザクション内で原子的に実行される設計。件別監査ログをKafka監査トピックに発行し金決院報告時に件別追跡可能。</li>
         </ul>
         <p class="psc__label">
