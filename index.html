@@ -225,19 +225,19 @@
           月100万件以上の充電完了件を3秒ポーリングしていた単一スケジューラ基盤決済システムをKafkaイベントソーシングアーキテクチャへ移行。6つの決済手段の順次差引をSagaパターンでオーケストレーションし、Transactional Outboxでイベント発行を保証、Redis Streams基盤再処理優先度キューとKafka Streams準リアルタイム精算整合性検証を構築して運用複雑度と障害追跡難度を下げました。
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong>Kafka 이벤트 소싱으로 3초 폴링 제거.</strong> 충전 완료 이벤트 → 결제 → 정산 순서의 Kafka 토픽 체인으로 전환. CDC(Debezium)는 DB 변경 로그 의존으로 스키마 변경에 취약하고 운영 복잡도가 높아, 애플리케이션 레벨에서 제어 가능한 Transactional Outbox 패턴을 선택해 DB 트랜잭션과 이벤트 발행의 원자성을 보장. 폴링 기반 지연과 누락을 원천 제거.</li>
+          <li><strong>폴링 기반 결제 시스템의 이벤트 소싱 아키텍처 전환.</strong> 3초 폴링 스케줄러를 Kafka 토픽 체인(충전 완료 → 결제 → 정산)으로 전환해 지연과 누락을 원천 제거. CDC(Debezium)는 DB 변경 로그 의존으로 스키마 변경에 취약하고 운영 복잡도가 높아, 애플리케이션 레벨에서 제어 가능한 Transactional Outbox 패턴을 선택해 DB 트랜잭션과 이벤트 발행의 원자성을 보장.</li>
           <li><strong>Saga 패턴 기반 6단계 결제 오케스트레이션.</strong> 각 결제 수단을 독립 Saga 스텝으로 분리하고, 중간 단계 실패 시 이미 차감된 건의 보상 트랜잭션을 Kafka 보상 이벤트로 자동 실행. Redis 멱등성 키로 단계별 중복 실행을 방지.</li>
           <li><strong>Redis Streams 기반 재처리 우선순위 큐.</strong> 실패 건을 심각도(결제 실패·정산 불일치·타임아웃)별로 자동 분류해 Redis Streams에 우선순위 스코어를 부여하고, consumer group 기반으로 재처리 워커가 경합 없이 소비.</li>
           <li><strong>Kafka Streams 기반 준실시간 정산 정합성 검증(reconciliation).</strong> 카드 청구 금액, 크레딧·포인트 사용 금액, 할인 금액을 Kafka Streams 윈도우 조인으로 준실시간 비교해 정상·비정상·검토 필요를 자동 분류. 배치 대사 대비 감지 지연을 수 시간에서 수 초로 단축.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong>Kafka event sourcing to eliminate 3-second polling.</strong> Migrated to a Kafka topic chain (charge completion → payment → settlement). Chose Transactional Outbox over CDC (Debezium) — CDC's dependency on DB change logs made it fragile to schema changes and operationally complex; Outbox keeps control at the application level. Eliminated polling-based delays and missed records.</li>
+          <li><strong>Event-sourcing architecture migration from polling-based payment system.</strong> Replaced the 3-second polling scheduler with a Kafka topic chain (charge completion → payment → settlement), eliminating delays and missed records. Chose Transactional Outbox over CDC (Debezium) — CDC's dependency on DB change logs made it fragile to schema changes and operationally complex; Outbox keeps control at the application level.</li>
           <li><strong>Saga pattern for 6-step payment orchestration.</strong> Isolated each payment method as an independent Saga step with automatic compensation via Kafka compensation events on mid-step failures. Redis idempotency keys prevent duplicate step execution.</li>
           <li><strong>Redis Streams priority retry queue.</strong> Failed records auto-classified by severity (payment failure, settlement mismatch, timeout), scored in Redis Streams, and consumed by consumer-group-based retry workers without contention.</li>
           <li><strong>Kafka Streams near-real-time settlement reconciliation.</strong> Card billing, credit/point usage, and discount amounts compared via Kafka Streams windowed joins for near-real-time auto-classification (normal, abnormal, review-required). Detection latency reduced from hours to seconds vs. batch reconciliation.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>Kafkaイベントソーシングで3秒ポーリングを除去。</strong> 充電完了イベント→決済→精算の順にKafkaトピックチェーンへ移行。CDC（Debezium）はDB変更ログ依存でスキーマ変更に脆弱かつ運用複雑度が高いため、アプリケーションレベルで制御可能なTransactional Outboxパターンを選択しDBトランザクションとイベント発行の原子性を保証。ポーリング基盤の遅延と漏れを根本排除。</li>
+          <li><strong>ポーリング基盤決済システムのイベントソーシングアーキテクチャ移行。</strong> 3秒ポーリングスケジューラをKafkaトピックチェーン（充電完了→決済→精算）へ移行し遅延と漏れを根本排除。CDC（Debezium）はDB変更ログ依存でスキーマ変更に脆弱かつ運用複雑度が高いため、アプリケーションレベルで制御可能なTransactional Outboxパターンを選択しDBトランザクションとイベント発行の原子性を保証。</li>
           <li><strong>Sagaパターン基盤6段階決済オーケストレーション。</strong> 各決済手段を独立Sagaステップとして分離し、中間段階失敗時に差引済み件の補償トランザクションをKafka補償イベントで自動実行。Redis冪等キーで段階別の重複実行を防止。</li>
           <li><strong>Redis Streams基盤再処理優先度キュー。</strong> 失敗件を深刻度（決済失敗・精算不一致・タイムアウト）別に自動分類しRedis Streamsに優先度スコアを付与、consumer group基盤で再処理ワーカーが競合なく消費。</li>
           <li><strong>Kafka Streams基盤準リアルタイム精算整合性検証。</strong> カード請求額、クレジット・ポイント使用額、割引額をKafka Streamsウィンドウ結合で準リアルタイム比較し正常・異常・要確認を自動分類。バッチ検証比で検知遅延を数時間→数秒に短縮。</li>
@@ -248,19 +248,19 @@
           <span lang="ja" hidden>成果</span>
         </p>
         <ul class="experience__list" lang="ko">
-          <li>3초 폴링 → <strong>Kafka 이벤트 소싱으로 전환</strong>해 지연·누락 원천 제거</li>
+          <li>폴링 기반 결제 시스템 → <strong>Kafka 이벤트 소싱 아키텍처로 전환</strong>해 지연·누락 원천 제거</li>
           <li>Saga 패턴 + Transactional Outbox로 6단계 결제의 <strong>분산 트랜잭션 정합성 보장</strong></li>
           <li>Redis Streams 우선순위 큐로 실패 건 <strong>심각도별 자동 재처리</strong></li>
           <li>Kafka Streams 준실시간 대사로 정산 불일치 <strong>감지 지연 수 시간 → 수 초</strong></li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Replaced 3-second polling with <strong>Kafka event sourcing</strong>, eliminating delays and missed records</li>
+          <li>Polling-based payment system → <strong>Kafka event-sourcing architecture</strong>, eliminating delays and missed records</li>
           <li>Guaranteed <strong>distributed transaction consistency</strong> across 6 payment steps via Saga + Transactional Outbox</li>
           <li><strong>Auto-retry by severity</strong> with Redis Streams priority queue</li>
           <li>Settlement mismatch detection latency <strong>hours → seconds</strong> via Kafka Streams near-real-time reconciliation</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>3秒ポーリング→<strong>Kafkaイベントソーシングへ移行</strong>し遅延・漏れを根本排除</li>
+          <li>ポーリング基盤決済システム→<strong>Kafkaイベントソーシングアーキテクチャ</strong>へ移行し遅延・漏れを根本排除</li>
           <li>Sagaパターン＋Transactional Outboxで6段階決済の<strong>分散トランザクション整合性を保証</strong></li>
           <li>Redis Streams優先度キューで失敗件の<strong>深刻度別自動再処理</strong></li>
           <li>Kafka Streams準リアルタイム整合性検証で精算不一致<strong>検知遅延を数時間→数秒に短縮</strong></li>
@@ -270,9 +270,9 @@
       <article class="experience">
         <div class="experience__header">
           <span class="experience__company">
-            <span lang="ko">제네시스 결제 처리 쿼리 성능 개선</span>
-            <span lang="en" hidden>Genesis Payment Query Performance Optimization</span>
-            <span lang="ja" hidden>Genesis決済処理クエリ性能改善</span>
+            <span lang="ko">결제 처리 상태 조회 아키텍처 전환 — Oracle 풀스캔에서 Redis O(1) 캐시로</span>
+            <span lang="en" hidden>Payment Processing Status Architecture — Oracle Full Scan to Redis O(1) Cache</span>
+            <span lang="ja" hidden>決済処理状態照会アーキテクチャ転換 — Oracleフルスキャンから Redis O(1)キャッシュへ</span>
           </span>
           <span class="experience__period">Java, Spring Boot, MyBatis, Oracle, Redis</span>
         </div>
@@ -286,22 +286,19 @@
           ローミング充電未処理件が日次対象の約30〜45%まで累積。<code>NOT IN</code>サブクエリが処理完了履歴テーブル（60万件）をFULL TABLE SCANし、Oracleが<code>HASH JOIN RIGHT ANTI</code>を選択して12〜16分のblockingが1日17回発生。クエリ最適化後、Redisキャッシュレイヤーを追加しDB依存を根本排除。
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong><code>NOT IN</code> → <code>NOT EXISTS</code> 전환으로 조인 전략 변경.</strong> 비상관 서브쿼리(<code>HASH JOIN RIGHT ANTI</code>)를 상관 서브쿼리(<code>NESTED LOOPS ANTI</code>)로 전환. 드라이빙 테이블이 60만 건 풀스캔에서 인덱스 스캔 2건으로 역전.</li>
-          <li><strong>복합 PK 전체를 상관 조건에 포함.</strong> 기존 단일 컬럼 비교에서 복합 PK 선두 컬럼까지 추가해 anti-join 시 매칭 즉시 스킵(short-circuit) 가능.</li>
-          <li><strong>HASH JOIN 제거로 메모리 압력 해소.</strong> 60만 건 해시 빌드 시 PGA 메모리 초과로 temp tablespace 디스크 스필이 간헐적 지연의 직접 원인. <code>NESTED LOOPS ANTI</code>는 행 단위 처리로 대량 메모리 할당 불필요.</li>
-          <li><strong>Redis Set 기반 처리 상태 캐시 레이어 구축.</strong> 결제 완료 건을 Redis Set에 실시간 적재해, 미처리 건 조회 시 anti-join 쿼리 대신 Redis <code>SISMEMBER</code> O(1) 조회로 대체. 60만 건 이력 테이블 풀스캔을 완전 제거하고, DB 부하와 무관하게 일정한 응답 시간을 확보.</li>
+          <li><strong>Oracle 실행 계획 분석 기반 응급 조치.</strong> <code>NOT IN</code>(비상관, <code>HASH JOIN RIGHT ANTI</code>)을 <code>NOT EXISTS</code>(상관, <code>NESTED LOOPS ANTI</code>)로 전환하고 복합 PK 전체를 상관 조건에 포함해 60만 건 풀스캔 → 인덱스 스캔 2건으로 역전, 936초 → 1~2초로 단축. 단, 데이터 증가 시 Oracle 통계 변경으로 실행 계획이 회귀할 수 있어 쿼리 튜닝만으로는 근본 해결이 불가능하다고 판단.</li>
+          <li><strong>Redis Set 기반 처리 상태 캐시 레이어로 DB 의존 제거.</strong> 결제 완료 건을 Redis Set에 write-through로 실시간 적재해 <code>SISMEMBER</code> O(1) 조회로 anti-join 쿼리 자체를 제거. 로컬 캐시(Caffeine) 대신 Redis를 선택한 이유는 다중 인스턴스 배포 환경에서 인스턴스 간 처리 상태 불일치를 방지하기 위함. Redis 장애 시에는 최적화된 <code>NOT EXISTS</code> 쿼리로 자동 폴백해 가용성을 확보.</li>
+          <li><strong>일일 전수 대조 배치로 Redis-DB 정합성 보장.</strong> Write-through만으로는 네트워크 오류나 애플리케이션 크래시 시 Redis와 DB 간 불일치가 발생할 수 있어, 일 1회 전수 대조 배치로 누락 건을 보정. 불일치 발견 시 Slack 알림과 함께 자동 보정을 실행해 운영자 개입 없이 정합성을 유지.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong><code>NOT IN</code> → <code>NOT EXISTS</code> to change join strategy.</strong> Converted uncorrelated subquery (<code>HASH JOIN RIGHT ANTI</code>) to correlated (<code>NESTED LOOPS ANTI</code>). Driving table flipped from 600K full scan to 2-row index scan.</li>
-          <li><strong>Full composite PK in correlation condition.</strong> Added leading PK columns to enable anti-join short-circuit on match.</li>
-          <li><strong>Eliminated HASH JOIN to relieve memory pressure.</strong> The 600K hash build exceeded PGA memory, spilling to temp tablespace — the direct cause of intermittent delays. <code>NESTED LOOPS ANTI</code> processes row-by-row with no bulk allocation.</li>
-          <li><strong>Redis Set-based processing status cache layer.</strong> Completed payment records loaded into Redis Set in real time; unprocessed-record lookup replaced anti-join query with Redis <code>SISMEMBER</code> O(1) lookup. Fully eliminated 600K-row history table scans, ensuring constant response time regardless of DB load.</li>
+          <li><strong>Oracle execution-plan-based emergency fix.</strong> Converted <code>NOT IN</code> (uncorrelated, <code>HASH JOIN RIGHT ANTI</code>) to <code>NOT EXISTS</code> (correlated, <code>NESTED LOOPS ANTI</code>) with full composite PK in correlation, flipping 600K full scan → 2-row index scan (936 s → 1–2 s). However, query tuning alone risked execution-plan regression on Oracle statistics changes as data grew.</li>
+          <li><strong>Redis Set cache layer to eliminate DB dependency.</strong> Write-through completed payment records into Redis Set, replacing anti-join queries with <code>SISMEMBER</code> O(1) lookups. Chose Redis over local cache (Caffeine) to prevent processing-status inconsistencies across multi-instance deployments. Automatic fallback to optimized <code>NOT EXISTS</code> query on Redis failure for availability.</li>
+          <li><strong>Daily full reconciliation batch for Redis-DB consistency.</strong> Write-through alone risks Redis-DB drift on network errors or application crashes; a daily full-comparison batch auto-corrects missing records with Slack alerting, maintaining consistency without operator intervention.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong><code>NOT IN</code>→<code>NOT EXISTS</code>転換で結合戦略を変更。</strong> 非相関サブクエリ（<code>HASH JOIN RIGHT ANTI</code>）を相関サブクエリ（<code>NESTED LOOPS ANTI</code>）へ転換。ドライビングテーブルが60万件フルスキャンからインデックススキャン2件へ逆転。</li>
-          <li><strong>複合PK全体を相関条件に含む。</strong> 既存の単一カラム比較から複合PK先頭カラムまで追加しanti-joinマッチング即スキップ（short-circuit）を確保。</li>
-          <li><strong>HASH JOIN除去でメモリ圧力を解消。</strong> 60万件ハッシュビルド時のPGAメモリ超過によるtemp tablespaceディスクスピルが間欠的遅延の直接原因。<code>NESTED LOOPS ANTI</code>は行単位処理で大量メモリ割当不要。</li>
-          <li><strong>Redis Set基盤処理状態キャッシュレイヤー構築。</strong> 決済完了件をRedis Setにリアルタイム搭載し、未処理件照会時にanti-joinクエリの代わりにRedis <code>SISMEMBER</code> O(1)照会で代替。60万件履歴テーブルフルスキャンを完全排除しDB負荷と無関係に一定応答時間を確保。</li>
+          <li><strong>Oracle実行計画分析基盤の応急措置。</strong> <code>NOT IN</code>（非相関、<code>HASH JOIN RIGHT ANTI</code>）を<code>NOT EXISTS</code>（相関、<code>NESTED LOOPS ANTI</code>）へ転換し複合PK全体を相関条件に含め、60万件フルスキャン→インデックススキャン2件へ逆転（936秒→1〜2秒）。ただしデータ増加時にOracle統計変更で実行計画が回帰する可能性があり、クエリチューニングだけでは根本解決が不可能と判断。</li>
+          <li><strong>Redis Set基盤処理状態キャッシュレイヤーでDB依存を除去。</strong> 決済完了件をRedis Setにwrite-throughでリアルタイム搭載し<code>SISMEMBER</code> O(1)照会でanti-joinクエリ自体を排除。ローカルキャッシュ（Caffeine）ではなくRedisを選択した理由はマルチインスタンス環境での処理状態不整合を防止するため。Redis障害時は最適化済み<code>NOT EXISTS</code>クエリへ自動フォールバックし可用性を確保。</li>
+          <li><strong>日次全数照合バッチでRedis-DB整合性を保証。</strong> Write-throughだけではネットワーク障害やアプリケーションクラッシュ時にRedisとDB間の不整合が発生し得るため、日次全数照合バッチで漏れ件を補正。不整合発見時はSlackアラートと共に自動補正を実行し運用者介入なく整合性を維持。</li>
         </ul>
         <p class="psc__label">
           <span lang="ko">결과</span>
@@ -328,9 +325,9 @@
       <article class="experience">
         <div class="experience__header">
           <span class="experience__company">
-            <span lang="ko">폐쇄망 이관 및 API 최적화 (전자금융업 등록)</span>
-            <span lang="en" hidden>Air-Gapped Migration & API Optimization (E-Finance Registration)</span>
-            <span lang="ja" hidden>閉域網移行およびAPI最適化（電子金融業登録）</span>
+            <span lang="ko">전자금융업 등록을 위한 무중단 폐쇄망 이관</span>
+            <span lang="en" hidden>Zero-Downtime Air-Gapped Migration for E-Finance Registration</span>
+            <span lang="ja" hidden>電子金融業登録のための無停止閉域網移行</span>
           </span>
           <span class="experience__period">Spring Boot, JPA, QueryDSL, MyBatis, Redis, Caffeine</span>
         </div>
@@ -344,21 +341,18 @@
           電子金融業登録要件によりクレジット・マイレージシステムを閉域網へ移行する必要があったが、レガシーAPIにN+1クエリと非効率インデックスが多数存在し、移行後の制限インフラでSLO達成が不可能な状態。クエリ最適化とRedisマルチティアキャッシュ導入で制限インフラでもSLOを達成。
         </p>
         <ul class="experience__list" lang="ko">
-          <li><strong>N+1 쿼리 제거 및 Fetch Join 전환.</strong> JPA 엔티티 연관관계 로딩 전략을 재설계하여 주요 조회 API의 쿼리 수를 대폭 감소. LAZY 로딩 후 루프 내 추가 쿼리가 발생하던 패턴을 Fetch Join 또는 <code>@EntityGraph</code>로 일괄 전환.</li>
-          <li><strong>QueryDSL 마이그레이션 및 인덱스 재설계.</strong> MyBatis XML 기반 복합 조건 쿼리를 QueryDSL로 전환하면서, 실행 계획 분석 기반으로 복합 인덱스를 재구성.</li>
-          <li><strong>Redis 멀티 티어 캐시(L1 Caffeine + L2 Redis).</strong> 자주 조회되는 크레딧 잔액·마일리지 정보를 L1 로컬 캐시(Caffeine)와 L2 Redis 캐시로 계층화. 잔액 변동 시 Kafka 이벤트로 캐시 무효화를 전파해 정합성을 보장하면서 DB 조회 부하를 대폭 감소.</li>
+          <li><strong>레거시 API 성능 정상화 (이관 선행 작업).</strong> N+1 쿼리를 Fetch Join/<code>@EntityGraph</code>로 일괄 전환(47회 → 4회)하고, MyBatis XML 복합 조건 쿼리를 QueryDSL로 마이그레이션하면서 실행 계획 기반으로 복합 인덱스를 재구성. 폐쇄망의 제한된 인프라 자원에서 SLO를 달성하기 위한 필수 선행 작업.</li>
+          <li><strong>Redis 멀티 티어 캐시(L1 Caffeine + L2 Redis).</strong> 자주 조회되는 크레딧 잔액·마일리지 정보를 L1(Caffeine, 단일 인스턴스 내 지연 최소화)과 L2(Redis, 인스턴스 간 일관성 보장)로 계층화. 잔액 변동 시 Kafka 이벤트로 L1·L2를 동시 무효화해 최종 일관성을 유지하면서 DB 조회 부하를 대폭 감소. 단일 Redis 캐시 대비 L1 히트 시 네트워크 라운드트립을 제거해 p99 응답 시간을 추가 단축.</li>
           <li><strong>무중단 DB 마이그레이션.</strong> 듀얼 라이트 기간 동안 구·신 DB에 동시 쓰기를 수행하고, 건별 해시 비교 스크립트로 불일치를 실시간 감지. 불일치율 0% 확인 후 읽기 전환 → 쓰기 전환 순서로 단계적 트래픽 스위칭을 실행해 다운타임 없이 전환 완료. 불일치율 임계치 초과 또는 에러율 급증 시 자동 롤백하는 트리거를 사전 설정하고, 시나리오별 롤백 절차서를 수립.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li><strong>Eliminated N+1 queries with Fetch Join.</strong> Redesigned JPA entity loading strategies to drastically reduce query counts. Converted LAZY-loading loop patterns to Fetch Join or <code>@EntityGraph</code>.</li>
-          <li><strong>QueryDSL migration and index redesign.</strong> Migrated MyBatis XML complex-condition queries to QueryDSL and rebuilt composite indexes based on execution plan analysis.</li>
-          <li><strong>Redis multi-tier cache (L1 Caffeine + L2 Redis).</strong> Tiered frequently-queried credit balance and mileage data into L1 local cache (Caffeine) and L2 Redis cache. Cache invalidation propagated via Kafka events on balance changes, ensuring consistency while drastically reducing DB query load.</li>
+          <li><strong>Legacy API performance normalization (migration prerequisite).</strong> Batch-converted N+1 queries to Fetch Join/<code>@EntityGraph</code> (47 → 4 queries) and migrated MyBatis XML queries to QueryDSL with execution-plan-based composite index redesign. Essential prerequisite for meeting SLO on constrained air-gapped infrastructure.</li>
+          <li><strong>Redis multi-tier cache (L1 Caffeine + L2 Redis).</strong> Tiered frequently-queried credit balance and mileage data into L1 (Caffeine, minimizing intra-instance latency) and L2 (Redis, ensuring cross-instance consistency). Kafka events invalidate L1 and L2 simultaneously on balance changes for eventual consistency. L1 hits eliminate network round-trips vs. single-Redis cache, further reducing p99 response time.</li>
           <li><strong>Zero-downtime DB migration.</strong> Dual-wrote to old and new DBs simultaneously, detecting inconsistencies in real time via per-record hash comparison scripts. After confirming 0% mismatch rate, executed phased traffic switching (read → write) with zero downtime. Pre-configured automatic rollback triggers on mismatch-rate threshold breach or error-rate spikes, with per-scenario rollback runbooks.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li><strong>N+1クエリ除去およびFetch Join転換。</strong> JPAエンティティのローディング戦略を再設計し主要照会APIのクエリ数を大幅削減。LAZYローディング後ループ内追加クエリパターンをFetch Joinまたは<code>@EntityGraph</code>へ一括転換。</li>
-          <li><strong>QueryDSL移行およびインデックス再設計。</strong> MyBatis XML基盤の複合条件クエリをQueryDSLへ転換しながら、実行計画分析に基づき複合インデックスを再構成。</li>
-          <li><strong>Redisマルチティアキャッシュ（L1 Caffeine＋L2 Redis）。</strong> 頻繁照会されるクレジット残高・マイレージ情報をL1ローカルキャッシュ（Caffeine）とL2 Redisキャッシュに階層化。残高変動時にKafkaイベントでキャッシュ無効化を伝播し整合性を保証しながらDB照会負荷を大幅削減。</li>
+          <li><strong>レガシーAPI性能正常化（移行先行作業）。</strong> N+1クエリをFetch Join/<code>@EntityGraph</code>へ一括転換（47回→4回）し、MyBatis XML複合条件クエリをQueryDSLへ移行しながら実行計画基盤で複合インデックスを再構成。閉域網の制限インフラでSLOを達成するための必須先行作業。</li>
+          <li><strong>Redisマルチティアキャッシュ（L1 Caffeine＋L2 Redis）。</strong> 頻繁照会されるクレジット残高・マイレージ情報をL1（Caffeine、単一インスタンス内遅延最小化）とL2（Redis、インスタンス間一貫性保証）に階層化。残高変動時にKafkaイベントでL1・L2を同時無効化し最終一貫性を維持しつつDB照会負荷を大幅削減。単一Redisキャッシュ比でL1ヒット時にネットワークラウンドトリップを排除しp99応答時間をさらに短縮。</li>
           <li><strong>無停止DBマイグレーション。</strong> デュアルライト期間中に旧・新DBへ同時書込を行い、件別ハッシュ比較スクリプトで不整合をリアルタイム検知。不整合率0%確認後、読取→書込の順に段階的トラフィックスイッチングを実行しダウンタイムゼロで移行完了。不整合率閾値超過またはエラー率急増時の自動ロールバックトリガーを事前設定し、シナリオ別ロールバック手順書を策定。</li>
         </ul>
         <p class="psc__label">

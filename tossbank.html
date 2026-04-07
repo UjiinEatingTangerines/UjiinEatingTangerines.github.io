@@ -71,7 +71,7 @@
         <p class="experience__team">Kafka 이벤트 소싱 + Saga 패턴 기반 결제·정산 파이프라인 재설계</p>
         <ul class="experience__list">
           <li>문제: 월 100만 건 이상의 충전 완료 건을 처리하는 결제 시스템에서 3초 주기 스케줄러가 충전 완료 건을 읽어 6개 결제 수단 차감, 시간 기반 보류 상태 전이, 재청구, 정산 집계까지 한 흐름에서 수행했습니다. 결제·정산 규칙이 단일 Java+MyBatis 오케스트레이터와 SummaryContext에 누적되어, 정책 변경 시 영향 범위가 넓고 실패 건 추적과 재처리 판단이 느렸습니다.</li>
-          <li>해결: 3초 폴링을 <strong>Kafka</strong> 이벤트 소싱(충전 완료 → 결제 → 정산 토픽 체인)으로 전환하고, <strong>Transactional Outbox</strong> 패턴으로 이벤트 발행의 원자성을 보장했습니다(CDC는 DB 변경 로그 의존으로 스키마 변경에 취약해 Outbox를 선택). 6단계 결제를 <strong>Saga 패턴</strong>으로 오케스트레이션해 중간 실패 시 Kafka 보상 이벤트로 자동 롤백. <strong>Redis Streams</strong> 기반 우선순위 큐로 실패 건을 심각도별 자동 분류·재처리하고, <strong>Kafka Streams</strong> 윈도우 조인으로 정산 정합성 검증(reconciliation)를 준실시간 처리해 감지 지연을 수 시간에서 수 초로 단축했습니다.</li>
+          <li>해결: 3초 폴링 스케줄러를 <strong>Kafka</strong> 이벤트 소싱 아키텍처(충전 완료 → 결제 → 정산 토픽 체인)로 전환하고, <strong>Transactional Outbox</strong> 패턴으로 이벤트 발행의 원자성을 보장했습니다(CDC는 DB 변경 로그 의존으로 스키마 변경에 취약해 Outbox를 선택). 6단계 결제를 <strong>Saga 패턴</strong>으로 오케스트레이션해 중간 실패 시 Kafka 보상 이벤트로 자동 롤백. <strong>Redis Streams</strong> 기반 우선순위 큐로 실패 건을 심각도별 자동 분류·재처리하고, <strong>Kafka Streams</strong> 윈도우 조인으로 정산 정합성 검증(reconciliation)를 준실시간 처리해 감지 지연을 수 시간에서 수 초로 단축했습니다.</li>
           <li>결과: Kafka 이벤트 소싱으로 폴링 기반 지연·누락을 원천 제거하고, Saga + Transactional Outbox로 분산 트랜잭션 정합성을 보장하며, Kafka Streams 준실시간 정합성 검증로 장애 추적성과 재청구 정합성을 높였습니다.</li>
         </ul>
       </article>
@@ -116,7 +116,7 @@
 
         <p class="experience__team">테크팀 — 플랫폼 셀 (2026.03 — 현재)</p>
         <ul class="experience__list">
-          <li>3초 폴링을 <strong>Kafka</strong> 이벤트 소싱으로 전환하고, <strong>Saga 패턴 + Transactional Outbox</strong>로 6단계 결제의 분산 트랜잭션 정합성을 보장. <strong>Redis Streams</strong> 우선순위 큐와 <strong>Kafka Streams</strong> 준실시간 정합성 검증로 정산 불일치 감지 지연을 수 초로 단축했습니다.</li>
+          <li>폴링 기반 결제 시스템을 <strong>Kafka</strong> 이벤트 소싱 아키텍처로 전환하고, <strong>Saga 패턴 + Transactional Outbox</strong>로 6단계 결제의 분산 트랜잭션 정합성을 보장. <strong>Redis Streams</strong> 우선순위 큐와 <strong>Kafka Streams</strong> 준실시간 정합성 검증로 정산 불일치 감지 지연을 수 초로 단축했습니다.</li>
           <li>회원 유형별 할인·단가 규칙이 누적된 정산 파이프라인을 도메인 규칙 단위로 분리하고, 멤버십별 정산 모듈로 나눠 정책 변경 시 수정 범위를 줄였습니다.</li>
           <li>월 220만 건+ 규모의 13개 서비스 메시징을 <strong>Kafka</strong> 토픽 기반 채널 라우팅 + <strong>Schema Registry(Avro)</strong>로 통합하고, <strong>Kafka Streams</strong> 실시간 분석과 <strong>Redis Sorted Set</strong> 우선순위 재처리를 적용해 신규 채널 추가를 3주 → 3일로 단축했습니다.</li>
         </ul>
@@ -125,7 +125,7 @@
         <ul class="experience__list">
           <li><strong>Redis</strong> 분산 락·멱등성 키 + <strong>Kafka</strong> 이벤트 기반 잔액 캐시 무효화로 크레딧·마일리지 원장의 동시 차감과 중복 결제를 방지하고, 잔액 변동 이력 추적 구조를 구축했습니다.</li>
           <li><strong>Saga 패턴</strong>으로 6단계 순차 차감 결제를 오케스트레이션하고, <strong>Kafka</strong> 보상 이벤트 + <strong>Redis</strong> 멱등성 키로 부분 결제 실패 시 자동 롤백을 구현했습니다.</li>
-          <li><strong>Redis 멀티 티어 캐시</strong>(L1 Caffeine + L2 Redis) + <strong>JPA Fetch Join·QueryDSL</strong> 쿼리 최적화(47회 → 4회)로 API 응답 87% 개선, 무중단 폐쇄망 이관을 완료했습니다.</li>
+          <li>레거시 API 성능 정상화(47회 → 4회) 후 <strong>Redis 멀티 티어 캐시</strong>(L1 Caffeine + L2 Redis)를 도입하고, 듀얼 라이트 + 건별 해시 비교 + 자동 롤백 트리거 기반 <strong>무중단 폐쇄망 이관</strong>을 완료했습니다.</li>
           <li><strong>Redis TTL + Keyspace Notification</strong> 기반 실시간 만료 감지와 <strong>Kafka exactly-once</strong> 파이프라인 + <strong>Virtual Thread(Java 21)</strong> 병렬 처리로 수만 건 크레딧 만료를 1~2분 내 안정 처리했습니다.</li>
         </ul>
       </article>
