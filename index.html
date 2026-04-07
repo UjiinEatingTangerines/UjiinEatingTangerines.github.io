@@ -85,25 +85,25 @@
         </p>
 
         <ul class="experience__list" lang="ko">
-          <li>충전 요금 결제 시 크레딧·마일리지·포인트·카드 등 6개 결제수단의 순차 차감에서 월 12건 발생하던 잔액 불일치가 과금 클레임과 정산 오류로 이어지는 문제를 해결하기 위해 결제 파이프라인을 이벤트 기반으로 재설계하고, 잔액 불일치를 <span class="highlight">100% 해소</span>해 고객 과금 신뢰도와 정산 정확성을 확보.</li>
-          <li>결제 실패와 정산 오류를 운영자가 수동으로 추적·재처리하느라 장애 대응 속도가 느리고 인적 오류가 반복되던 상황을 개선하기 위해 심각도 기반 자동 재처리와 준실시간 정합성 검증을 도입하고, 오류 감지를 <span class="highlight">수 시간에서 수 초로 단축</span>해 운영팀의 수동 개입을 대폭 축소.</li>
-          <li>13개 서비스가 각자 벤더 API를 직접 호출해 채널 추가·벤더 교체 시 전 서비스를 수정해야 했고 발송 실패를 수동으로 확인해야 하던 문제를 해결하기 위해 월 220만 건+ 규모의 통합 메시징 플랫폼을 구축하고, 신규 채널 추가 소요를 <span class="highlight">3주에서 3일로 단축</span>해 마케팅·CS 대응 속도를 개선.</li>
+          <li>일 최대 2만 건 이상, 월 최대 60만 건 이상의 충전 결제를 처리하는 시스템에서, 6개 결제수단 순차 차감 시 월 12건 발생하던 잔액 불일치가 과금 클레임과 정산 오류로 이어지는 문제를 이벤트 기반 결제 파이프라인 재설계로 해결해 잔액 불일치를 <span class="highlight">100% 해소</span>하고 고객 과금 신뢰도와 정산 정확성을 확보.</li>
+          <li>오류 감지가 Slack 알림에만 의존하고, 원인 파악을 위해 원격 서버에 접속해 로그 파일을 직접 확인해야 해서 장애 대응이 느리고 인적 오류가 반복되던 환경에 심각도 기반 자동 재처리와 준실시간 정합성 검증을 도입해 오류 감지에서 복구까지 걸리던 시간을 <span class="highlight">수 시간에서 수 초로 단축</span>하고 운영팀의 수동 서버 접속을 제거.</li>
+          <li>13개 서비스가 각자 벤더 API를 직접 호출해 채널 추가·벤더 교체 시 전 서비스를 수정해야 했고 발송 실패를 수동으로 확인해야 하던 문제를 월 220만 건+ 규모의 통합 메시징 플랫폼 구축으로 해결하고, 신규 채널 추가 소요를 <span class="highlight">3주에서 3일로 단축</span>해 마케팅·CS 대응 속도를 개선.</li>
           <li>전자금융업 등록을 위해 크레딧·마일리지 시스템을 폐쇄망으로 이관해야 했으나 레거시 API가 제한된 인프라에서 SLO를 충족하지 못하는 상황이었기에, API 성능 개선과 캐시 계층화를 선행하고 서비스 무중단으로 DB 마이그레이션을 완료해 전자금융업 등록 인프라 요건을 충족.</li>
-          <li>크레딧 만료 처리가 체계화되지 않아 만료 대상이 잔액에 그대로 남고, 재무 보고 시 수익 인식 시점이 불명확하던 문제를 해결하기 위해 실시간 만료 감지와 회계 기준 수익 전환 체계를 구축하고, 금결원 보고 기준 재무 보고 정확도 <span class="highlight">100%</span>를 달성.</li>
+          <li>크레딧 만료 처리가 체계화되지 않아 만료 대상이 잔액에 그대로 남고, 재무 보고 시 수익 인식 시점이 불명확하던 문제를 실시간 만료 감지와 회계 기준 수익 전환 체계 구축으로 해결하고, 금결원 보고 기준 재무 보고 정확도 <span class="highlight">100%</span>를 달성.</li>
         </ul>
         <ul class="experience__list" lang="en" hidden>
-          <li>Monthly balance discrepancies (12 cases/month) across 6 payment methods were causing billing complaints and settlement errors. Redesigned the payment pipeline as an event-driven architecture, achieving <span class="highlight">100% elimination</span> of discrepancies and securing billing reliability and settlement accuracy.</li>
-          <li>Operators manually tracked payment failures and settlement errors, leading to slow incident response and recurring human errors. Introduced severity-based auto-retry and near-real-time reconciliation, reducing error detection from <span class="highlight">hours to seconds</span> and significantly cutting manual intervention.</li>
+          <li>In a system processing 20K+ transactions/day and 600K+/month, balance discrepancies (12 cases/month) across 6 payment methods were causing billing complaints and settlement errors. Redesigned the payment pipeline as an event-driven architecture, achieving <span class="highlight">100% elimination</span> of discrepancies and securing billing reliability and settlement accuracy.</li>
+          <li>Error detection relied solely on Slack alerts, and root-cause analysis required remote server access to manually inspect log files, leading to slow incident response and recurring human errors. Introduced severity-based auto-retry and near-real-time reconciliation, reducing error detection-to-recovery from <span class="highlight">hours to seconds</span> and eliminating manual server access for the operations team.</li>
           <li>13 services each called vendor APIs directly, requiring full-service modifications for channel additions and manual failure checks. Built a unified messaging platform handling 2.2M+ messages/month, cutting new channel onboarding from <span class="highlight">3 weeks to 3 days</span> and accelerating marketing and CS responsiveness.</li>
           <li>E-finance registration required air-gapped migration, but legacy APIs couldn't meet SLO on constrained infrastructure. Completed API optimization and cache tiering as prerequisites, then executed zero-downtime DB migration to fulfill regulatory infrastructure requirements.</li>
           <li>Unstructured credit expiration left expired credits in balances with ambiguous revenue recognition timing for regulatory reports. Built real-time expiration detection and accounting-aligned revenue transfer, achieving <span class="highlight">100%</span> financial reporting accuracy for KFTC compliance.</li>
         </ul>
         <ul class="experience__list" lang="ja" hidden>
-          <li>充電料金決済時に6種決済手段の順次差引で月12件発生していた残高不一致が課金クレームと精算エラーにつながっていた問題を解決するため、決済パイプラインをイベント駆動で再設計し残高不一致を<span class="highlight">100%解消</span>、顧客課金信頼度と精算正確性を確保。</li>
-          <li>決済失敗と精算エラーを運用者が手動で追跡・再処理しており障害対応速度が遅く人的ミスが繰り返されていた状況を改善するため、深刻度基盤自動再処理と準リアルタイム整合性検証を導入しエラー検知を<span class="highlight">数時間から数秒に短縮</span>、運用チームの手動介入を大幅縮小。</li>
-          <li>13サービスがそれぞれベンダーAPIを直接呼出しチャネル追加・ベンダー変更時に全サービス修正が必要で配信失敗も手動確認していた問題を解決するため、月220万件以上の統合メッセージングプラットフォームを構築し新規チャネル追加所要を<span class="highlight">3週間から3日に短縮</span>、マーケティング・CS対応速度を改善。</li>
+          <li>日最大2万件以上、月最大60万件以上の充電決済を処理するシステムで、6種決済手段の順次差引時に月12件発生していた残高不一致が課金クレームと精算エラーにつながっていた問題を、イベント駆動決済パイプラインの再設計で解決し残高不一致を<span class="highlight">100%解消</span>、顧客課金信頼度と精算正確性を確保。</li>
+          <li>エラー検知がSlackアラートにのみ依存し、原因把握のためにリモートサーバーへ接続しログファイルを直接確認する必要があり障害対応が遅く人的ミスが繰り返されていた環境に、深刻度基盤自動再処理と準リアルタイム整合性検証を導入しエラー検知から復旧までの所要を<span class="highlight">数時間から数秒に短縮</span>、運用チームの手動サーバー接続を排除。</li>
+          <li>13サービスがそれぞれベンダーAPIを直接呼出しチャネル追加・ベンダー変更時に全サービス修正が必要で配信失敗も手動確認していた問題を、月220万件以上の統合メッセージングプラットフォーム構築で解決し新規チャネル追加所要を<span class="highlight">3週間から3日に短縮</span>、マーケティング・CS対応速度を改善。</li>
           <li>電子金融業登録のためクレジット・マイレージシステムを閉域網へ移行する必要があったがレガシーAPIが制限インフラでSLOを満たせない状況であったため、API性能改善とキャッシュ階層化を先行しサービス無停止でDBマイグレーションを完了し電子金融業登録インフラ要件を充足。</li>
-          <li>クレジット満了処理が体系化されておらず満了対象が残高にそのまま残り、財務報告時の収益認識タイミングが不明確だった問題を解決するため、リアルタイム満了検知と会計基準収益転換体系を構築し金決院報告基準の財務報告正確度<span class="highlight">100%</span>を達成。</li>
+          <li>クレジット満了処理が体系化されておらず満了対象が残高にそのまま残り、財務報告時の収益認識タイミングが不明確だった問題を、リアルタイム満了検知と会計基準収益転換体系の構築で解決し金決院報告基準の財務報告正確度<span class="highlight">100%</span>を達成。</li>
         </ul>
       </article>
 
