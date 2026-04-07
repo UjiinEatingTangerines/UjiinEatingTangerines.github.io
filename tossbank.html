@@ -81,7 +81,7 @@
           <span class="experience__company">SK일렉링크</span>
           <span class="experience__period">2023.01 — 2026.02</span>
         </div>
-        <p class="experience__team">크레딧 원장 일괄 충전 — Spring Batch Partitioned Step + Kafka 이벤트 발행</p>
+        <p class="experience__team">크레딧 원장 일괄 충전: Spring Batch Partitioned Step과 Kafka 이벤트 발행</p>
         <ul class="experience__list">
           <li>문제: 크레딧 일괄 충전이 동기 단일 트랜잭션으로 처리되어 1시간 이상 소요됐고, 처리 중 잔액 정합성 검증 없이 진행되어 부분 실패 시 롤백 범위를 특정하기 어려웠습니다.</li>
           <li>해결: <strong>Spring Batch Partitioned Step</strong>으로 충전 대상을 자동 분할하고 워커를 수평 확장해 병렬 처리. 건별 <strong>Redis</strong> 멱등성 키를 부여해 부분 실패 시에도 재시도가 안전하도록 정리했습니다. <strong>Redis Streams</strong>로 실시간 진행률을 추적하고, 충전 완료 건마다 <strong>Kafka</strong> 이벤트를 발행해 잔액 캐시 무효화와 후속 정산 시스템의 자동 연동을 구현했습니다.</li>
@@ -94,7 +94,7 @@
           <span class="experience__company">SK일렉링크</span>
           <span class="experience__period">2023.01 — 2026.02</span>
         </div>
-        <p class="experience__team">Split Payment Saga 오케스트레이션 — 6단계 순차 차감과 Kafka 보상 이벤트</p>
+        <p class="experience__team">Split Payment Saga 오케스트레이션: 6단계 순차 차감과 Kafka 보상 이벤트</p>
         <ul class="experience__list">
           <li>문제: 무상 크레딧 → B2B 크레딧 → 마일리지 → 파트너 포인트 → 신용카드(Nicepay PG) → 포인트 적립 순서의 결제 로직이 단일 메서드에 하드코딩되어 있었고, 중간 단계 실패 시 이전 차감 건의 보상 트랜잭션이 없어 부분 결제 상태가 남을 수 있었습니다.</li>
           <li>해결: 각 결제 수단을 <strong>Saga 패턴</strong>의 독립 스텝으로 분리하고, 중간 단계 실패 시 <strong>Kafka</strong> 보상 이벤트로 이전 차감 건을 자동 롤백. <strong>Redis</strong> 멱등성 키로 단계별 중복 실행을 방지하고, <strong>Transactional Outbox</strong>로 이벤트 발행의 원자성을 보장했습니다. 결제 단계를 플러그인 구조로 설계해 신규 결제수단 추가 시 스텝 모듈 하나만 구현하면 Saga에 자동 등록.</li>
@@ -114,7 +114,7 @@
         <p class="experience__company-desc">전기차 충전 인프라를 기반으로 충전·결제·데이터 서비스를 운영하는 그린 모빌리티 플랫폼 기업.</p>
         <p class="experience__role">백엔드 엔지니어 · 서울 송파구</p>
 
-        <p class="experience__team">테크팀 — 플랫폼 셀 (2026.03 — 현재)</p>
+        <p class="experience__team">테크팀 · 플랫폼 셀 (2026.03 — 현재)</p>
         <ul class="experience__list">
           <li>폴링 기반 결제 시스템을 <strong>Kafka</strong> 이벤트 소싱 아키텍처로 전환하고, <strong>Saga 패턴 + Transactional Outbox</strong>로 6단계 결제의 분산 트랜잭션 정합성을 보장. <strong>Redis Streams</strong> 우선순위 큐와 <strong>Kafka Streams</strong> 준실시간 정합성 검증로 정산 불일치 감지 지연을 수 초로 단축했습니다.</li>
           <li>회원 유형별 할인·단가 규칙이 누적된 정산 파이프라인을 도메인 규칙 단위로 분리하고, 멤버십별 정산 모듈로 나눠 정책 변경 시 수정 범위를 줄였습니다.</li>
