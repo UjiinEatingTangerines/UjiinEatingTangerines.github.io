@@ -18,7 +18,11 @@
       <p class="header__title">백엔드 엔지니어</p>
 
       <div class="header__contact-info">
+        <span>서울특별시 중랑구</span>
+        <span class="sep" aria-hidden="true">/</span>
         <span>+82 9625 2784</span>
+        <span class="sep" aria-hidden="true">/</span>
+        <a href="mailto:kkepm012@naver.com">kkepm012@naver.com</a>
         <span class="sep" aria-hidden="true">/</span>
         <a href="mailto:1996.devjiinu@gmail.com">1996.devjiinu@gmail.com</a>
       </div>
@@ -32,10 +36,10 @@
 
     <section class="section">
       <h2 class="section__title">Profile</h2>
-      <p class="profile__tagline">빠르게 대응하되, 같은 문제가 반복되지 않는 구조를 만들기 전에는 끝내지 않습니다.</p>
       <p class="profile__text">
-        충전 결제·정산 시스템에서 금액 정합성 확보, 장애 자동 복구, 고객 알림 통합, 전자금융업 규제 대응까지 결제 흐름 전반의 백엔드를 개발·운영하고 있습니다.
-        결제 정합성 문제를 진단하고 해소해 온 경험이 있으며, 운영 중인 시스템의 구조를 전환할 때 전환 전후의 정합성을 검증할 수 있는 안전장치를 설계하는 것을 중요하게 생각합니다.
+        Java/Kotlin 기반 백엔드 엔지니어로 6년간 도시가스, 전기차 충전, 금융/정산 도메인에서 API와 정산·결제·크레딧 시스템을 설계하고 운영해 왔습니다.
+        정책과 예외가 누적되며 시스템 경계가 흐려질 때 데이터 모델, API 경계, 배치 흐름을 다시 정의해 정합성과 운영 효율을 함께 회복하는 역할을 맡아 왔고, 현재 SK일렉링크에서 포인트·결제 시스템과 레거시 재설계를 담당하고 있습니다.
+        금융·정산 시스템에서 기능 추가보다 변경 영향 범위를 줄이는 구조 설계, 운영 자동화, 팀 공통 SDK와 플랫폼 구축에 강점을 가진 백엔드 엔지니어입니다.
       </p>
     </section>
 
@@ -44,36 +48,28 @@
       <div class="skills__list">
         <div class="skills__row">
           <span class="skills__label">Backend</span>
-          <span class="skills__value">Java (21, Virtual Thread), Kotlin, Node.js / Spring Boot, Spring Batch / JPA, QueryDSL, MyBatis / Saga, Transactional Outbox</span>
+          <span class="skills__value">Java, Kotlin, Node.js / Spring Boot, Spring Batch / MyBatis, JPA, QueryDSL / 정산·결제·크레딧·배치 설계</span>
         </div>
         <div class="skills__row">
-          <span class="skills__label">Data &amp; Messaging</span>
-          <span class="skills__value">Redis (분산 락, 멱등성 키, Streams, Sorted Set, TTL Keyspace Notification, 멀티 티어 캐시) / Kafka (이벤트 소싱, Streams, exactly-once, Schema Registry, DLQ) / AWS SQS, EventBridge</span>
-        </div>
-        <div class="skills__row">
-          <span class="skills__label">Database</span>
-          <span class="skills__value">Oracle (실행 계획 분석, 복합 인덱스 설계, 안티조인 최적화)</span>
-        </div>
-        <div class="skills__row">
-          <span class="skills__label">Infra &amp; Monitoring</span>
-          <span class="skills__value">AWS (SQS, SNS, EventBridge, CloudWatch) / GitHub Packages, Nexus</span>
+          <span class="skills__label">Infra &amp; Tools</span>
+          <span class="skills__value">AWS (SQS, EventBridge) / Git, GitHub Packages, Nexus, Jira / API 경계 설계, SDK 배포, 운영 자동화</span>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2 class="section__title">Problem Solving</h2>
+      <h2 class="section__title">Selected Problem Solving Cases</h2>
 
       <article class="experience">
         <div class="experience__header">
           <span class="experience__company">SK일렉링크</span>
           <span class="experience__period">2026.03 — 현재</span>
         </div>
-        <p class="experience__team">Kafka 이벤트 소싱 + Saga 패턴 기반 결제·정산 파이프라인 재설계</p>
+        <p class="experience__team">정산/미결제 재처리 스케줄러 재설계</p>
         <ul class="experience__list">
-          <li>문제: 월 100만 건 이상의 충전 완료 건을 처리하는 결제 시스템에서 3초 주기 스케줄러가 충전 완료 건을 읽어 6개 결제 수단 차감, 시간 기반 보류 상태 전이, 재청구, 정산 집계까지 한 흐름에서 수행했습니다. 결제·정산 규칙이 단일 Java+MyBatis 오케스트레이터와 SummaryContext에 누적되어, 정책 변경 시 영향 범위가 넓고 실패 건 추적과 재처리 판단이 느렸습니다.</li>
-          <li>해결: 3초 폴링 스케줄러를 <strong>Kafka</strong> 이벤트 소싱 아키텍처(충전 완료 → 결제 → 정산 토픽 체인)로 전환하고, <strong>Transactional Outbox</strong> 패턴으로 이벤트 발행의 원자성을 보장했습니다(CDC는 DB 변경 로그 의존으로 스키마 변경에 취약해 Outbox를 선택). 6단계 결제를 <strong>Saga 패턴</strong>으로 오케스트레이션해 중간 실패 시 Kafka 보상 이벤트로 자동 롤백. <strong>Redis Streams</strong> 기반 우선순위 큐로 실패 건을 심각도별 자동 분류·재처리하고, <strong>Kafka Streams</strong> 윈도우 조인으로 정산 정합성 검증(reconciliation)를 준실시간 처리해 감지 지연을 수 시간에서 수 초로 단축했습니다.</li>
-          <li>결과: Kafka 이벤트 소싱으로 폴링 기반 지연·누락을 원천 제거하고, Saga + Transactional Outbox로 분산 트랜잭션 정합성을 보장하며, Kafka Streams 준실시간 정합성 검증로 장애 추적성과 재청구 정합성을 높였습니다.</li>
+          <li>문제: 자사 충전소 및 로밍 아웃 충전소의 미정산·미결제 재처리와 충전 완료 데이터 생성을 담당하는 스케줄러가 Java+MyBatis 구조, 과도한 Join 쿼리, Data 레이어 중심 비즈니스 로직에 묶여 있어 정책 변경과 장애 대응 시 영향 범위가 너무 넓었습니다.</li>
+          <li>해결: Kotlin+JPA/QueryDSL 구조로 전환하면서 MyBatis Join 기반 테이블 결합을 제거하고, 프로젝트가 직접 관리하는 테이블만 다루도록 경계를 다시 설계했습니다. 외부 테이블 의존은 API 호출로 분리하고, 비즈니스 로직은 서비스 레이어로 이동시켜 이벤트 드리븐 구조로 재설계했습니다.</li>
+          <li>판단/효과: 조회 편의보다 변경 가능성과 장애 격리를 우선하는 방향으로 구조를 바꿔, 정산 정책이 추가되더라도 수정 지점을 예측 가능하게 만들고 운영 리스크를 낮췄습니다.</li>
         </ul>
       </article>
 
@@ -82,11 +78,11 @@
           <span class="experience__company">SK일렉링크</span>
           <span class="experience__period">2023.01 — 2026.02</span>
         </div>
-        <p class="experience__team">크레딧 원장 일괄 충전: Spring Batch Partitioned Step과 Kafka 이벤트 발행</p>
+        <p class="experience__team">크레딧 일괄 충전 성능 개선</p>
         <ul class="experience__list">
-          <li>문제: 크레딧 일괄 충전이 동기 단일 트랜잭션으로 처리되어 1시간 이상 소요됐고, 처리 중 잔액 정합성 검증 없이 진행되어 부분 실패 시 롤백 범위를 특정하기 어려웠습니다.</li>
-          <li>해결: <strong>Spring Batch Partitioned Step</strong>으로 충전 대상을 자동 분할하고 워커를 수평 확장해 병렬 처리. 건별 <strong>Redis</strong> 멱등성 키를 부여해 부분 실패 시에도 재시도가 안전하도록 정리했습니다. <strong>Redis Streams</strong>로 실시간 진행률을 추적하고, 충전 완료 건마다 <strong>Kafka</strong> 이벤트를 발행해 잔액 캐시 무효화와 후속 정산 시스템의 자동 연동을 구현했습니다.</li>
-          <li>결과: 처리 시간을 1시간에서 8분으로 단축하고(Partitioned Step 병렬화), 부분 실패 시 영향 범위를 파티션 단위로 격리해 운영 안정성을 높였습니다. Kafka 이벤트 연동으로 후속 시스템의 수동 동기화를 제거했습니다.</li>
+          <li>문제: 크레딧 일괄 충전 작업이 장시간 동기 처리에 의존해 운영자가 직접 기다려야 했고, 대량 처리 시 서비스 운영 부담이 커졌습니다.</li>
+          <li>해결: Spring Batch 기반 비동기 배치로 일괄 충전 로직을 재구현해 운영자 대기 구간과 실제 대량 처리 구간의 실행 경계를 분리하고, 충전 대상을 배치 단위로 나눠 작업 흐름을 운영 가능한 단위로 다시 구성했습니다.</li>
+          <li>결과: 기존 1시간 소요 작업을 20분으로 단축해 처리 시간을 66% 개선했습니다.</li>
         </ul>
       </article>
 
@@ -95,39 +91,56 @@
           <span class="experience__company">SK일렉링크</span>
           <span class="experience__period">2023.01 — 2026.02</span>
         </div>
-        <p class="experience__team">Split Payment Saga 오케스트레이션: 6단계 순차 차감과 Kafka 보상 이벤트</p>
+        <p class="experience__team">운영 업무 자동화와 내부 도구 내재화</p>
         <ul class="experience__list">
-          <li>문제: 무상 크레딧 → B2B 크레딧 → 마일리지 → 파트너 포인트 → 신용카드(Nicepay PG) → 포인트 적립 순서의 결제 로직이 단일 메서드에 하드코딩되어 있었고, 중간 단계 실패 시 이전 차감 건의 보상 트랜잭션이 없어 부분 결제 상태가 남을 수 있었습니다.</li>
-          <li>해결: 각 결제 수단을 <strong>Saga 패턴</strong>의 독립 스텝으로 분리하고, 중간 단계 실패 시 <strong>Kafka</strong> 보상 이벤트로 이전 차감 건을 자동 롤백. <strong>Redis</strong> 멱등성 키로 단계별 중복 실행을 방지하고, <strong>Transactional Outbox</strong>로 이벤트 발행의 원자성을 보장했습니다. 결제 단계를 플러그인 구조로 설계해 신규 결제수단 추가 시 스텝 모듈 하나만 구현하면 Saga에 자동 등록.</li>
-          <li>결과: 결제 수단 추가 시 수정 범위를 스텝 모듈 1개로 한정하고, Saga 보상 이벤트로 부분 결제 잔류를 원천 방지했습니다. 단계별 처리 시간·실패율을 Kafka Streams로 실시간 모니터링.</li>
+          <li>문제: JIRA 기반 민원 처리와 수동 주문 업무가 반복적으로 발생해 운영자별 수작업이 많았고, 중요한 업무보다 반복 대응에 시간이 소모됐습니다.</li>
+          <li>해결: JIRA 민원 티켓 처리를 Admin 기능으로 내재화하고, 그 이후 흐름은 Jira 보드 자동화 기능과 PR 알림 봇으로 이어지게 구성해 운영 처리, 개발 공유, 수동 주문 업무 자동화가 한 워크플로우 안에서 연결되도록 재구성했습니다.</li>
+          <li>결과: 담당자별 하루 60건 수준의 수동 처리를 0~3건으로 줄여 95% 자동화했습니다.</li>
         </ul>
       </article>
     </section>
 
     <section class="section">
-      <h2 class="section__title">Experience</h2>
+      <h2 class="section__title">Professional Experience</h2>
 
       <article class="experience">
         <div class="experience__header">
           <span class="experience__company">SK일렉링크</span>
-          <span class="experience__period">2022.05 — 현재</span>
+          <span class="experience__period">2023.01 — 현재</span>
         </div>
-        <p class="experience__role">백엔드 엔지니어</p>
+        <p class="experience__company-desc">전기차 충전 인프라를 기반으로 충전·결제·데이터 서비스를 운영하는 그린 모빌리티 플랫폼 기업.</p>
+        <p class="experience__role">백엔드 엔지니어 · 서울 송파구</p>
 
-        <p class="experience__team">결제·정산 파이프라인 재설계 및 메시징 플랫폼 구축 (2026.03 — 현재)</p>
+        <p class="experience__team">테크팀 — 플랫폼 셀 (2026.03 — 현재)</p>
         <ul class="experience__list">
-          <li>폴링 기반 결제 시스템을 <strong>Kafka</strong> 이벤트 소싱 아키텍처로 전환하고, <strong>Saga 패턴 + Transactional Outbox</strong>로 6단계 결제의 분산 트랜잭션 정합성을 보장. <strong>Redis Streams</strong> 우선순위 큐와 <strong>Kafka Streams</strong> 준실시간 정합성 검증으로 정산 불일치 감지 지연을 수 초로 단축했습니다.</li>
-          <li>회원 유형별 할인·단가 규칙이 누적된 정산 파이프라인을 도메인 규칙 단위로 분리하고, 멤버십별 정산 모듈로 나눠 정책 변경 시 수정 범위를 줄였습니다.</li>
-          <li>월 220만 건+ 규모의 13개 서비스 메시징을 <strong>Kafka</strong> 토픽 기반 채널 라우팅 + <strong>Schema Registry(Avro)</strong>로 통합하고, <strong>Kafka Streams</strong> 실시간 분석과 <strong>Redis Sorted Set</strong> 우선순위 재처리를 적용해 신규 채널 추가를 3주 → 3일로 단축했습니다.</li>
+          <li>회원 유형별 가격·할인 규칙이 하나의 정산 흐름에 누적되며 변경 영향 범위가 커지던 문제를 줄이기 위해, 운수사 회원의 자사 충전소 고정 단가·외부 충전기 고정 할인 정책을 분리하고 내부 직원 전용 크루 멤버십과 자사 구독 멤버십 할인까지 별도 규칙으로 설계했습니다.</li>
+          <li>현대 타입 회원 및 H 럭키패스 아파트 충전소 정책은 메서드 단위로 분리해 할인 정책 간 결합도를 낮추고, 고속도로 자사 충전소에도 자사 구독 멤버십이 적용되도록 조건 분기와 로직 경계를 정리했습니다.</li>
+          <li>파편화된 메시징 기능이 팀별 중복 구현으로 이어지지 않도록 통합 메시징 플랫폼을 설계하고, 공통 계약을 SDK로 추상화해 Node.js·Python·JVM 환경에서 재사용할 수 있도록 GitHub Packages로 제공했습니다.</li>
+          <li>정산/미결제 재처리 스케줄러는 Java+MyBatis, 과도한 Join, DB 레이어 중심 로직 때문에 변경 영향 범위가 넓어 Kotlin+JPA/QueryDSL로 전환하고, API 경계 재설계·서비스 레이어 분리·이벤트 발행 구조를 통해 이벤트 드리븐 방식으로 개선했습니다.</li>
         </ul>
 
-        <p class="experience__team">크레딧·마일리지 원장 시스템 및 폐쇄망 이관 (2022.05 — 2026.02)</p>
+        <p class="experience__team">플랫폼 개발팀 (2023.01 — 2026.02)</p>
         <ul class="experience__list">
-          <li>크레딧 원장 시스템을 구축해 충전·차감·취소·잔액 이전을 하나의 거래 흐름으로 관리하고, B2B 고객별 정산 정책 차이를 크레딧 유형 분리와 전용 API로 나누었습니다.</li>
-          <li><strong>Redis</strong> 분산 락·멱등성 키 + <strong>Kafka</strong> 이벤트 기반 잔액 캐시 무효화로 크레딧·마일리지 원장의 동시 차감과 중복 결제를 방지하고, 잔액 변동 이력 추적 구조를 구축했습니다.</li>
-          <li><strong>Saga 패턴</strong>으로 6단계 순차 차감 결제를 오케스트레이션하고, <strong>Kafka</strong> 보상 이벤트 + <strong>Redis</strong> 멱등성 키로 부분 결제 실패 시 자동 롤백을 구현했습니다.</li>
-          <li>레거시 API 성능 정상화(47회 → 4회) 후 <strong>Redis 멀티 티어 캐시</strong>(L1 Caffeine + L2 Redis)를 도입하고, 듀얼 라이트 + 건별 해시 비교 + 자동 롤백 트리거 기반 <strong>무중단 폐쇄망 이관</strong>을 완료했습니다.</li>
-          <li><strong>Redis TTL + Keyspace Notification</strong> 기반 실시간 만료 감지와 <strong>Kafka exactly-once</strong> 파이프라인 + <strong>Virtual Thread(Java 21)</strong> 병렬 처리로 수만 건 크레딧 만료를 1~2분 내 안정 처리했습니다.</li>
+          <li>크레딧 API와 마일리지 API의 폐쇄망 이전은 단순 인프라 이동이 아니라 새 DB·멤버십 체계에 맞는 기준 재정의가 필요한 작업이어서, 카드번호 기준 구조를 멤버 아이디 기준으로 전환하며 데이터 모델과 API 경계를 함께 재설계했습니다.</li>
+          <li>Admin 및 앱 백엔드가 DB 직접 접근 대신 API 호출 기반 CRUD로 처리하도록 구조를 바꾸고, 종속성은 Nexus로 이관해 이후 변경을 서비스 경계 안에서 흡수할 수 있게 했습니다.</li>
+          <li>AWS SQS와 EventBridge Scheduler를 활용한 만료 배치 처리 기능을 추가하고, 시스템 만료 시각·실제 만료 시각·상태 모델을 도입한 비동기 만료 로직을 설계했습니다.</li>
+          <li>금융 도메인에서 SQL Injection 위험이 있던 문자열 기반 쿼리와 Double Writing 로직을 정리하고, 쿼리 방식과 저장 흐름을 바로잡아 안정성·정합성·성능을 함께 개선했습니다.</li>
+          <li>제네시스 제휴 크레딧처럼 별도 정산 기준이 필요한 B2B 크레딧 유형을 분리하고, 전용 충전·차감·조회 API를 구현해 정책 충돌 없이 운영할 수 있게 했습니다.</li>
+        </ul>
+      </article>
+
+      <article class="experience">
+        <div class="experience__header">
+          <span class="experience__company">에스트래픽</span>
+          <span class="experience__period">2022.05 — 2022.12</span>
+        </div>
+        <p class="experience__company-desc">전기차 충전 운영 시스템과 크레딧 서비스를 개발·운영하던 조직.</p>
+        <p class="experience__role">백엔드 엔지니어 · 경기 성남시</p>
+        <p class="experience__team">DT추진실</p>
+        <ul class="experience__list">
+          <li>크레딧 정산 기준이 기능별로 흩어지지 않도록 크레딧 API 개발 및 유지보수를 맡아 원장 기반 프로그램을 구축하고, 부분·전액 잔액 이전, 수수료 부과 취소, 전체·부분 취소 기능을 데이터 상태 변화가 추적 가능하도록 설계했습니다.</li>
+          <li>B2B 고객별 운영 정책 차이를 동일 시스템 안에서 흡수할 수 있도록 크레딧 유형 추가, 유효기간 연장, 일괄 충전 기능을 API와 배치 기능으로 구현했습니다.</li>
+          <li>(구) 충전기 관리자 시스템 기능 개발 및 유지보수와 민원 처리 업무를 함께 맡아 현장 운영 이슈가 Admin 기능과 백엔드 처리 로직에 직접 반영되도록 했습니다.</li>
         </ul>
       </article>
 
@@ -136,10 +149,11 @@
           <span class="experience__company">모바일엔트로피</span>
           <span class="experience__period">2019.04 — 2022.04</span>
         </div>
-        <p class="experience__role">백엔드 엔지니어</p>
+        <p class="experience__company-desc">도시가스 고객사의 자산·현장 업무 시스템을 개발·운영하던 소프트웨어 기업.</p>
+        <p class="experience__role">백엔드 엔지니어 · 서울 마포구</p>
         <ul class="experience__list">
-          <li>고객사마다 달랐던 자산·공사 운영 기준을 시스템으로 표준화하는 ERP 기능과 데이터 처리 로직을 개발·유지보수했습니다.</li>
-          <li>알림톡 기반 인터랙티브 기능을 개발해 고객사와 사용자 간 안내 흐름을 개선했습니다.</li>
+          <li>도시가스 고객사마다 달랐던 자산·공사 운영 기준을 시스템으로 표준화하기 위해 배관·자재·계량기 관리 ERP 기능과 데이터 처리 로직을 개발·유지보수했습니다.</li>
+          <li>현장 검침·점검 데이터를 즉시 기록할 수 있도록 PDA 기반 웹앱을 개발·유지보수했고, 고객사와 사용자 간 안내·응답 흐름을 줄이기 위해 알림톡 기반 인터랙티브 플랫폼을 구현했습니다.</li>
         </ul>
       </article>
     </section>
@@ -147,8 +161,9 @@
     <section class="section">
       <h2 class="section__title">Growth Direction</h2>
       <p class="profile__text">
-        Kafka 이벤트 소싱·Saga 패턴·Redis Streams 등 분산 시스템 기술로 결제·정산 도메인의 정합성과 운영 안정성을 높이는 백엔드 엔지니어로 성장하고 있습니다.
-        앞으로는 CQRS, CDC 기반 실시간 데이터 파이프라인, 대규모 분산 트랜잭션 오케스트레이션과 같은 기술 과제를 꾸준히 맡고 싶습니다.
+        앞으로는 정책 복잡도가 계속 커지는 금융·정산 시스템에서도 데이터 모델, API 경계, 비동기 흐름을 통해 정합성과 운영 효율을 함께 지킬 수 있는 백엔드 엔지니어로 성장하고 싶습니다.
+        기능을 빠르게 추가하는 것보다 변경 영향 범위를 작게 유지하고 반복 운영을 시스템 안으로 흡수하는 설계를 지향하며,
+        팀이 함께 사용할 수 있는 플랫폼과 도구를 만들어 더 큰 문제를 다룰 수 있는 엔지니어링 조직을 만드는 데 기여하고자 합니다.
       </p>
     </section>
 
